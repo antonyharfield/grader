@@ -1,20 +1,56 @@
-<p align="center">
-    <img src="https://cloud.githubusercontent.com/assets/1977704/25426816/a9d40530-2a70-11e7-9758-8a0da6341035.png" width="320" alt="Web Template">
-    <br>
-    <br>
-    <a href="https://docs.vapor.codes/2.0/getting-started/toolbox/#templates">
-        <img src="http://img.shields.io/badge/read_the-docs-92A8D1.svg" alt="Documentation">
-    </a>
-    <a href="http://vapor.team">
-        <img src="http://vapor.team/badge.svg" alt="Slack Team">
-    </a>
-    <a href="LICENSE">
-        <img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
-    </a>
-    <a href="https://circleci.com/gh/vapor/web-template">
-        <img src="https://circleci.com/gh/vapor/web-template.svg?style=shield" alt="Continuous Integration">
-    </a>
-    <a href="https://swift.org">
-        <img src="http://img.shields.io/badge/swift-3.1-brightgreen.svg" alt="Swift 3.1">
-    </a>
-</p>
+# A-Grader
+
+## Setup
+
+### Install vapor and dependencies
+
+If you are on macOS then make sure you have Homebrew installed first. Then:
+
+```bash
+brew tap vapor/homebrew-tap
+brew update
+brew install vapor
+brew install sqlite3
+```
+
+### Clone
+
+Do a git clone of this repo.
+
+
+### Setup Xcode project
+
+To create the files need
+
+```bash
+vapor xcode
+```
+
+Open the xcodeproj file in Xcode, check that "Run -> My Mac" is selected as the target and then hit "Play".
+
+Check it is running in your browser at `http:://localhost:8080`.
+
+
+### Setup database
+
+Using the `sqlite3` command, create a database in the location the example
+app will look for:
+
+```bash
+sqlite3 Database/main.sqlite
+```
+
+That will put you in a sql prompt. Copy and paste the following SQL query to set up the tables.
+
+```sql
+CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, password TEXT NOT NULL);
+```
+
+Then use Ctrl-d to exit. 
+
+
+### Adding dependencies
+
+If you change Package.swift then use `vapor update` to download dependencies.
+
+# grader
