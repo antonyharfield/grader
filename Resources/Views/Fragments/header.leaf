@@ -8,7 +8,8 @@ float: right;
     <h1>Grader<small>practice for programmers in phitlok</small></h1>
     <nav class="ink-navigation">
         <ul class="menu horizontal black">
-            <li class="active"><a href="/tasks">Tasks</a></li>
+            <li class="active"><a href="/problems">Problems</a></li>
+            <li><a href="/results">Results</a></li>
             <li><a href="/scoreboard">Scoreboard</a></li>
 
             #if(authenticated) {
