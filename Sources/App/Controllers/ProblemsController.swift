@@ -1,36 +1,37 @@
 import Vapor
 import HTTP
 
-/// Here we have a controller that helps facilitate
-/// creating typical REST patterns
-final class HelloController: ResourceRepresentable {
+final class ProblemsController: ResourceRepresentable {
+    
     let view: ViewRenderer
+    
     init(_ view: ViewRenderer) {
         self.view = view
     }
     
-    /// GET /hello
+    /// GET /problems
     func index(_ req: Request) throws -> ResponseRepresentable {
-        return try view.make("hello", [
-            "name": "World"
-        ], for: req)
+        // Query
+        let problems = try Problem.all()
+        
+        print("User: \(req.user?.name ?? "")")
+        
+        return try view.make("problems", wrapUserData([
+            "problems": problems
+        ], for: req), for: req)
     }
     
-    /// GET /hello/:string
-    func show(_ req: Request, _ string: String) throws -> ResponseRepresentable {
-        return try view.make("hello", [
-            "name": string
-        ], for: req)
+    /// GET /problems/:id
+    func show(_ req: Request, _ id: String) throws -> ResponseRepresentable {
+        
+        let problem = try Problem.find(id)
+        
+        return try view.make("problemdetail", wrapUserData([
+            "problem": problem
+            ], for: req), for: req)
     }
 
-    /// When making a controller, it is pretty flexible in that it
-    /// only expects closures, this is useful for advanced scenarios, but
-    /// most of the time, it should look almost identical to this 
-    /// implementation
     func makeResource() -> Resource<String> {
-        return Resource(
-            index: index,
-            show: show
-        )
+        return Resource(index: index, show: show)
     }
 }

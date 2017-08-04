@@ -1,0 +1,23 @@
+<style>
+nav.ink-navigation ul.menu.horizontal li.right {
+float: right;
+}
+</style>
+
+<header class="vertical-space">
+    <h1>Grader<small>practice for programmers in phitlok</small></h1>
+    <nav class="ink-navigation">
+        <ul class="menu horizontal black">
+            <li class="active"><a href="/tasks">Tasks</a></li>
+            <li><a href="/scoreboard">Scoreboard</a></li>
+
+            #if(authenticated) {
+                <li class="right"><a href="/logout">Logout</a></li>
+                <li class="right disabled"><a href="#">Logged in as #(user.name)</a></li>
+            }
+            ##else() {
+                <li class="right"><a href="#">Login</a></li>
+            }
+        </ul>
+    </nav>
+</header>

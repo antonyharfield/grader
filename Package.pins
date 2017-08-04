@@ -2,6 +2,18 @@
   "autoPin": true,
   "pins": [
     {
+      "package": "Auth",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/auth.git",
+      "version": "1.1.0"
+    },
+    {
+      "package": "AuthProvider",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/auth-provider.git",
+      "version": "1.1.0"
+    },
+    {
       "package": "BCrypt",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/bcrypt.git",
@@ -11,6 +23,12 @@
       "package": "Bits",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/bits.git",
+      "version": "1.0.0"
+    },
+    {
+      "package": "CTLS",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/ctls.git",
       "version": "1.0.0"
     },
     {
@@ -32,12 +50,6 @@
       "version": "2.0.0"
     },
     {
-      "package": "CTLS",
-      "reason": null,
-      "repositoryURL": "https://github.com/vapor/ctls.git",
-      "version": "1.0.0"
-    },
-    {
       "package": "Debugging",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/debugging.git",
@@ -47,13 +59,37 @@
       "package": "Engine",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/engine.git",
-      "version": "2.0.3"
+      "version": "2.1.3"
+    },
+    {
+      "package": "Flash",
+      "reason": null,
+      "repositoryURL": "https://github.com/nodes-vapor/flash.git",
+      "version": "1.0.0"
+    },
+    {
+      "package": "Fluent",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/fluent.git",
+      "version": "2.1.2"
+    },
+    {
+      "package": "FluentProvider",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/fluent-provider.git",
+      "version": "1.1.1"
     },
     {
       "package": "JSON",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/json.git",
       "version": "2.0.2"
+    },
+    {
+      "package": "Jobs",
+      "reason": null,
+      "repositoryURL": "https://github.com/BrettRToomey/Jobs.git",
+      "version": "1.0.0"
     },
     {
       "package": "Leaf",
@@ -65,7 +101,7 @@
       "package": "LeafProvider",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/leaf-provider.git",
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "package": "Multipart",
@@ -77,19 +113,25 @@
       "package": "Node",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/node.git",
-      "version": "2.0.1"
+      "version": "2.0.4"
     },
     {
       "package": "Random",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/random.git",
-      "version": "1.0.0"
+      "version": "1.1.1"
     },
     {
       "package": "Routing",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/routing.git",
-      "version": "2.0.0"
+      "version": "2.0.1"
+    },
+    {
+      "package": "SQLite",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/sqlite.git",
+      "version": "2.0.2"
     },
     {
       "package": "Sockets",
@@ -101,13 +143,19 @@
       "package": "TLS",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/tls.git",
-      "version": "2.0.3"
+      "version": "2.0.4"
+    },
+    {
+      "package": "Validation",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/validation.git",
+      "version": "0.2.0"
     },
     {
       "package": "Vapor",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/vapor.git",
-      "version": "2.0.5"
+      "version": "2.1.2"
     }
   ],
   "version": 1

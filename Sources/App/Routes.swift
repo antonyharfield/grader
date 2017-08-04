@@ -1,7 +1,9 @@
 import Vapor
 
 final class Routes: RouteCollection {
+    
     let view: ViewRenderer
+    
     init(_ view: ViewRenderer) {
         self.view = view
     }
@@ -9,17 +11,17 @@ final class Routes: RouteCollection {
     func build(_ builder: RouteBuilder) throws {
         /// GET /
         builder.get { req in
-            return try self.view.make("welcome")
+            if req.auth.isAuthenticated(User.self) {
+                return Response(redirect: "/problems")
+            }
+            return Response(redirect: "/login")
         }
         
-        /// GET /hello/...
-        builder.resource("hello", HelloController(view))
-        
-        // response to requests to /info domain
-        // with a description of the request
-        builder.get("info") { req in
-            return req.description
-        }
+        let loginController = LoginController(view)
+        builder.get("login", handler: loginController.loginForm)
+        builder.post("login", handler: loginController.login)
+        builder.get("register", handler: loginController.registerForm)
+        builder.post("register", handler: loginController.register)
         
     }
 }

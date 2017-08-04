@@ -1,0 +1,30 @@
+#extend("base")
+
+#export("title") { Register }
+
+#export("content") {
+<h1>Register a new user</h1>
+
+<form method="POST" action="/register?next=#(next)">
+<div class="form-group action-wrapper">
+<label for="name">Name</label>
+<input type="text" id="name" class="form-control" name="name" required placeholder="Your name"/>
+</div>
+
+<div class="form-group action-wrapper">
+<label for="email">E-mail</label>
+<input type="email" id="email" class="form-control" name="email" required placeholder="What's ya email?"/>
+</div>
+
+<div class="form-group">
+<label for="password">Password</label>
+<input type="password" id="password" class="form-control" name="password" required placeholder="A password dammit!"/>
+</div>
+
+<div class="form-group">
+<input type="submit" class="btn btn-primary form-control" value="Register"/>
+</div>
+</form>
+}
+
+
