@@ -3,28 +3,35 @@
 #export("title") { Register }
 
 #export("content") {
-<h1>Register a new user</h1>
 
-<form method="POST" action="/register?next=#(next)">
-<div class="form-group action-wrapper">
-<label for="name">Name</label>
-<input type="text" id="name" class="form-control" name="name" required placeholder="Your name"/>
-</div>
+<h2>Register a new user</h2>
 
-<div class="form-group action-wrapper">
-<label for="email">E-mail</label>
-<input type="email" id="email" class="form-control" name="email" required placeholder="What's ya email?"/>
-</div>
+<form method="POST" action="/login?next=#(next)" class="ink-form">
 
-<div class="form-group">
-<label for="password">Password</label>
-<input type="password" id="password" class="form-control" name="password" required placeholder="A password dammit!"/>
-</div>
+    <div class="control-group all-20">
+        <label for="name">Name</label>
+        <div class="control">
+            <input type="text" class="form-control" name="name" required placeholder="Your name"/>
+        </div>
+    </div>
 
-<div class="form-group">
-<input type="submit" class="btn btn-primary form-control" value="Register"/>
-</div>
+    <div class="control-group all-20">
+        <label for="email">E-mail</label>
+        <div class="control">
+            <input type="email" class="form-control" name="email" required placeholder="What's ya email?"/>
+        </div>
+    </div>
+
+    <div class="control-group all-20">
+        <label for="password">Password</label>
+        <div class="control">
+            <input type="password" class="form-control" name="password" required placeholder="A password dammit!"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <input type="submit" class="ink-button" value="Register"/>
+    </div>
 </form>
+
 }
-
-
