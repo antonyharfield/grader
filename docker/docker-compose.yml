@@ -1,0 +1,35 @@
+version: "3"
+services:
+
+    redis:
+        image: redis:3
+        restart: always
+
+    database:
+        image: mariadb:10
+        environment:
+            MYSQL_ROOT_PASSWORD: test1234
+
+    web:
+        build: vapor
+        volumes:
+            - '..:/app'
+        links:
+            - redis:redis
+            - database:database
+        expose:
+            - "8080"
+        ports:
+            - 80:8080
+        working_dir: '/app'
+        command: ["vapor", "run", "serve", "--exec=Run"]
+
+    worker:
+        build: vapor
+        volumes:
+            - '..:/app'
+        links:
+            - redis:redis
+            - database:database
+        working_dir: '/app'
+        command: ["vapor", "run", "serve", "--exec=Worker"]
