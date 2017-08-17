@@ -11,9 +11,7 @@ extension Config {
         
         addPreparations()
         
-//        if shouldSeed() {
-//            try seed()
-//        }
+        addConfigurable(command: WorkerCommand.init, name: "worker")
     }
     
     /// Configure providers

@@ -1,4 +1,7 @@
 import Vapor
+import VaporRedisClient
+import Redis
+import Reswifq
 
 final class Routes: RouteCollection {
     
@@ -22,6 +25,13 @@ final class Routes: RouteCollection {
         builder.post("login", handler: loginController.login)
         builder.get("register", handler: loginController.registerForm)
         builder.post("register", handler: loginController.register)
+        
+        builder.get("job") { req in
+            let client = VaporRedisClient(try TCPClient(hostname: "redis", port: 6379))
+            let queue = Reswifq(client: client)
+            try queue.enqueue(DemoJob())
+            return Response(status: .ok)
+        }
         
     }
 }

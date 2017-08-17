@@ -24,11 +24,13 @@ final class ProblemsController: ResourceRepresentable {
     /// GET /problems/:id
     func show(_ req: Request, _ id: String) throws -> ResponseRepresentable {
         
-        let problem = try Problem.find(id)
-        
-        return try view.make("problemdetail", wrapUserData([
-            "problem": problem
+        if let problem = try Problem.find(id) {
+            return try view.make("problemdetail", wrapUserData([
+                "problem": problem
             ], for: req), for: req)
+        }
+        
+        throw Abort.notFound
     }
 
     func makeResource() -> Resource<String> {

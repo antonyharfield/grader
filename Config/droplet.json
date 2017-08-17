@@ -41,5 +41,5 @@
     ],
 
     "//": "Choose which commands this application can run",
-    "commands": []
+    "commands": ["worker"],
 }

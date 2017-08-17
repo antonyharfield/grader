@@ -32,4 +32,11 @@ services:
             - redis:redis
             - database:database
         working_dir: '/app'
-        command: ["vapor", "run", "serve", "--exec=Worker"]
+        command: ["vapor", "run", "worker", "--exec=Run"]
+
+    builder:
+        build: vapor
+        volumes:
+            - '..:/app'
+        working_dir: '/app'
+        command: ["vapor", "build"]

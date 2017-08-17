@@ -26,12 +26,6 @@
       "version": "1.0.0"
     },
     {
-      "package": "CTLS",
-      "reason": null,
-      "repositoryURL": "https://github.com/vapor/ctls.git",
-      "version": "1.0.0"
-    },
-    {
       "package": "Console",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/console.git",
@@ -48,6 +42,12 @@
       "reason": null,
       "repositoryURL": "https://github.com/vapor/crypto.git",
       "version": "2.0.0"
+    },
+    {
+      "package": "CTLS",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/ctls.git",
+      "version": "1.0.0"
     },
     {
       "package": "Debugging",
@@ -80,16 +80,16 @@
       "version": "1.1.1"
     },
     {
-      "package": "JSON",
-      "reason": null,
-      "repositoryURL": "https://github.com/vapor/json.git",
-      "version": "2.0.2"
-    },
-    {
       "package": "Jobs",
       "reason": null,
       "repositoryURL": "https://github.com/BrettRToomey/Jobs.git",
       "version": "1.0.0"
+    },
+    {
+      "package": "JSON",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/json.git",
+      "version": "2.0.2"
     },
     {
       "package": "Leaf",
@@ -116,10 +116,34 @@
       "version": "2.0.4"
     },
     {
+      "package": "Pool",
+      "reason": null,
+      "repositoryURL": "https://github.com/reswifq/pool.git",
+      "version": "1.1.0"
+    },
+    {
       "package": "Random",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/random.git",
       "version": "1.1.1"
+    },
+    {
+      "package": "Redis",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/redis.git",
+      "version": "2.0.0"
+    },
+    {
+      "package": "RedisClient",
+      "reason": null,
+      "repositoryURL": "https://github.com/reswifq/redis-client.git",
+      "version": "1.1.0"
+    },
+    {
+      "package": "Reswifq",
+      "reason": null,
+      "repositoryURL": "https://github.com/reswifq/reswifq.git",
+      "version": "1.1.0"
     },
     {
       "package": "Routing",
@@ -128,16 +152,16 @@
       "version": "2.0.1"
     },
     {
-      "package": "SQLite",
-      "reason": null,
-      "repositoryURL": "https://github.com/vapor/sqlite.git",
-      "version": "2.0.2"
-    },
-    {
       "package": "Sockets",
       "reason": null,
       "repositoryURL": "https://github.com/vapor/sockets.git",
       "version": "2.0.1"
+    },
+    {
+      "package": "SQLite",
+      "reason": null,
+      "repositoryURL": "https://github.com/vapor/sqlite.git",
+      "version": "2.0.2"
     },
     {
       "package": "TLS",
@@ -156,6 +180,12 @@
       "reason": null,
       "repositoryURL": "https://github.com/vapor/vapor.git",
       "version": "2.1.2"
+    },
+    {
+      "package": "VaporRedisClient",
+      "reason": null,
+      "repositoryURL": "https://github.com/reswifq/redis-client-vapor",
+      "version": "1.0.0"
     }
   ],
   "version": 1
