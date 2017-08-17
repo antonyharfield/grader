@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Note: you will need to build the apptitude/vapor image first:
+# docker build -t apptitude/vapor vapor
+
+docker run -it --volume=$PWD/..:/app apptitude/vapor build

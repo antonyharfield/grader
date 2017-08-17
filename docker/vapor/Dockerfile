@@ -6,3 +6,8 @@ RUN apt-get update && \
       curl -sL https://apt.vapor.sh | bash && \
       apt-get update && \
       apt-get install -y vapor;
+
+WORKDIR /app
+
+ENTRYPOINT ["/usr/local/bin/vapor"]
+CMD ["run"]

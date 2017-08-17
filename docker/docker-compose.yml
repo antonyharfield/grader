@@ -21,8 +21,7 @@ services:
             - "8080"
         ports:
             - 80:8080
-        working_dir: '/app'
-        command: ["vapor", "run", "serve", "--exec=Run"]
+        command: ["run", "serve"]
 
     worker:
         build: vapor
@@ -31,12 +30,4 @@ services:
         links:
             - redis:redis
             - database:database
-        working_dir: '/app'
-        command: ["vapor", "run", "worker", "--exec=Run"]
-
-    builder:
-        build: vapor
-        volumes:
-            - '..:/app'
-        working_dir: '/app'
-        command: ["vapor", "build"]
+        command: ["run", "worker"]
