@@ -19,7 +19,6 @@ final class WorkerCommand: Command {
 
 extension WorkerCommand: ConfigInitializable {
     public convenience init(config: Config) throws {
-        let console = try config.resolveConsole()
-        self.init(console: console)
+        self.init(console: try config.resolveConsole())
     }
 }

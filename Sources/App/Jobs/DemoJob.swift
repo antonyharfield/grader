@@ -13,9 +13,8 @@ public struct DemoJob: Job {
     
     // MARK: Job
     public func perform() throws {
-        print("I am \(self.identifier)")
-        
-        
+        let problem = Problem(name: identifier, language: "Swift")
+        try problem.save()
     }
     
     // MARK: DataDecodable
