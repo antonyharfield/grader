@@ -29,9 +29,7 @@ final class Routes: RouteCollection {
         builder.resource("events", EventsController(view))
         
         builder.get("job") { req in
-            let client = VaporRedisClient(try TCPClient(hostname: "redis", port: 6379))
-            let queue = Reswifq(client: client)
-            try queue.enqueue(DemoJob())
+            try Reswifq.defaultQueue.enqueue(DemoJob())
             return Response(status: .ok)
         }
         
