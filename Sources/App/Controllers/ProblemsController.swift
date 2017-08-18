@@ -14,8 +14,6 @@ final class ProblemsController: ResourceRepresentable {
         // Query
         let problems = try Problem.all()
         
-        print("User: \(req.user?.name ?? "")")
-        
         return try view.make("problems", wrapUserData([
             "problems": problems
         ], for: req), for: req)

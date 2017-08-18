@@ -26,6 +26,8 @@ final class Routes: RouteCollection {
         builder.get("register", handler: loginController.registerForm)
         builder.post("register", handler: loginController.register)
         
+        builder.resource("events", EventsController(view))
+        
         builder.get("job") { req in
             let client = VaporRedisClient(try TCPClient(hostname: "redis", port: 6379))
             let queue = Reswifq(client: client)

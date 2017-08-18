@@ -17,3 +17,7 @@ div.welcome img {
   	transform: translateY(-50%);
 	width: 300px;
 }
+
+footer {
+    margin-top: 20px;
+}

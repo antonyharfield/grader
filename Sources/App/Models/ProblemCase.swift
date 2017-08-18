@@ -16,7 +16,7 @@ final class ProblemCase: Model, NodeRepresentable {
     init(row: Row) throws {
         input = try row.get("input")
         output = try row.get("output")
-        problemID = try row.get("problemID")
+        problemID = try row.get("problem_id")
     }
     
     init(input: String, output: String, problemID: Identifier? = nil) {
@@ -29,16 +29,16 @@ final class ProblemCase: Model, NodeRepresentable {
         var row = Row()
         try row.set("input", input)
         try row.set("output", output)
-        try row.set("problemID", problemID)
+        try row.set("problem_id", problemID)
         return row
     }
     
     func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
-            "id": id?.string,
+            "id": id?.string ?? "",
             "input": input,
             "output": output,
-            "problemID": problemID])
+            "problemID": problemID?.string ?? ""])
     }
 }
 

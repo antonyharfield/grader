@@ -20,8 +20,11 @@ extension Config {
     }
     
     private func addPreparations() {
-        preparations.append(Problem.self)
         preparations.append(User.self)
+        preparations.append(Problem.self)
+        preparations.append(ProblemCase.self)
+        preparations.append(Event.self)
+        preparations.append(EventProblem.self)
     }
     
     private func addCommands() {

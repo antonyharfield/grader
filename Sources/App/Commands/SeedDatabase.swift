@@ -20,8 +20,11 @@ final class SeedCommand: Command {
     }
     
     private func deleteAll() throws {
-        try User.all().forEach { try $0.delete() }
+        try EventProblem.all().forEach { try $0.delete() }
+        try Event.all().forEach { try $0.delete() }
+        try ProblemCase.all().forEach { try $0.delete() }
         try Problem.all().forEach { try $0.delete() }
+        try User.all().forEach { try $0.delete() }
     }
     
     private func insertProblems() throws {
@@ -43,6 +46,10 @@ final class SeedCommand: Command {
     
     private func insertUsers() throws {
         let admin = User(name: "Administrator", username: "admin", password: "1234", role: .admin)
+        try admin.save()
+        
+        let teacher = User(name: "Antony Harfield", username: "ant", password: "1234", role: .teacher)
+        try teacher.save()
         
         let student1 = User(name: "Arya Stark", username: "student1", password: "1234", role: .student)
         try student1.save()
@@ -52,6 +59,24 @@ final class SeedCommand: Command {
     }
     
     private func insertEvents() throws {
+        guard let teacher = try User.all().first, let teacherID = teacher.id else {
+            console.print("Cannot find teacher or it's id")
+            return
+        }
+        guard let problems = try? Problem.all(), problems.count >= 3 else {
+            console.print("Problems not found")
+            return
+        }
+        
+        let event1 = Event(name: "Swift Warm-up (Week 2)", userID: teacherID)
+        try event1.save()
+        try EventProblem(eventID: event1.id!, problemID: problems[0].id!).save()
+        
+        let event2 = Event(name: "Swift Mini-test 1", userID: teacherID)
+        try event2.save()
+        try EventProblem(eventID: event2.id!, problemID: problems[0].id!).save()
+        try EventProblem(eventID: event2.id!, problemID: problems[1].id!).save()
+        try EventProblem(eventID: event2.id!, problemID: problems[2].id!).save()
         
     }
 }

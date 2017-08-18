@@ -35,7 +35,7 @@ final class Problem: Model, NodeRepresentable {
     
     func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
-            "id": id?.string,
+            "id": id?.string ?? "",
             "name": name,
             "description": description,
             "order": order])
