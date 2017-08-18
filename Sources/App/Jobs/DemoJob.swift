@@ -13,7 +13,7 @@ public struct DemoJob: Job {
     
     // MARK: Job
     public func perform() throws {
-        let problem = Problem(name: identifier, language: "Swift")
+        let problem = Problem(name: identifier, description: "Swift", order: 9999)
         try problem.save()
     }
     

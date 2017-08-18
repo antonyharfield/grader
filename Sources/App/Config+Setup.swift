@@ -10,8 +10,7 @@ extension Config {
         try setupProviders()
         
         addPreparations()
-        
-        addConfigurable(command: WorkerCommand.init, name: "worker")
+        addCommands()
     }
     
     /// Configure providers
@@ -25,11 +24,8 @@ extension Config {
         preparations.append(User.self)
     }
     
-    private func shouldSeed() -> Bool {
-        return true
-    }
-    
-    private func seed() throws {
-        try Problem(name: "Test", language: "Swift").save()
+    private func addCommands() {
+        addConfigurable(command: WorkerCommand.init, name: "worker")
+        addConfigurable(command: SeedCommand.init, name: "seed")
     }
 }
