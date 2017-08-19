@@ -1,7 +1,7 @@
 import Vapor
 import HTTP
 
-final class ProblemsController: ResourceRepresentable {
+final class ProblemsController {
     
     let view: ViewRenderer
     
@@ -9,29 +9,62 @@ final class ProblemsController: ResourceRepresentable {
         self.view = view
     }
     
-    /// GET /problems
-    func index(_ req: Request) throws -> ResponseRepresentable {
-        // Query
-        let problems = try Problem.all()
+    /// GET /events/:id/problems
+    func problems(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
         
-        return try view.make("problems", wrapUserData([
+        return try view.make("event-problems", wrapUserData([
+            "event": event,
             "problems": problems
-        ], for: req), for: req)
+            ], for: request), for: request)
     }
     
-    /// GET /problems/:id
-    func show(_ req: Request, _ id: String) throws -> ResponseRepresentable {
+    /// GET /events/:id/submissions
+    func submissions(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
         
-        if let problem = try Problem.find(id) {
-            return try view.make("problemdetail", wrapUserData([
-                "problem": problem
-            ], for: req), for: req)
+        return try view.make("submissions", wrapUserData([
+            "event": event
+            ], for: request), for: request)
+    }
+    
+    /// GET /events/:id/scores
+    func scores(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
+        
+        return try view.make("scores", wrapUserData([
+            "event": event
+            ], for: request), for: request)
+    }
+    
+    /// GET /events/:id/problems/:seq
+    func form(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
+        let sequence = try request.parameters.next(Int.self)
+        
+        guard let eventProblem = try event.eventProblems.filter("order", sequence).first(),
+            let problem = try eventProblem.problem.get() else {
+                throw Abort.notFound
         }
         
-        throw Abort.notFound
+        return try view.make("problem-form", wrapUserData([
+            "event": event,
+            "eventProblem": eventProblem,
+            "problem": problem
+            ], for: request), for: request)
+    }
+    
+    /// POST /events/:id/problems/:seq
+    func submit(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
+        let sequence = try request.parameters.next(Int.self)
+        
+        guard let eventProblem = try event.eventProblems.filter("order", sequence).first(),
+            let problem = try eventProblem.problem.get() else {
+                throw Abort.notFound
+        }
+        
+        return Response(redirect: "/events/\(event.id!)/submissions")
     }
 
-    func makeResource() -> Resource<String> {
-        return Resource(index: index, show: show)
-    }
 }

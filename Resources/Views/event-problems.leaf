@@ -4,13 +4,13 @@
 
 #export("content") {
 
-    <h2>#(event.name)</h2>
+    <h2>#(event.name) &gt; Problems</h2>
 
     <div class="column-group gutters">
         <div class="all-50 small-100 tiny-100">
             <h3>Problems</h3>
             #loop(problems, "problem") {
-                <li><a href="/problems/#(problem.id)">#(problem.name)</a></li>
+                <li><a href="/events/#(event.id)/problems/#(problem.id)">#(problem.name)</a></li>
             }
         </div>
         <div class="all-50 small-100 tiny-100">

@@ -1,9 +1,0 @@
-#extend("base")
-
-#export("title") { Problems }
-
-#export("content") {
-	<h1>Problems</h1>
-
-    #loop(problems, "problem") { <li><a href="/problems/#(problem.id)">#(problem.name)</a></li> }
-}

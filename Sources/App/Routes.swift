@@ -15,7 +15,7 @@ final class Routes: RouteCollection {
         /// GET /
         builder.get { req in
             if req.auth.isAuthenticated(User.self) {
-                return Response(redirect: "/problems")
+                return Response(redirect: "/events")
             }
             return Response(redirect: "/login")
         }
@@ -27,11 +27,5 @@ final class Routes: RouteCollection {
         builder.post("register", handler: loginController.register)
         
         builder.resource("events", EventsController(view))
-        
-        builder.get("job") { req in
-            try Reswifq.defaultQueue.enqueue(DemoJob())
-            return Response(status: .ok)
-        }
-        
     }
 }

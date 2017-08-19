@@ -30,11 +30,11 @@ final class SeedCommand: Command {
     private func insertProblems() throws {
         let problem1 = Problem(name: "Hello", description: "Print \"Hello Mor Nor\" (without quotes).", order: 10)
         try problem1.save()
-        try ProblemCase(input: "", output: "Hello Mor Nor", problemID: problem1.id).save()
+        try ProblemCase(input: "", output: "Hello Mor Nor", visible: true, problemID: problem1.id).save()
         
         let problem2 = Problem(name: "Fibonacci", description: "Print the Fibonacci sequence. The number of items to print is determined by an integer read in on the input.", order: 20)
         try problem2.save()
-        try ProblemCase(input: "3", output: "1 1 2", problemID: problem2.id).save()
+        try ProblemCase(input: "3", output: "1 1 2", visible: true, problemID: problem2.id).save()
         try ProblemCase(input: "8", output: "1 1 2 3 5 8 13 21", problemID: problem2.id).save()
         try ProblemCase(input: "1", output: "1", problemID: problem2.id).save()
         try ProblemCase(input: "0", output: "", problemID: problem2.id).save()

@@ -1,0 +1,9 @@
+#extend("base")
+
+#export("title") { #(event.name) }
+
+#export("content") {
+
+    <h2>#(event.name) &gt; Submissions</h2>
+
+}

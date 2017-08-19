@@ -5,7 +5,7 @@ import Flash
 
 final class LoginController {
     
-    let homepage = "/problems"
+    let homepage = "/events"
     
     let view: ViewRenderer
     
@@ -55,7 +55,7 @@ final class LoginController {
     }
 
     /// Register page submission
-    func register(_ request: Request)throws -> ResponseRepresentable {
+    func register(_ request: Request) throws -> ResponseRepresentable {
         guard let email = request.data["email"]?.string,
             let password = request.data["password"]?.string,
             let name = request.data["name"]?.string else {

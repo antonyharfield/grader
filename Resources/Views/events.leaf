@@ -3,13 +3,15 @@
 #export("title") { Events }
 
 #export("content") {
-<h2>Events</h2>
+    <h2>Events</h2>
 
-<h3>Active this week</h3>
+    <h3>Active this week</h3>
 
-#loop(events, "event") { <li><a href="/events/#(event.id)">#(event.name)</a></li> }
+    #loop(events, "event") {
+        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+    }
 
-<h3>Previous events</h3>
+    <h3>Previous events</h3>
 
-<p>None</p>
+    <p>None</p>
 }

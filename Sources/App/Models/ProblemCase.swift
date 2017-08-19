@@ -6,6 +6,7 @@ final class ProblemCase: Model, NodeRepresentable {
     var problemID: Identifier?
     var input: String
     var output: String
+    var visible: Bool
     
     var problem: Parent<ProblemCase, Problem> {
         return parent(id: problemID)
@@ -17,11 +18,13 @@ final class ProblemCase: Model, NodeRepresentable {
         input = try row.get("input")
         output = try row.get("output")
         problemID = try row.get("problem_id")
+        visible = try row.get("visible")
     }
     
-    init(input: String, output: String, problemID: Identifier? = nil) {
+    init(input: String, output: String, visible: Bool = false, problemID: Identifier? = nil) {
         self.input = input
         self.output = output
+        self.visible = visible
         self.problemID = problemID
     }
     
@@ -29,6 +32,7 @@ final class ProblemCase: Model, NodeRepresentable {
         var row = Row()
         try row.set("input", input)
         try row.set("output", output)
+        try row.set("visible", visible)
         try row.set("problem_id", problemID)
         return row
     }
@@ -38,6 +42,7 @@ final class ProblemCase: Model, NodeRepresentable {
             "id": id?.string ?? "",
             "input": input,
             "output": output,
+            "visible": visible,
             "problemID": problemID?.string ?? ""])
     }
 }
@@ -48,6 +53,7 @@ extension ProblemCase: Preparation {
             builder.id()
             builder.string("input")
             builder.string("output")
+            builder.bool("visible")
             builder.parent(Problem.self, optional: false)
         }
     }
