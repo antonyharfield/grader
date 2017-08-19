@@ -77,8 +77,31 @@ final class SeedCommand: Command {
         try EventProblem(eventID: event2.id!, problemID: problems[0].id!).save()
         try EventProblem(eventID: event2.id!, problemID: problems[1].id!).save()
         try EventProblem(eventID: event2.id!, problemID: problems[2].id!).save()
-        
     }
+    
+    private func insertSubmissions() throws {
+        guard let student = try User.makeQuery().filter("role", Role.student.rawValue).first() else {
+            console.print("Student not found")
+            return
+        }
+        guard let problem = try EventProblem.makeQuery().first() else {
+            console.print("Problem not found")
+            return
+        }
+        
+        let submission1 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .compileFailed, compilerOutput: "Missing semicolon")
+        try submission1.save()
+        
+        let submission2 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .graded, score: 200)
+        try submission2.save()
+        
+        let submission3 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        try submission3.save()
+        
+        let submission4 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        try submission4.save()
+    }
+    
 }
 
 extension SeedCommand: ConfigInitializable {

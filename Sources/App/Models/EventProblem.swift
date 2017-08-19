@@ -6,6 +6,14 @@ final class EventProblem: Model, NodeRepresentable {
     var eventID: Identifier
     var problemID: Identifier
     
+    var event: Parent<EventProblem, Event> {
+        return parent(id: eventID)
+    }
+    
+    var problem: Parent<EventProblem, Problem> {
+        return parent(id: problemID)
+    }
+    
     let storage = Storage()
     
     init(row: Row) throws {
