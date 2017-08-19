@@ -5,62 +5,59 @@ class SwiftRunner: Runner {
     
     public let console: ConsoleProtocol
     
-    public init(console: ConsoleProtocol) {
+    public init(console: ConsoleProtocol = Terminal(arguments: [])) {
         self.console = console
     }
     
     let swiftcPath = "/usr/bin/swiftc"
     
-    let sourcesPath = "/app/uploads/"
-    let compilePath = "/app/srctest/"
+    let uploadsPath = "/app/uploads/"
+    let compilationPath = "/app/srctest/"
     let executableFileName = "run"
     
     func process(submission: Submission, problemCases: [ProblemCase]) -> RunnerResult {
         
-        let inputPath = compilePath + "hello.swift" // TODO: get from submission
+        console.print("Copying uploads to compilation path")
         
-        console.print("Copying source file to: \(inputPath)")
-        
-        guard copyFile(from: sourcesPath + "hello.swift", to: inputPath) else {
-            return .unknownFailure
+        // TODO: clear compilation path
+
+        for file in submission.files {
+            if !copyFile(from: uploadsPath + file, to: compilationPath + file) {
+                return .unknownFailure
+            }
         }
         
         console.print("Compiling")
         
-        let compileResult = compile(paths: [inputPath])
+        let sourcePaths = submission.files.map { compilationPath + $0 }
+        let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)
         }
         
         console.print("Running test cases")
         
+        var resultCases: [ResultCase] = []
+        
         for problemCase in problemCases {
             let result = run(input: problemCase.input)
-            
-            console.print("Expected: \(problemCase.output)")
-            console.print("Actual: \(result.output)")
-            
-            if result.success && trim(result.output) == problemCase.output {
-                console.print("Problem case passed")
-            }
-            else {
-                console.print("Problem case failed")
-            }
+            let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && trim(result.output) == problemCase.output)
+            resultCases.append(resultCase)
         }
         
-        return .success
+        return .success(resultCases)
     }
     
     // MARK: compilation and run methods
     
     private func compile(paths: [String]) -> ShellResult {
-        return shell(launchPath: swiftcPath, arguments: ["-o", compilePath+executableFileName] + paths)
+        return shell(launchPath: swiftcPath, arguments: ["-o", compilationPath+executableFileName] + paths)
     }
     
     private func run(input: String) -> ShellResult {
-        let inputFile = compilePath + "input.txt"
+        let inputFile = compilationPath + "input.txt"
         _ = createFile(path: inputFile, content: input)
-        return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilePath)\(executableFileName)"])
+        return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
     }
     
     // MARK: file utility methods
@@ -77,6 +74,18 @@ class SwiftRunner: Runner {
             return false
         }
         return true
+    }
+    
+    private func clearFolder(path: String) {
+        let fileManager = FileManager.default
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: path)
+            for filePath in filePaths {
+                try fileManager.removeItem(atPath: path + filePath)
+            }
+        } catch {
+            console.print("Could not clear temp folder: \(error)")
+        }
     }
     
     // MARK: string utility methods

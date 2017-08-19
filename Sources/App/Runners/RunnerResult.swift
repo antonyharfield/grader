@@ -1,5 +1,5 @@
 enum RunnerResult {
-    case success
+    case success([ResultCase])
     case compileFailure(String)
     case unknownFailure
 }

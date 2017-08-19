@@ -13,9 +13,28 @@ final class TestSwiftRunnerCommand: Command {
     
     public func run(arguments: [String]) throws {
         let problemCase1 = ProblemCase(input: "", output: "Hello Mor Nor", problemID: 1)
-        let problemCase2 = ProblemCase(input: "Hello", output: "Hello Mor Nor", problemID: 1)
+        problemCase1.id = 1
+        let problemCase2 = ProblemCase(input: "Hello", output: "Hey Mor Nor", problemID: 1)
+        problemCase2.id = 2
+        
+        let submission = Submission(eventProblemID: 1, userID: 1, files: ["hello.swift"])
+        submission.id = "test"
             
-        _ = SwiftRunner(console: console).process(submission: Submission(), problemCases: [problemCase1, problemCase2])
+        let result = SwiftRunner(console: console).process(submission: submission, problemCases: [problemCase1, problemCase2])
+        
+        switch result {
+        case .compileFailure(let compilerOutput):
+            console.print("Compile failed:")
+            console.print(compilerOutput)
+        case .unknownFailure:
+            console.print("Unknown failure")
+        case .success(let resultCases):
+            console.print("Success")
+            for resultCase in resultCases {
+                console.print("Case pass: \(resultCase.pass)")
+            }
+        }
+
     }
     
 }
