@@ -14,9 +14,7 @@ final class EventsController: ResourceRepresentable {
 
         let events = try Event.all()
         
-        return try view.make("events", wrapUserData([
-            "events": events
-        ], for: req), for: req)
+        return try render("events", ["events": events], for: req, with: view)
     }
     
     /// GET /events/:id
@@ -30,10 +28,7 @@ final class EventsController: ResourceRepresentable {
         }
         
         let problems = try event.problems.all()
-        return try view.make("event", wrapUserData([
-            "event": event,
-            "problems": problems
-            ], for: request), for: request)
+        return try render("event", ["event": event, "problems": problems], for: request, with: view)
     }
     
     func makeResource() -> Resource<String> {

@@ -23,13 +23,3 @@ final class ProtectedRoutes: RouteCollection {
         
     }
 }
-
-func wrapUserData(_ dict: [String: Any], for request: HTTP.Request) -> [String: Any] {
-    guard let user = request.user else {
-        return dict
-    }
-    var result = dict
-    result["authenticated"] = true
-    result["user"] = user
-    return result
-}

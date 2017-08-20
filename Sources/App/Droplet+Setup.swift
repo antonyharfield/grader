@@ -1,9 +1,13 @@
 @_exported import Vapor
 import AuthProvider
 import Sessions
+import LeafProvider
 
 extension Droplet {
+    
     public func setup() throws {
+        
+        addLeafTags()
         
         let memory = MemorySessions()
         let sessionsMiddleware = SessionsMiddleware(memory)
@@ -16,9 +20,14 @@ extension Droplet {
         let routes = Routes(view)
         try openGroup.collection(routes)
         
-        //let authedViewRenderer = AuthenticatedViewRenderer(view)
         let protectedRoutes = ProtectedRoutes(view)
         try protectedGroup.collection(protectedRoutes)
         
+    }
+    
+    private func addLeafTags() {
+        if let leaf = view as? LeafRenderer {
+            leaf.stem.register(ArrayContains())
+        }
     }
 }

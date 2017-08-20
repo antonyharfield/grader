@@ -14,10 +14,10 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
         
-        return try view.make("event-problems", wrapUserData([
+        return try render("event-problems", [
             "event": event,
             "problems": problems
-            ], for: request), for: request)
+            ], for: request, with: view)
     }
     
     /// GET /events/:id/submissions
@@ -26,19 +26,19 @@ final class ProblemsController {
         let submissions = try Submission.makeQuery().join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
             .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).all()
         
-        return try view.make("submissions", wrapUserData([
+        return try render("submissions", [
             "event": event,
             "submissions": submissions
-            ], for: request), for: request)
+            ], for: request, with: view)
     }
     
     /// GET /events/:id/scores
     func scores(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         
-        return try view.make("scores", wrapUserData([
+        return try render("scores", [
             "event": event
-            ], for: request), for: request)
+            ], for: request, with: view)
     }
     
     /// GET /events/:id/problems/:seq
@@ -51,11 +51,11 @@ final class ProblemsController {
                 throw Abort.notFound
         }
         
-        return try view.make("problem-form", wrapUserData([
+        return try render("problem-form", [
             "event": event,
             "eventProblem": eventProblem,
             "problem": problem
-            ], for: request), for: request)
+            ], for: request, with: view)
     }
     
     /// POST /events/:id/problems/:seq
