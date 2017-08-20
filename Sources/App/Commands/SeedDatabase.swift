@@ -28,18 +28,18 @@ final class SeedCommand: Command {
     }
     
     private func insertProblems() throws {
-        let problem1 = Problem(name: "Hello", description: "Print \"Hello Mor Nor\" (without quotes).", order: 10)
+        let problem1 = Problem(name: "Hello", description: "Print \"Hello Mor Nor\" (without quotes).")
         try problem1.save()
         try ProblemCase(input: "", output: "Hello Mor Nor", visible: true, problemID: problem1.id).save()
         
-        let problem2 = Problem(name: "Fibonacci", description: "Print the Fibonacci sequence. The number of items to print is determined by an integer read in on the input.", order: 20)
+        let problem2 = Problem(name: "Fibonacci", description: "Print the Fibonacci sequence. The number of items to print is determined by an integer read in on the input.")
         try problem2.save()
         try ProblemCase(input: "3", output: "1 1 2", visible: true, problemID: problem2.id).save()
         try ProblemCase(input: "8", output: "1 1 2 3 5 8 13 21", problemID: problem2.id).save()
         try ProblemCase(input: "1", output: "1", problemID: problem2.id).save()
         try ProblemCase(input: "0", output: "", problemID: problem2.id).save()
         
-        let problem3 = Problem(name: "FizzBuzz 4.0", description: "Print FizzBuzz from 1 to 20. Read the Fizz value and the Buzz value from the input.", order: 30)
+        let problem3 = Problem(name: "FizzBuzz 4.0", description: "Print FizzBuzz from 1 to 20. Read the Fizz value and the Buzz value from the input.")
         try problem3.save()
         try ProblemCase(input: "0", output: "", problemID: problem3.id).save()
     }
@@ -70,13 +70,13 @@ final class SeedCommand: Command {
         
         let event1 = Event(name: "Swift Warm-up (Week 2)", userID: teacherID)
         try event1.save()
-        try EventProblem(eventID: event1.id!, problemID: problems[0].id!).save()
+        try EventProblem(eventID: event1.id!, problemID: problems[0].id!, sequence: 1).save()
         
         let event2 = Event(name: "Swift Mini-test 1", userID: teacherID)
         try event2.save()
-        try EventProblem(eventID: event2.id!, problemID: problems[0].id!).save()
-        try EventProblem(eventID: event2.id!, problemID: problems[1].id!).save()
-        try EventProblem(eventID: event2.id!, problemID: problems[2].id!).save()
+        try EventProblem(eventID: event2.id!, problemID: problems[0].id!, sequence: 1).save()
+        try EventProblem(eventID: event2.id!, problemID: problems[1].id!, sequence: 2).save()
+        try EventProblem(eventID: event2.id!, problemID: problems[2].id!, sequence: 3).save()
     }
     
     private func insertSubmissions() throws {

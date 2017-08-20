@@ -14,22 +14,26 @@ final class EventsController: ResourceRepresentable {
 
         let events = try Event.all()
         
-        return try view.make("events", [
+        return try view.make("events", wrapUserData([
             "events": events
-        ], for: req)
+        ], for: req), for: req)
     }
     
     /// GET /events/:id
-    func show(_ req: Request, _ id: String) throws -> ResponseRepresentable {
+    func show(_ request: Request, _ id: String) throws -> ResponseRepresentable {
+        if request.auth.isAuthenticated(User.self) {
+            return Response(redirect: "/events/\(id)/problems")
+        }
         
         guard let event = try Event.find(id) else {
             throw Abort.notFound
         }
+        
         let problems = try event.problems.all()
-        return try view.make("event", [
+        return try view.make("event", wrapUserData([
             "event": event,
             "problems": problems
-        ], for: req)
+            ], for: request), for: request)
     }
     
     func makeResource() -> Resource<String> {

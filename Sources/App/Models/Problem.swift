@@ -5,7 +5,6 @@ final class Problem: Model, NodeRepresentable {
     
     var name: String
     var description: String
-    var order: Int
     
     var cases: Children<Problem, ProblemCase> {
         return children()
@@ -16,20 +15,18 @@ final class Problem: Model, NodeRepresentable {
     init(row: Row) throws {
         name = try row.get("name")
         description = try row.get("description")
-        order = try row.get("order")
+        
     }
     
-    init(name: String, description: String, order: Int) {
+    init(name: String, description: String) {
         self.name = name
         self.description = description
-        self.order = order
     }
     
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("name", name)
         try row.set("description", description)
-        try row.set("order", order)
         return row
     }
     
@@ -37,8 +34,7 @@ final class Problem: Model, NodeRepresentable {
         return try Node(node: [
             "id": id?.string ?? "",
             "name": name,
-            "description": description,
-            "order": order])
+            "description": description])
     }
 }
 
@@ -48,7 +44,6 @@ extension Problem: Preparation {
             builder.id()
             builder.string("name")
             builder.string("description")
-            builder.int("order")
         }
     }
     

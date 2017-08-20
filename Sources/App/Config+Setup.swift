@@ -25,6 +25,8 @@ extension Config {
         preparations.append(ProblemCase.self)
         preparations.append(Event.self)
         preparations.append(EventProblem.self)
+        preparations.append(Submission.self)
+        preparations.append(ResultCase.self)
     }
     
     private func addCommands() {

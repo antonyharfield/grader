@@ -12,6 +12,7 @@ final class ProblemsController {
     /// GET /events/:id/problems
     func problems(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
+        let problems = try event.eventProblems.sort("sequence", .ascending).all()
         
         return try view.make("event-problems", wrapUserData([
             "event": event,
@@ -22,9 +23,12 @@ final class ProblemsController {
     /// GET /events/:id/submissions
     func submissions(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
+        let submissions = try Submission.makeQuery().join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
+            .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).all()
         
         return try view.make("submissions", wrapUserData([
-            "event": event
+            "event": event,
+            "submissions": submissions
             ], for: request), for: request)
     }
     

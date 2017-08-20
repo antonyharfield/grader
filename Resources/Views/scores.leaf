@@ -4,6 +4,8 @@
 
 #export("content") {
 
-    <h2>#(event.name) &gt; Scores</h2>
+    <h2>#(event.name)</h2>
+
+    #embed("Fragments/event-menu")
 
 }
