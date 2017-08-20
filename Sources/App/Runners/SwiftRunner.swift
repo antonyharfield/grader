@@ -3,26 +3,28 @@ import Console
 
 class SwiftRunner: Runner {
     
-    public let console: ConsoleProtocol
+    let console: ConsoleProtocol
+    let fileSystem: FileSystem
+    let compilationPath: String
     
-    public init(console: ConsoleProtocol = Terminal(arguments: [])) {
+    public init(console: ConsoleProtocol = Terminal(arguments: []), fileSystem: FileSystem = FileSystem()) {
         self.console = console
+        self.fileSystem = fileSystem
+        self.compilationPath = fileSystem.compilationPath() // TODO: pass in worker id in case we use shared filesystem
     }
     
     let swiftcPath = "/usr/bin/swiftc"
-    
-    let uploadsPath = "/app/uploads/"
-    let compilationPath = "/app/srctest/"
     let executableFileName = "run"
     
     func process(submission: Submission, problemCases: [ProblemCase]) -> RunnerResult {
         
         console.print("Copying uploads to compilation path")
         
-        // TODO: clear compilation path
-
+        let uploadPath = fileSystem.uploadPath(submission: submission)
+        fileSystem.ensurePathExists(path: compilationPath)
+        fileSystem.clearContentsAtPath(path: compilationPath)
         for file in submission.files {
-            if !copyFile(from: uploadsPath + file, to: compilationPath + file) {
+            if !copyFile(from: uploadPath + file, to: compilationPath + file) {
                 return .unknownFailure
             }
         }
@@ -60,7 +62,7 @@ class SwiftRunner: Runner {
         return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
     }
     
-    // MARK: file utility methods
+    // TODO: move file utility methods to FileSystem
     
     private func copyFile(from: String, to: String) -> Bool {
         return shell(launchPath: "/bin/cp", arguments: [from, to]).success
@@ -76,19 +78,7 @@ class SwiftRunner: Runner {
         return true
     }
     
-    private func clearFolder(path: String) {
-        let fileManager = FileManager.default
-        do {
-            let filePaths = try fileManager.contentsOfDirectory(atPath: path)
-            for filePath in filePaths {
-                try fileManager.removeItem(atPath: path + filePath)
-            }
-        } catch {
-            console.print("Could not clear temp folder: \(error)")
-        }
-    }
-    
-    // MARK: string utility methods
+    // TODO: move submission comparison utility methods to somewhere shared between runners
     
     private func trim(_ input: String) -> String {
         return input.trimmingCharacters(in: .whitespacesAndNewlines)

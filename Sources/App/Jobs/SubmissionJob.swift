@@ -80,7 +80,7 @@ public struct SubmissionJob: Job {
         
         let object: [String: Any] = [
             "identifier": self.identifier,
-            "submissionID" : self.submissionID
+            "submissionID" : self.submissionID.string!
         ]
         
         return try JSONSerialization.data(withJSONObject: object)

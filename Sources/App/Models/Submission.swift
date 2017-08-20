@@ -24,7 +24,7 @@ final class Submission: Model, NodeRepresentable, Timestampable {
         eventProblemID = try row.get("event_problem_id")
         userID = try row.get("user_id")
         files = (try row.get("files") as String).components(separatedBy: "\n")
-        state = try row.get("state")
+        state = SubmissionState(rawValue: try row.get("state"))!
         score = try row.get("score")
         compilerOutput = try row.get("compiler_output")
     }

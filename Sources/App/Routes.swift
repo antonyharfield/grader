@@ -27,5 +27,17 @@ final class Routes: RouteCollection {
         builder.post("register", handler: loginController.register)
         
         builder.resource("events", EventsController(view))
+
+        builder.get("job") { request in
+            let submission = try Submission.find(6)
+            print("got submission")
+            let job = SubmissionJob(submissionID: submission!.id!)
+            print("got job")
+            //try! Reswifq.defaultQueue.enqueue(job)
+            print("queued")
+            
+            try Reswifq.defaultQueue.enqueue(DemoJob())
+            return Response(status: .ok)
+        }
     }
 }

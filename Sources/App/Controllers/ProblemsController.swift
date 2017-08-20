@@ -1,5 +1,6 @@
 import Vapor
 import HTTP
+import Reswifq
 
 final class ProblemsController {
     
@@ -46,15 +47,18 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let sequence = try request.parameters.next(Int.self)
         
-        guard let eventProblem = try event.eventProblems.filter("order", sequence).first(),
+        guard let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
             let problem = try eventProblem.problem.get() else {
                 throw Abort.notFound
         }
         
+        let problemCases = try problem.cases.filter("visible", true).all()
+        
         return try render("problem-form", [
             "event": event,
             "eventProblem": eventProblem,
-            "problem": problem
+            "problem": problem,
+            "problemCases": problemCases
             ], for: request, with: view)
     }
     
@@ -63,12 +67,39 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let sequence = try request.parameters.next(Int.self)
         
-        guard let eventProblem = try event.eventProblems.filter("order", sequence).first(),
-            let problem = try eventProblem.problem.get() else {
+        guard let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
+            let problem = try eventProblem.problem.get(), let user = request.user else {
                 throw Abort.notFound
         }
         
-        return Response(redirect: "/events/\(event.id!)/submissions")
+        guard let fileData = request.formData?["file"],
+            let filename = fileData.filename, let bytes = fileData.bytes,
+            let mimeType = fileData.part.headers["Content-Type"] else {
+            throw Abort.badRequest
+        }
+        
+        // TODO: support multiple file uploads
+        let files: [(String, [UInt8])] = [(filename, bytes)]
+        
+        // Create submission first so it has an ID
+        let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, files: files.map { $0.0 })
+        try submission.save()
+        
+        // Save the files
+        let fileSystem = FileSystem()
+        let uploadPath = fileSystem.uploadPath(submission: submission)
+        fileSystem.ensurePathExists(path: uploadPath)
+        for file in files {
+            if !fileSystem.save(bytes: file.1, path: uploadPath + file.0) {
+                throw Abort.badRequest
+            }
+        }
+        
+        // Queue job
+        let job = SubmissionJob(submissionID: submission.id!)
+        try Reswifq.defaultQueue.enqueue(job)
+        
+        return Response(redirect: "/events/\(event.id!.string!)/submissions")
     }
 
 }

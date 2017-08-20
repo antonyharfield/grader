@@ -1,0 +1,54 @@
+#extend("base")
+
+#export("title") { Problem #(problem.name) }
+
+#export("content") {
+
+    <!-- <nav class="ink-navigation">
+        <ul class="breadcrumbs">
+            <li><a href="/events">Events</a></li>
+            <li><a href="/events/#(event.id)">#(event.name)</a></li>
+            <li class="active"><a href="#">#(eventProblem.sequence). #(problem.name)</a></li>
+        </ul>
+    </nav> -->
+
+    <p><a href="/events/#(event.id)">&lt; #(event.name)</a></p>
+
+    <h2>#(eventProblem.sequence). #(problem.name)</h2>
+
+    <div class="column-group gutters">
+        <div class="all-50 small-100 tiny-100">
+            <h3>Problem</h3>
+            <p class="quarter-top-space">#(problem.description)</p>
+            <h3>Submit your solution</h3>
+            <form method="post" enctype="multipart/form-data" class="ink-form">
+                <div class="column-group gutters">
+                    <div class="control-group all-66">
+                        <div class="column-group gutters">
+                            <label for="inline-name" class="all-30">Source file</label>
+                            <div class="control all-70">
+                                <input type="file" name="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group all-33">
+                        <div class="column-group gutters">
+                            <div class="control">
+                                <input type="submit" class="ink-button">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="all-50 small-100 tiny-100">
+            <h3>Examples</h3>
+            #loop(problemCases, "case") {
+                <h4>Input</h4>
+                <pre>#(case.input)</pre>
+                <h4>Output</h4>
+                <pre>#(case.output)</pre>
+            }
+        </div>
+    </div>
+}

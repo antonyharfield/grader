@@ -8,7 +8,24 @@
 
     #embed("Fragments/event-menu")
 
-    #loop(submissions, "submission") {
-        <li>#(submission.problem.name)</li>
-    }
+    <table class="ink-table">
+      <thead>
+        <tr>
+          <th class="align-left">Date</th>
+          <th class="align-left">Problem Name</th>
+          <th class="align-left">User</th>
+          <th class="align-left">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        #loop(submissions, "submission") {
+            <tr>
+                <td>#(submission.createdAt)</td>
+                <td>#(submission.eventProblemID)</td>
+                <td>#(submission.userID)</td>
+                <td>#(submission.state)</td>
+            </tr>
+        }
+      </tbody>
+    </table>
 }
