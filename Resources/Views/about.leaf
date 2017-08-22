@@ -1,0 +1,20 @@
+#extend("base")
+
+#export("title") { Grader - About }
+
+#export("content") {
+
+    <h2>About</h2>
+
+    <p>I believe there is only really one way to learn to program: <em>practice</em>.</p>
+
+    <pre>
+        let p = grader.getProblem()
+        do {
+            let solution = student.applyProgrammingSkill(to: p)
+            let result = grader.upload(solution)
+        } while (!result.correct)
+    </pre>
+
+    <p>Enjoy!</p>
+}

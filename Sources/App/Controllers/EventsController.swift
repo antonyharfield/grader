@@ -27,7 +27,7 @@ final class EventsController: ResourceRepresentable {
             throw Abort.notFound
         }
         
-        let problems = try event.problems.all()
+        let problems = try event.eventProblems.sort("sequence", .ascending).all()
         return try render("event", ["event": event, "problems": problems], for: request, with: view)
     }
     

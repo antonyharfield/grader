@@ -4,19 +4,16 @@ import Node
 
 public struct SubmissionJob: Job {
     
-    let submissionID: Identifier
+    let submissionID: Int
     
     // MARK: Initialization
-    public init(submissionID: Identifier) {
-        self.identifier = UUID().uuidString
+    public init(submissionID: Int) {
         self.submissionID = submissionID
     }
     
-    // MARK: Attributes
-    public let identifier: String
-    
     // MARK: Job
     public func perform() throws {
+        try User(name: "test", username: "aaa", password: "1234", role: .student).save()
         
         guard let submission = try Submission.find(submissionID) else {
             return
@@ -67,11 +64,10 @@ public struct SubmissionJob: Job {
             throw DataDecodableError.invalidData(data)
         }
         
-        guard let identifier = dictionary["identifier"] as? String, let submissionID = dictionary["submissionID"] as? Identifier else {
+        guard let submissionID = dictionary["submissionID"] as? Int else {
             throw DataDecodableError.invalidData(data)
         }
         
-        self.identifier = identifier
         self.submissionID = submissionID
     }
     
@@ -79,8 +75,7 @@ public struct SubmissionJob: Job {
     public func data() throws -> Data {
         
         let object: [String: Any] = [
-            "identifier": self.identifier,
-            "submissionID" : self.submissionID.string!
+            "submissionID" : self.submissionID
         ]
         
         return try JSONSerialization.data(withJSONObject: object)

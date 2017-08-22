@@ -57,7 +57,8 @@ final class Submission: Model, NodeRepresentable, Timestampable {
             "files": files,
             "state": state,
             "score": score,
-            "compilerOutput": compilerOutput])
+            "compilerOutput": compilerOutput,
+            "createdAt": createdAt?.dateTimeUserString ?? ""])
     }
 }
 

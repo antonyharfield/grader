@@ -7,9 +7,11 @@
 
     <h3>Active this week</h3>
 
+    <ul>
     #loop(events, "event") {
         <li><a href="/events/#(event.id)">#(event.name)</a></li>
     }
+    </ul>
 
     <h3>Previous events</h3>
 

@@ -17,8 +17,8 @@
             </ol>
         </div>
         <div class="all-50 small-100 tiny-100">
-            <h3>Your submissions</h3>
-            <p>None.</p>
+            <!-- <h3>Your submissions</h3>
+            <p>None.</p> -->
         </div>
     </div>
 }

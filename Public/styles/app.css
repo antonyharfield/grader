@@ -13,6 +13,19 @@ footer {
     margin-top: 20px;
 }
 
+footer .note {
+    font-size: 0.8em;
+}
+
 .ink-navigation .breadcrumbs li:first-child a {
     padding-left: 0;
+}
+
+
+table.scores tbody tr:nth-child(-n+3) td {
+    font-size: 1.2em;
+}
+
+table.scores tbody tr:first-child td {
+    font-size: 1.4em;
 }

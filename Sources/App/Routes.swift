@@ -28,16 +28,20 @@ final class Routes: RouteCollection {
         
         builder.resource("events", EventsController(view))
 
-        builder.get("job") { request in
-            let submission = try Submission.find(6)
-            print("got submission")
-            let job = SubmissionJob(submissionID: submission!.id!)
-            print("got job")
-            //try! Reswifq.defaultQueue.enqueue(job)
-            print("queued")
-            
-            try Reswifq.defaultQueue.enqueue(DemoJob())
-            return Response(status: .ok)
+        builder.get("about") { req in
+            return try render("about", for: req, with: self.view)
         }
+        
+//        builder.get("job") { request in
+//            let submission = try Submission.find(6)
+//            print("got submission")
+//            let job = SubmissionJob(submissionID: submission!.id!.int!)
+//            print("got job")
+//            try! Reswifq.defaultQueue.enqueue(job)
+//            print("queued")
+//            
+//            try Reswifq.defaultQueue.enqueue(DemoJob())
+//            return Response(status: .ok)
+//        }
     }
 }

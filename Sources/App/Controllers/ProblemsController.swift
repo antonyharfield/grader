@@ -24,12 +24,23 @@ final class ProblemsController {
     /// GET /events/:id/submissions
     func submissions(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
-        let submissions = try Submission.makeQuery().join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
+        let submissions = try Submission.makeQuery()
+            .join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
             .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).all()
+        
+        var joinedSubmissions: [Node] = []
+        for submission in submissions {
+            var joinedSubmission = try submission.makeNode(in: nil)
+            let user = try submission.user.get()!
+            let problem = try submission.eventProblem.get()!.problem.get()!
+            joinedSubmission["userName"] = user.name.makeNode(in: nil)
+            joinedSubmission["problemName"] = problem.name.makeNode(in: nil)
+            joinedSubmissions.append(joinedSubmission)
+        }
         
         return try render("submissions", [
             "event": event,
-            "submissions": submissions
+            "submissions": joinedSubmissions
             ], for: request, with: view)
     }
     
@@ -37,8 +48,15 @@ final class ProblemsController {
     func scores(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         
+        let scores = try User.database!.raw("SELECT x.user_id, u.name, SUM(x.score) score, SUM(x.attempts) attempts, COUNT(1) problems FROM users u JOIN (SELECT s.user_id, s.event_problem_id, MAX(s.score) score, COUNT(1) attempts FROM submissions s JOIN event_problems ep ON s.event_problem_id = ep.id WHERE ep.event_id = ? GROUP BY user_id, event_problem_id) x ON u.id = x.user_id GROUP BY x.user_id, u.name ORDER BY score DESC, attempts ASC, problems DESC", [event.id!])
+        
+//        for s in scores.array! {
+//            print(s)
+//        }
+        
         return try render("scores", [
-            "event": event
+            "event": event,
+            "scores": scores
             ], for: request, with: view)
     }
     
@@ -96,7 +114,7 @@ final class ProblemsController {
         }
         
         // Queue job
-        let job = SubmissionJob(submissionID: submission.id!)
+        let job = SubmissionJob(submissionID: submission.id!.int!)
         try Reswifq.defaultQueue.enqueue(job)
         
         return Response(redirect: "/events/\(event.id!.string!)/submissions")

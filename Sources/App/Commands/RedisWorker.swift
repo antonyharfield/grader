@@ -22,6 +22,7 @@ class RedisWorker {
         
         let queue = Reswifq(client: client)
         queue.jobMap[String(describing: DemoJob.self)] = DemoJob.self
+        queue.jobMap[String(describing: SubmissionJob.self)] = SubmissionJob.self
         
         console.print("Starting worker...")
 

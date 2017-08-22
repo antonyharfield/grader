@@ -1,9 +1,9 @@
 <footer class="clearfix">
     <div class="ink-grid">
         <ul class="unstyled inline half-vertical-space">
-            <li class="active"><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="https://github.com/antonyharfield/grader/">Github</a></li>
         </ul>
-        <p class="note">&copy; 2017 Antony Harfield</p>
+        <p class="note">Made in Phitsanulok ❤</p>
     </div>
 </footer>

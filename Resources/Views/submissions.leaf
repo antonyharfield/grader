@@ -12,18 +12,28 @@
       <thead>
         <tr>
           <th class="align-left">Date</th>
-          <th class="align-left">Problem Name</th>
           <th class="align-left">User</th>
+          <th class="align-left">Problem Name</th>
           <th class="align-left">Status</th>
+          <th class="align-left">Grade</th>
+          <th class="align-left">Message</th>
         </tr>
       </thead>
       <tbody>
         #loop(submissions, "submission") {
             <tr>
                 <td>#(submission.createdAt)</td>
-                <td>#(submission.eventProblemID)</td>
-                <td>#(submission.userID)</td>
-                <td>#(submission.state)</td>
+                <td>#(submission.userName)</td>
+                <td>#(submission.problemName)</td>
+                <td>#embed("Fragments/submission-state")</td>
+                <td>
+                    #equal(submission.state, "30") {
+                        #(submission.score)%
+                    } ##else() { - }
+                </td>
+                <td>
+                    -
+                </td>
             </tr>
         }
       </tbody>

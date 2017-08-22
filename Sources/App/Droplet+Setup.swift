@@ -28,6 +28,7 @@ extension Droplet {
     private func addLeafTags() {
         if let leaf = view as? LeafRenderer {
             leaf.stem.register(ArrayContains())
+            leaf.stem.register(Add())
         }
     }
 }

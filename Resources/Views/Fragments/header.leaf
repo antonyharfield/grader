@@ -5,11 +5,11 @@
 </style>
 
 <header class="vertical-space">
-    <h1>Grader<small>practice for programmers in phitlok</small></h1>
+    <h1>Grader<small>practice for programmers</small></h1>
     <nav class="ink-navigation">
         <ul class="menu horizontal grey">
             <li class="active"><a href="/events">Events</a></li>
-            <li><a href="/scores">Scores</a></li>
+            <!--<li><a href="/scores">Scores</a></li>-->
 
             #if(authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
