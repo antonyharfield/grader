@@ -9,6 +9,7 @@ services:
         image: mariadb:10
         environment:
             MYSQL_ROOT_PASSWORD: test1234
+            MYSQL_DATABASE: grader
 
     web:
         build: vapor
