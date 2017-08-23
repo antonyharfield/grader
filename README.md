@@ -59,10 +59,10 @@ If you change Package.swift then use `vapor update` to download dependencies.
 Compile our custom Vapor image (required before we start using `docker run apptitude/vapor`):
 
 ```
-docker build vapor
+docker build -t apptitude/vapor vapor
 ```
 
-Login to a Vapor-enabled container:
+Login to a Vapor-enabled container (bash prompt, useful for exploring):
 ```
 docker run -it --volume=$PWD/..:/app --entrypoint /bin/bash  apptitude/vapor
 ```
@@ -96,13 +96,21 @@ This was tested on AWS, to a Ubuntu Xenial 16.04 (20170414) (ami-8fcc75ec) insta
 
 2. Install docker
 ```
-
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+sudo systemctl status docker
+sudo usermod -aG docker ${USER}
 ```
+and check it is working `docker`
 
 3. Install docker-compose
 ```
-
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo curl -o /usr/local/bin/docker-compose -L "https://github.com/docker/compose/releases/download/1.15.0/docker-compose-$(uname -s)-$(uname -m)"
+sudo chmod +x /usr/local/bin/docker-compose
 ```
+and check it is working `docker-compose -v`
 
 4. Create the /app directory
 ```
@@ -112,9 +120,11 @@ sudo chown ubuntu:ubuntu /app
 
 5. Sync the files (e.g. copy from your local machine to the instance). See ./deploy for an example.
 
-6. `ssh` back into the instance, and start the docker services
+6. `ssh` back into the instance, and build/start the docker services
 ```
 cd /app/docker
+docker build -t apptitude/vapor vapor
+docker run -it --volume=$PWD/..:/app apptitude/vapor build
 docker-compose up -d
 ```
 

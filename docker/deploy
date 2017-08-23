@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sshhostname="grader"
+
+# Copy files (to the /app folder)
+rsync --verbose --delete --archive -z --exclude .build --exclude uploads --exclude srctest --exclude .git --exclude agrader.xcodeproj -e ssh .. $sshhostname:/app
+
+
+# Build (pauses and restarts the server)
+ssh $sshhostname "cd /app/docker ; ./build"
