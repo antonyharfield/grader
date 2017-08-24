@@ -177,16 +177,16 @@ final class SeedCommand: Command {
             return
         }
         
-        let submission1 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .compileFailed, compilerOutput: "Missing semicolon")
+        let submission1 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .compileFailed, compilerOutput: "Missing semicolon")
         try submission1.save()
         
-        let submission2 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .graded, score: 200)
+        let submission2 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .graded, score: 200)
         try submission2.save()
         
-        let submission3 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        let submission3 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .submitted)
         try submission3.save()
         
-        let submission4 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        let submission4 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .submitted)
         try submission4.save()
     }
     

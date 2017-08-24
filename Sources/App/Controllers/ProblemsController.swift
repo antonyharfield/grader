@@ -92,7 +92,9 @@ final class ProblemsController {
         
         guard let fileData = request.formData?["file"],
             let filename = fileData.filename, let bytes = fileData.bytes,
-            let mimeType = fileData.part.headers["Content-Type"] else {
+            let mimeType = fileData.part.headers["Content-Type"],
+            let languageRaw = request.data["language"]?.string,
+            let language = Language(rawValue: languageRaw) else {
             throw Abort.badRequest
         }
         
@@ -100,7 +102,7 @@ final class ProblemsController {
         let files: [(String, [UInt8])] = [(filename, bytes)]
         
         // Create submission first so it has an ID
-        let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, files: files.map { $0.0 })
+        let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: files.map { $0.0 })
         try submission.save()
         
         // Save the files

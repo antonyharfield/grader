@@ -33,20 +33,9 @@ Check it is running in your browser at `http:://localhost:8080`.
 
 ### Setup database
 
-Using the `sqlite3` command, create a database in the location the example
-app will look for:
+The database will be created automatically when you run the project.
 
-```bash
-sqlite3 Database/main.sqlite
-```
-
-That will put you in a sql prompt. Copy and paste the following SQL query to set up the tables.
-
-```sql
-CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, password TEXT NOT NULL);
-```
-
-Then use Ctrl-d to exit.
+If you want to run the project in Xcode, then you can use an sqlite database that is included. To do this, change fluent.json to use the sqlite driver.
 
 
 ### Adding dependencies
@@ -85,6 +74,11 @@ docker run -it --volume=$PWD/..:/app apptitude/vapor run seed
 Run a one-off worker:
 ```
 docker run -it --volume=$PWD/..:/app apptitude/vapor run worker
+```
+
+Login to the mariadb/mysql database:
+```
+docker-compose exec database mysql -u root -p grader
 ```
 
 

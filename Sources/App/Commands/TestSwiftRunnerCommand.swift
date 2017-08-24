@@ -17,7 +17,7 @@ final class TestSwiftRunnerCommand: Command {
         let problemCase2 = ProblemCase(input: "Hello", output: "Hey Mor Nor", problemID: 1)
         problemCase2.id = 2
         
-        let submission = Submission(eventProblemID: 1, userID: 1, files: ["hello.swift"])
+        let submission = Submission(eventProblemID: 1, userID: 1, language: .swift, files: ["hello.swift"])
         submission.id = "test"
             
         let result = SwiftRunner(console: console).process(submission: submission, problemCases: [problemCase1, problemCase2])
