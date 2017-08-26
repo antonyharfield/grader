@@ -23,12 +23,21 @@ final class ProblemsController {
     
     /// GET /events/:id/submissions
     func submissions(request: Request) throws -> ResponseRepresentable {
+        guard let user = request.user else {
+            throw Abort.unauthorized
+        }
+        
         let event = try request.parameters.next(Event.self)
-        let submissions = try Submission.makeQuery()
+        
+        var query = try Submission.makeQuery()
             .join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
-            .filter(EventProblem.self, "event_id", event.id)
-            .filter(Submission.self, "user_id", request.user!.id)
-            .sort("created_at", .descending).limit(20).all()
+            .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).limit(20)
+        
+        if user.role == .student {
+            query = try query.filter(Submission.self, "user_id", request.user!.id)
+        }
+        
+        let submissions = try query.all()
         
         var shouldRefreshPageAutomatically = false
         
