@@ -26,7 +26,11 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let submissions = try Submission.makeQuery()
             .join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
-            .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).all()
+            .filter(EventProblem.self, "event_id", event.id)
+            .filter(Submission.self, "user_id", request.user!.id)
+            .sort("created_at", .descending).limit(20).all()
+        
+        var shouldRefreshPageAutomatically = false
         
         var joinedSubmissions: [Node] = []
         for submission in submissions {
@@ -36,11 +40,16 @@ final class ProblemsController {
             joinedSubmission["userName"] = user.name.makeNode(in: nil)
             joinedSubmission["problemName"] = problem.name.makeNode(in: nil)
             joinedSubmissions.append(joinedSubmission)
+            
+            if submission.state == .submitted || submission.state == .gradingInProgress {
+                shouldRefreshPageAutomatically = true
+            }
         }
         
         return try render("submissions", [
             "event": event,
-            "submissions": joinedSubmissions
+            "submissions": joinedSubmissions,
+            "shouldRefresh": shouldRefreshPageAutomatically
             ], for: request, with: view)
     }
     
