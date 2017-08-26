@@ -1,7 +1,7 @@
 import Foundation
 import Console
 
-class SwiftRunner: Runner {
+class JavaRunner: Runner {
     
     let console: ConsoleProtocol
     let fileSystem: FileSystem
@@ -13,8 +13,8 @@ class SwiftRunner: Runner {
         self.compilationPath = fileSystem.compilationPath() // TODO: pass in worker id in case we use shared filesystem
     }
     
-    let swiftcPath = "/usr/bin/swiftc"
-    let executableFileName = "run"
+    let javacPath = "/usr/bin/javac"
+    let javaPath = "/usr/bin/java"
     
     func process(submission: Submission, problemCases: [ProblemCase]) -> RunnerResult {
         
@@ -37,12 +37,15 @@ class SwiftRunner: Runner {
             return .compileFailure(compileResult.output)
         }
         
+        // Determine which class has the main method
+        let mainClass = stripFileExtension(submission.files.first!)
+        
         console.print("Running test cases")
         
         var resultCases: [ResultCase] = []
         
         for problemCase in problemCases {
-            let result = run(input: problemCase.input)
+            let result = run(input: problemCase.input, mainClass: mainClass)
             let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && trim(result.output) == problemCase.output)
             print("Result case: \(result.success) \(result.exitStatus) \(result.output)")
             resultCases.append(resultCase)
@@ -54,14 +57,24 @@ class SwiftRunner: Runner {
     // MARK: compilation and run methods
     
     private func compile(paths: [String]) -> ShellResult {
-        return shell(launchPath: swiftcPath, arguments: ["-o", compilationPath+executableFileName] + paths)
+        return shell(launchPath: javacPath, arguments: paths)
     }
     
-    private func run(input: String) -> ShellResult {
+    private func run(input: String, mainClass: String) -> ShellResult {
+        // Create the input file
         let inputFile = compilationPath + "input.txt"
         _ = fileSystem.save(string: input, path: inputFile)
-        //return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
-        return shell(launchPath: "/usr/bin/timeout", arguments: ["1s", "/bin/bash", "-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
+        
+        return shell(launchPath: "/usr/bin/timeout", arguments: ["1s", "/bin/bash", "-c", "cd \(compilationPath) ; ( cat \(inputFile) | \(javaPath) \(mainClass) )"])
+    }
+    
+    // grep -HilR  "public[[:space:]+]static[[:space:]+][^v]*void[[:space:]+]main([^S)]\+String" .
+    
+    func stripFileExtension(_ filename: String) -> String {
+        var components = filename.components(separatedBy: ".")
+        guard components.count > 1 else { return filename }
+        components.removeLast()
+        return components.joined(separator: ".")
     }
     
 }

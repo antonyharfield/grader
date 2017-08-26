@@ -35,7 +35,7 @@
                             <div class="control all-70">
                                 <select name="language">
                                     <option value="swift" selected>Swift</option>
-                                    <option value="java" disabled>Java</option>
+                                    <option value="java">Java</option>
                                 </select>
                             </div>
                         </div>

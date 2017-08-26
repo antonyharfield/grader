@@ -19,7 +19,17 @@ public struct SubmissionJob: Job {
             return
         }
         
-        try call(runner: SwiftRunner(), submission: submission)
+        let runner: Runner = chooseRunner(for: submission)
+        try call(runner: runner, submission: submission)
+    }
+    
+    private func chooseRunner(for submission: Submission) -> Runner {
+        switch submission.language {
+        case .swift:
+            return SwiftRunner()
+        case .java:
+            return JavaRunner()
+        }
     }
     
     private func call(runner: Runner, submission: Submission) throws {

@@ -23,6 +23,16 @@ class FileSystem {
         return true
     }
     
+    func save(string: String, path: String) -> Bool {
+        do {
+            try string.write(to: URL(fileURLWithPath: path), atomically: false, encoding: .utf8)
+        } catch {
+            print("error writing to url: \(path)\n\(error)")
+            return false
+        }
+        return true
+    }
+    
     func uploadPath(submission: Submission) -> String {
         let submissionFolderName = submission.id?.string ?? "test"
         return defaultUploadsPath + submissionFolderName + "/"
@@ -56,6 +66,10 @@ class FileSystem {
         } catch {
             print("Could not create folder: \(error)")
         }
+    }
+    
+    func copyFile(from: String, to: String) -> Bool {
+        return shell(launchPath: "/bin/cp", arguments: [from, to]).success
     }
     
 }
