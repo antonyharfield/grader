@@ -12,9 +12,10 @@ final class EventsController: ResourceRepresentable {
     /// GET /events
     func index(_ req: Request) throws -> ResponseRepresentable {
 
-        let events = try Event.all()
+        let activeEvents = try Event.makeQuery().filter(raw: "ends_at is null").all()
+        let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
         
-        return try render("events", ["events": events], for: req, with: view)
+        return try render("events", ["activeEvents": activeEvents, "pastEvents": pastEvents], for: req, with: view)
     }
     
     /// GET /events/:id

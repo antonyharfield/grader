@@ -8,12 +8,18 @@
     <h3>Active this week</h3>
 
     <ul>
-    #loop(events, "event") {
+    #loop(activeEvents, "event") {
         <li><a href="/events/#(event.id)">#(event.name)</a></li>
     }
     </ul>
 
     <h3>Previous events</h3>
+
+    <ul>
+    #loop(pastEvents, "event") {
+        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+    }
+    </ul>
 
     <p>None</p>
 }
