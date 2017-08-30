@@ -19,7 +19,7 @@
     <div class="column-group gutters">
         <div class="all-50 small-100 tiny-100">
             <h3>Problem</h3>
-            <p class="quarter-top-space">#(problem.description)</p>
+            <p class="quarter-top-space">#raw(problem.description)</p>
             <h3>Submit your solution</h3>
             <form method="post" enctype="multipart/form-data" class="ink-form">
                 <div class="column-group gutters">
