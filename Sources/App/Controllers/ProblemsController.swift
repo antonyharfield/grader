@@ -134,6 +134,7 @@ final class ProblemsController {
         }
         
         // Queue job
+        // TODO: don't fail if we cannot connect to the queue!
         let job = SubmissionJob(submissionID: submission.id!.int!)
         try Reswifq.defaultQueue.enqueue(job)
         

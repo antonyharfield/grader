@@ -3,6 +3,7 @@ import Node
 
 class FileSystem {
     
+    // TODO: use drop.configUrl
     private let defaultUploadsPath = "/app/uploads/"
     private let defaultCompilationPath = "/app/srctest/"
     
