@@ -14,10 +14,7 @@ final class Routes: RouteCollection {
     func build(_ builder: RouteBuilder) throws {
         /// GET /
         builder.get { req in
-            if req.auth.isAuthenticated(User.self) {
-                return Response(redirect: "/events")
-            }
-            return Response(redirect: "/login")
+            return Response(redirect: "/events")
         }
         
         let loginController = LoginController(view)
