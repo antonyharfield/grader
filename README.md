@@ -148,3 +148,40 @@ docker-compose up -d
 ```
 docker-compose logs -ft
 ```
+
+### Updates to the server
+
+1. Make a backup first
+```
+ssh grader
+cd /app
+docker-compose exec database bash
+mysqldump -u root -p grader > dump.sql
+```
+
+2. Copy backup down to localhost
+```
+docker cp 43eb385d737c:/dump.sql /app/dump.sql
+[Ctrl-D]
+scp grader:/app/dump.sql ./
+```
+
+3. Make database changes (from aws)
+```
+ssh grader
+cd /app
+docker-compose exec database mysql -u root -p grader
+```
+(and do you stuff!)
+
+4. Resync files (logout to localhost first)
+```
+./deploy
+```
+
+5. Rebuild the worker container (if required)
+```
+ssh grader
+cd /app
+docker-compose up -d --no-deps --build worker
+```
