@@ -1,0 +1,45 @@
+#extend("base")
+
+#export("title") { New Event }
+
+#export("content") {
+    <h2>Create a New Event</h2>
+    <form method="post" class="ink-form">
+        <div class="control-group">
+            <label for="name">Event name</label>
+            <div class="control">
+                <input name="name" />
+            </div>
+
+            <div class="column-group gutters">
+                <div class="all-50">
+                    <label for="starts_at">Starts at</label>
+                    <div class="control">
+                        <input name="starts_at" />
+                    </div>
+                </div>
+                <div class="all-50">
+                    <label for="ends_at">Ends at</label>
+                    <div class="control">
+                        <input name="ends_at" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-group gutters">
+                <label for="inline-name" class="all-30">Language restriction</label>
+                <div class="control all-70">
+                    <select name="language_restriction">
+                        <option value="" selected>None</option>
+                        <option value="swift">Swift</option>
+                        <option value="java">Java</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control">
+                <input type="submit" class="ink-button">
+            </div>
+        </div>
+    </form>
+}
