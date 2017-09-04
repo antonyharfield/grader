@@ -6,56 +6,71 @@
     <h2>Create a New Event</h2>
     <form method="post" class="ink-form">
         <div class="control-group">
-            <label for="name">Event name</label>
-            <div class="control">
-                <input name="name" id="name" />
-            </div>
-
             <div class="column-group gutters">
-                <div class="all-50">
-                    <label for="starts_at_date">Starts at</label>
-                </div>
-                <div class="all-50">
-                    <label for="ends_at_date">Ends at</label>
-                </div>
+                <div class="all-60">
+                    <fieldset>
+                        <legend>Details</legend>
 
-                <div class="all-30">
-                    <div class="control">
-                        <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " />
-                    </div>
-                </div>
-                <div class="all-20">
-                    <div class="control">
-                        <input name="starts_at_time" id="starts_at_time" />
-                    </div>
-                </div>
-                <div class="all-30">
-                    <div class="control">
-                        <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " />
-                    </div>
-                </div>
-                <div class="all-20">
-                    <div class="control">
-                        <input name="ends_at_time" id="ends_at_time" />
-                    </div>
-                </div>
+                        <div class="column-group gutters">
+                            <div class="all-100">
+                                <label for="name">Event name</label>
+                                <div class="control">
+                                    <input name="name" id="name" type="text" />
+                                </div>
 
-                <script type="text/javascript">
-                    document.addEventListener("DOMContentLoaded", function(event) {
-                        document.getElementById('starts_at_date').value = "";
-                        document.getElementById('ends_at_date').value = "";
-                    });
-                </script>
-            </div>
+                                <label for="language_restriction">Programming Language</label>
+                                <div class="control">
+                                    <select name="language_restriction" id="language_restriction">
+                                        <optgroup label="Available Languages">
+                                            <option value="" selected>Any</option>
+                                            <option value="java">Java</option>
+                                            <option value="swift">Swift</option>
+                                        </optgroup>
+                                        <optgroup label="Coming Soon" disabled="disable">
+                                            <option value="c">C / C++</option>
+                                            <option value="c-sharp">C#</option>
+                                            <option value="kotlin">Kotlin</option>
+                                            <option value="php">PHP</option>
+                                            <option value="python">Python</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="column-group gutters">
-                <label for="language_restriction" class="all-30">Language restriction</label>
-                <div class="control all-70">
-                    <select name="language_restriction" id="language_restriction">
-                        <option value="" selected>None</option>
-                        <option value="swift">Swift</option>
-                        <option value="java">Java</option>
-                    </select>
+                    </fieldset>
+                </div>
+                <div class="all-40">
+                    <fieldset>
+                        <legend>Schedule</legend>
+
+                        <div class="column-group gutters">
+                            <div class="all-50">
+                                <label for="starts_at_date">Start Date</label>
+                                <div class="control">
+                                    <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " />
+                                </div>
+                            </div>
+                            <div class="all-50">
+                                <label for="starts_at_date">Time</label>
+                                <div class="control">
+                                    <input name="starts_at_time" id="starts_at_time" type="text" />
+                                </div>
+                            </div>
+                            <div class="all-50">
+                                <label for="starts_at_date">End Date</label>
+                                <div class="control">
+                                    <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " />
+                                </div>
+                            </div>
+                            <div class="all-50">
+                                <label for="starts_at_date">Time</label>
+                                <div class="control">
+                                    <input name="ends_at_time" id="ends_at_time" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
             </div>
 
@@ -64,4 +79,11 @@
             </div>
         </div>
     </form>
+
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.getElementById('starts_at_date').value = "";
+        document.getElementById('ends_at_date').value = "";
+    });
+    </script>
 }

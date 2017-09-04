@@ -7,6 +7,34 @@
     <form method="post" class="ink-form">
         <div class="control-group">
             <div class="control">
+                <fieldset>
+                    <legend>Visibility</legend>
+
+                    <ul class="control unstyled inline">
+                        <li><input type="radio" name="visibility" value="display" id="visiblity_display" checked="checked"><label for="visiblity_display">Display on problem</label></li>
+                        <li><input type="radio" name="visibility" value="offer" id="visibility_offer"><label for="visibility_offer">Offer for debugging</label></li>
+                        <li><input type="radio" name="visibility" value="hidden" id="visibility_hidden"><label for="visibility_hidden">Hidden</label></li>
+                    </ul>
+                </fieldset>
+                <fieldset>
+                    <legend>Test data</legend>
+
+                    <div class="column-group gutters">
+                        <div class="all-50">
+                            <label for="case_input">Input</label>
+                            <div class="control">
+                                <textarea name="case_input" id="case_input"></textarea>
+                            </div>
+                        </div>
+                        <div class="all-50">
+                            <label for="case_output">Output</label>
+                            <div class="control">
+                                <textarea name="case_output" id="case_output"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
                 <input type="submit" class="ink-button">
             </div>
         </div>
