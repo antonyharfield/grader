@@ -5,6 +5,9 @@ final class Problem: Model, NodeRepresentable {
     
     var name: String
     var description: String
+    var comparisonMethod: ComparisonMethod
+    var comparisonIgnoresSpaces: Bool
+    var comparisonIgnoresBreaks: Bool
     
     var cases: Children<Problem, ProblemCase> {
         return children()
@@ -15,18 +18,26 @@ final class Problem: Model, NodeRepresentable {
     init(row: Row) throws {
         name = try row.get("name")
         description = try row.get("description")
-        
+        comparisonMethod = ComparisonMethod(rawValue: try row.get("comparison_method")) ?? .exactMatch
+        comparisonIgnoresSpaces = try row.get("comparison_ignores_spaces")
+        comparisonIgnoresBreaks = try row.get("comparison_ignores_breaks")
     }
     
-    init(name: String, description: String) {
+    init(name: String, description: String, comparisonMethod: ComparisonMethod = .exactMatch, comparisonIgnoresSpaces: Bool = false, comparisonIgnoresBreaks: Bool = false) {
         self.name = name
         self.description = description
+        self.comparisonMethod = comparisonMethod
+        self.comparisonIgnoresSpaces = comparisonIgnoresSpaces
+        self.comparisonIgnoresBreaks = comparisonIgnoresBreaks
     }
     
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("name", name)
         try row.set("description", description)
+        try row.set("comparison_method", comparisonMethod.rawValue)
+        try row.set("comparison_ignores_spaces", comparisonIgnoresSpaces)
+        try row.set("comparison_ignores_breaks", comparisonIgnoresBreaks)
         return row
     }
     
@@ -43,7 +54,10 @@ extension Problem: Preparation {
         try database.create(self) { builder in
             builder.id()
             builder.string("name")
-            builder.string("description")
+            builder.text("description")
+            builder.string("comparison_method", length: 16)
+            builder.bool("comparison_ignores_spaces")
+            builder.bool("comparison_ignores_breaks")
         }
     }
     
