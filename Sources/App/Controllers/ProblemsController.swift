@@ -148,7 +148,24 @@ final class ProblemsController {
     
     /// POST /problems/:id/cases/new
     func problemCaseNewSubmit(request: Request) throws -> ResponseRepresentable {
-        return try render("Teacher/problem-case-new", for: request, with: view)
+        let problem = try request.parameters.next(Problem.self)
+        
+        guard
+            let problemId = problem.id,
+            let visibility = request.data["visibility"]?.string
+        else {
+            throw Abort.badRequest
+        }
+        
+        let visible = (visibility == "display")
+        let caseInput = request.data["case_input"]?.string ?? ""
+        let caseOutput = request.data["case_output"]?.string ?? ""
+        
+        // Save & continue
+        let problemCase = ProblemCase(input: caseInput, output: caseOutput, visible: visible, problemID: problemId)
+        try problemCase.save()
+        
+        return Response(redirect: "/problems/\(problemId.string!)/cases/new")
     }
 
 }
