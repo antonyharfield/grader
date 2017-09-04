@@ -103,16 +103,22 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let sequence = try request.parameters.next(Int.self)
         
-        guard let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
-            let problem = try eventProblem.problem.get(), let user = request.user else {
-                throw Abort.notFound
+        guard
+            let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
+            let problem = try eventProblem.problem.get(),
+            let user = request.user
+        else {
+            throw Abort.notFound
         }
+        
+        let languageEither = event.languageRestriction
+            ?? request.data["language"]?.string.flatMap { raw in Language(rawValue: raw) }
         
         guard let fileData = request.formData?["file"],
             let filename = fileData.filename, let bytes = fileData.bytes,
             let mimeType = fileData.part.headers["Content-Type"],
-            let languageRaw = request.data["language"]?.string,
-            let language = Language(rawValue: languageRaw) else {
+            let language = languageEither
+        else {
             throw Abort.badRequest
         }
         
