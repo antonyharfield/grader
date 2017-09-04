@@ -35,4 +35,10 @@ final class EventsController: ResourceRepresentable {
     func makeResource() -> Resource<String> {
         return Resource(index: index, show: show)
     }
+    
+    /// GET /events/new
+    func new(request: Request) throws -> ResponseRepresentable {
+        return try render("event-new", for: request, with: view)
+    }
+    
 }
