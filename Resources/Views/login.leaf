@@ -10,7 +10,7 @@
     <div class="control-group all-20">
         <label for="email">E-mail / username</label>
         <div class="control">
-            <input type="text" id="email" class="form-control" name="email" required placeholder="Insert email"/>
+            <input type="text" id="email" class="form-control" name="email" required placeholder="Insert email" autofocus="autofocus" />
         </div>
     </div>
 
@@ -30,5 +30,3 @@
     </div>
 </form>
 }
-
-
