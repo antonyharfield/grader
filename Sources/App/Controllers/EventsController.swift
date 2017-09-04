@@ -12,7 +12,7 @@ final class EventsController: ResourceRepresentable {
     
     /// GET /events
     func index(_ req: Request) throws -> ResponseRepresentable {
-        
+        // TBD: Both of these filters are wrong!
         let activeEvents = try Event.makeQuery().filter(raw: "ends_at is null").all()
         let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
         
@@ -42,6 +42,7 @@ final class EventsController: ResourceRepresentable {
         return try render("Teacher/event-new", for: request, with: view)
     }
     
+    /// POST /events/new
     func eventNewSubmit(request: Request) throws -> ResponseRepresentable {
         guard
             let userId = request.user?.id,
@@ -49,7 +50,7 @@ final class EventsController: ResourceRepresentable {
         else {
             throw Abort.badRequest
         }
-        
+
         // Extract
         // TBD: How do we handle invalid dates? (I think I'm just consuming them as nil)
         let formatter = DateFormatter()
@@ -74,16 +75,44 @@ final class EventsController: ResourceRepresentable {
             languageRestriction: languageRestriction
         )
         try event.save()
-        
         return Response(redirect: "/events/\(event.id!.string!)/problems/new")
     }
     
+    /// GET /events/:id/problems/new
     func eventProblemNew(request: Request) throws -> ResponseRepresentable {
-        return "PLACEHOLDER"
+        return try render("Teacher/event-problem-new", for: request, with: view)
     }
 
+    /// POST /events/:id/problems/new
     func eventProblemNewSubmit(request: Request) throws -> ResponseRepresentable {
-        return "PLACEHOLDER"
-    }
+        let event = try request.parameters.next(Event.self)
+        
+        guard
+            let eventId = event.id,
+            let name = request.data["name"]?.string,
+            let description = request.data["description"]?.string,
+            let comparisonMethodRaw = request.data["comparison_method"]?.string,
+            let comparisonMethod = ComparisonMethod(rawValue: comparisonMethodRaw)
+        else {
+            throw Abort.badRequest
+        }
 
+        // Extract
+        // TBD: Probably need a better way to define sequence
+        let seq = try EventProblem.makeQuery()
+            .filter(EventProblem.self, "event_id", eventId).count() + 1
+
+        let comparisonIgnoreSpaces = (request.data["comparison_ignore_spaces"]?.string == "true")
+        let comparisonIgnoreBreaks = (request.data["comparison_ignore_breaks"]?.string == "true")
+        
+        // Save & continue
+        let problem = Problem(name: name, description: description, comparisonMethod: comparisonMethod, comparisonIgnoresSpaces: comparisonIgnoreSpaces, comparisonIgnoresBreaks: comparisonIgnoreBreaks)
+        try problem.save()
+        
+        let eventProblem = EventProblem(eventID: eventId, problemID: problem.id!, sequence: seq)
+        try eventProblem.save()
+        
+        return Response(redirect: "/problems/\(problem.id!.string!)/cases/new")
+    }
+    
 }

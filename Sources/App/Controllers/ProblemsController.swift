@@ -140,5 +140,15 @@ final class ProblemsController {
         
         return Response(redirect: "/events/\(event.id!.string!)/submissions")
     }
+    
+    /// GET /problems/:id/cases/new
+    func problemCaseNew(request: Request) throws -> ResponseRepresentable {
+        return try render("Teacher/problem-case-new", for: request, with: view)
+    }
+    
+    /// POST /problems/:id/cases/new
+    func problemCaseNewSubmit(request: Request) throws -> ResponseRepresentable {
+        return try render("Teacher/problem-case-new", for: request, with: view)
+    }
 
 }

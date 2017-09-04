@@ -1,0 +1,14 @@
+#extend("base")
+
+#export("title") { New Test Case }
+
+#export("content") {
+    <h2>Create a New Test Case</h2>
+    <form method="post" class="ink-form">
+        <div class="control-group">
+            <div class="control">
+                <input type="submit" class="ink-button">
+            </div>
+        </div>
+    </form>
+}
