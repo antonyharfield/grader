@@ -12,7 +12,7 @@ final class EventsController: ResourceRepresentable {
     
     /// GET /events
     func index(_ req: Request) throws -> ResponseRepresentable {
-
+        
         let activeEvents = try Event.makeQuery().filter(raw: "ends_at is null").all()
         let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
         
@@ -50,14 +50,22 @@ final class EventsController: ResourceRepresentable {
             throw Abort.badRequest
         }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd HH:mm"
-
+        // Extract
         // TBD: How do we handle invalid dates? (I think I'm just consuming them as nil)
-        let startsAt = request.data["starts_at"]?.string.flatMap { raw in formatter.date(from: raw) }
-        let endsAt = request.data["ends_at"]?.string.flatMap { raw in formatter.date(from: raw) }
-        let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
         
+        let startsAt = request.data["starts_at_date"]?.string
+            .flatMap { rawDate in rawDate + " " + (request.data["starts_at_time"]?.string ?? "0:00") }
+            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
+        
+        let endsAt = request.data["ends_at_date"]?.string
+            .flatMap { rawDate in rawDate + " " + (request.data["ends_at_time"]?.string ?? "0:00") }
+            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
+        
+        let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
+
+        // Save & continue
         let event = Event(
             name: name,
             userID:userId,

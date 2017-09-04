@@ -8,28 +8,50 @@
         <div class="control-group">
             <label for="name">Event name</label>
             <div class="control">
-                <input name="name" />
+                <input name="name" id="name" />
             </div>
 
             <div class="column-group gutters">
                 <div class="all-50">
-                    <label for="starts_at">Starts at</label>
-                    <div class="control">
-                        <input name="starts_at" />
-                    </div>
+                    <label for="starts_at_date">Starts at</label>
                 </div>
                 <div class="all-50">
-                    <label for="ends_at">Ends at</label>
+                    <label for="ends_at_date">Ends at</label>
+                </div>
+
+                <div class="all-30">
                     <div class="control">
-                        <input name="ends_at" />
+                        <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " />
                     </div>
                 </div>
+                <div class="all-20">
+                    <div class="control">
+                        <input name="starts_at_time" id="starts_at_time" />
+                    </div>
+                </div>
+                <div class="all-30">
+                    <div class="control">
+                        <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " />
+                    </div>
+                </div>
+                <div class="all-20">
+                    <div class="control">
+                        <input name="ends_at_time" id="ends_at_time" />
+                    </div>
+                </div>
+
+                <script type="text/javascript">
+                    document.addEventListener("DOMContentLoaded", function(event) {
+                        document.getElementById('starts_at_date').value = "";
+                        document.getElementById('ends_at_date').value = "";
+                    });
+                </script>
             </div>
 
             <div class="column-group gutters">
-                <label for="inline-name" class="all-30">Language restriction</label>
+                <label for="language_restriction" class="all-30">Language restriction</label>
                 <div class="control all-70">
-                    <select name="language_restriction">
+                    <select name="language_restriction" id="language_restriction">
                         <option value="" selected>None</option>
                         <option value="swift">Swift</option>
                         <option value="java">Java</option>
