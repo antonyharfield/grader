@@ -12,8 +12,7 @@ final class EventsController: ResourceRepresentable {
     
     /// GET /events
     func index(_ req: Request) throws -> ResponseRepresentable {
-        // TBD: Both of these filters are wrong!
-        let activeEvents = try Event.makeQuery().filter(raw: "ends_at is null").all()
+        let activeEvents = try Event.makeQuery().filter(raw: "(starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)").all()
         let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
         
         return try render("events", ["activeEvents": activeEvents, "pastEvents": pastEvents], for: req, with: view)
