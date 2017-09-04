@@ -142,6 +142,79 @@ final class SeedCommand: Command {
         }
     }
     
+    private func insertChaz() throws {
+        // Teacher
+        let chaz = User(name: "Charles Allen", username: "chaz", password: "cave of wonders", role: .teacher)
+        try chaz.save()
+        
+        // Dump student users here
+        let myClass: [(String, String, String)] = [
+            ("58244888", "Punyapat Supakong", "dwe7qw"),
+            ("58344281", "Kanokwan Noppakun", "w32mqb"),
+            ("58344298", "Krit Fumin", "9cv6rx"),
+            ("58344311", "Kollawat Sonchai", "ky92eg"),
+            ("58344342", "Kittinan Sukkasem", "4dvuqn"),
+            ("58344458", "Chanthaapha Chaemchon", "mc4cns"),
+            ("58344519", "Nuttapong Laoanantasap", "szptc7"),
+            ("58344526", "Natthamol Unboon", "a2d32d"),
+            ("58344571", "Tawatpong Tongmuang", "cgdv64"),
+            ("58344588", "Tarin Gurin", "erj9sb"),
+            ("58344625", "Photsawee Phomsawat", "zxa8ed"),
+            ("58344632", "Pittaya Pinmanee", "7dsbp2"),
+            ("58344656", "Peerada Sornchai", "63vxya"),
+            ("58344724", "Chavakorn Wongnuch", "p75wza"),
+            ("58344748", "Siripron Muangprem", "p7e246"),
+            ("58344779", "Sarawut Poree", "gvs5pr"),
+            ("58344830", "Sumitta Siriwat", "4ce78s"),
+            ("58344847", "Suranart Seemarksuk", "4z9v72"),
+            ("58344854", "Saowalak Aeamsamang", "pbf5rq"),
+            ("58344892", "Aniwat Prakart", "r3bza4"),
+            ("58344915", "Areeya Aongsan", "dt9p5a"),
+            ("58348005", "Suchada Rodthongdee", "af3753"),
+            ("58364678", "Somrak Boonkerdma", "ngw75b"),
+            ("58364692", "Sorawit Phuthirangsriwong", "rz25dp"),
+            ("58344328", "Kanjana Healong", "u5va4f"),
+            ("58344373", "Kasem Senket", "2sq6n3"),
+            ("58344403", "Jinnipa Keschai", "2rejxq"),
+            ("58344410", "Jiradet Bunyim", "s957zk"),
+            ("58344427", "Jirawat Nutmee", "e69g3v"),
+            ("58344434", "Jutamad Boonmark", "fa72s2"),
+            ("58344441", "Jutamas Duangmalai", "jw5nbt"),
+            ("58344465", "Channarong Rodthong", "rf2n7w"),
+            ("58344472", "Chutipong Kitsanakun", "3cpa3k"),
+            ("58344489", "Chaowat Thaiprayun", "fxcdq5"),
+            ("58344496", "Tanawan Kietbunditkun", "3x74zs"),
+            ("58344533", "Duangkamon Boonrot", "7ej6z5"),
+            ("58344557", "Tanatip Kiawngam", "6j3q6t"),
+            ("58344564", "Thanaruk Promchai", "x5kh34"),
+            ("58344595", "Naratorn Payaksri", "76wge6"),
+            ("58344649", "Pawis Fuenton", "gmu47t"),
+            ("58344694", "Rattanawalee Songwattana", "rxzwm4"),
+            ("58344700", "Ramet Natphu", "gqhs77"),
+            ("58344717", "Laddawan Somrak", "7ezj99"),
+            ("58344755", "Supanida Yatopama", "f9aedk"),
+            ("58344762", "Sanphet Duanhkham", "6u3wz6"),
+            ("58344786", "Savinee Thaworanant", "5a6h2j"),
+            ("58344793", "Sitanan Rodcharoen", "82zbtd"),
+            ("58344809", "Sirikhwan Homsuwan", "5yftnm"),
+            ("58344816", "Sukanya Iambu", "7y8wbh"),
+            ("58344823", "Suphattra Piluek", "e98tb9"),
+            ("58344885", "Anonset Natsaphat", "5sy756"),
+            ("58344908", "Anucha Kaewmongkonh", "aj7gk9"),
+            ("58344922", "Aittiporn Meekaew", "m5yw73"),
+            ("58344946", "Opas Sakulpram", "dx5upp"),
+            ("58347930", "Chamaiporn Rhianthong", "e8thgk"),
+            ("58347954", "Pornpan Rungsri", "v7xb6f"),
+            ("58347961", "Patsakon Junvee", "wxrtu5"),
+            ("58347978", "Pawin Potijinda", "69de5h"),
+        ]
+        
+        // Save students
+        for x in myClass {
+            try User(name: x.1, username: x.0, password: x.2, role: .student).save()
+        }
+    }
+    
     private func insertEvents() throws {
         guard let teacher = try User.all().first, let teacherID = teacher.id else {
             console.print("Cannot find teacher or it's id")
