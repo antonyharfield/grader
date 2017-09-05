@@ -20,7 +20,7 @@ final class TestSwiftRunnerCommand: Command {
         let submission = Submission(eventProblemID: 1, userID: 1, language: .swift, files: ["hello.swift"])
         submission.id = "test"
             
-        let result = SwiftRunner(console: console).process(submission: submission, problemCases: [problemCase1, problemCase2])
+        let result = SwiftRunner(console: console).process(submission: submission, problemCases: [problemCase1, problemCase2], comparisonMethod: .exactMatch)
         
         switch result {
         case .compileFailure(let compilerOutput):

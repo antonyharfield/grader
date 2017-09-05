@@ -16,7 +16,7 @@ class SwiftRunner: Runner {
     let swiftcPath = "/usr/bin/swiftc"
     let executableFileName = "run"
     
-    func process(submission: Submission, problemCases: [ProblemCase]) -> RunnerResult {
+    func process(submission: Submission, problemCases: [ProblemCase], comparisonMethod: ComparisonMethod) -> RunnerResult {
         
         console.print("Copying uploads to compilation path")
         
@@ -43,7 +43,11 @@ class SwiftRunner: Runner {
         
         for problemCase in problemCases {
             let result = run(input: problemCase.input)
-            let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && trim(result.output) == problemCase.output)
+            let match = (comparisonMethod == .exactMatch)
+                ? isExactMatch(expected: problemCase.output, actual: result.output)
+                : isEndsWithMatch(expected: problemCase.output, actual: result.output)
+            
+            let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && match)
             print("Result case: \(result.success) \(result.exitStatus) \(result.output)")
             resultCases.append(resultCase)
         }
