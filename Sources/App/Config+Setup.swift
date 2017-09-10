@@ -22,7 +22,17 @@ extension Config {
     }
     
     private func addPreparations() {
-        preparations.append(P20170910.self)
+        // Initial Setup
+        preparations.append(User.self)
+        preparations.append(Problem.self)
+        preparations.append(ProblemCase.self)
+        preparations.append(Event.self)
+        preparations.append(EventProblem.self)
+        preparations.append(Submission.self)
+        preparations.append(ResultCase.self)
+        
+        // Migrations
+        //preparations.append(P20170910.self)
     }
     
     private func addCommands() {
