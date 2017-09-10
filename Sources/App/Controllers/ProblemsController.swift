@@ -66,7 +66,7 @@ final class ProblemsController {
     func scores(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         
-        let scores = try User.database!.raw("SELECT x.user_id, u.name, SUM(x.score) score, SUM(x.attempts) attempts, COUNT(1) problems FROM users u JOIN (SELECT s.user_id, s.event_problem_id, MAX(s.score) score, COUNT(1) attempts FROM submissions s JOIN event_problems ep ON s.event_problem_id = ep.id WHERE ep.event_id = ? AND u.role = 1 GROUP BY user_id, event_problem_id) x ON u.id = x.user_id GROUP BY x.user_id, u.name ORDER BY score DESC, attempts ASC, problems DESC", [event.id!])
+        let scores = try User.database!.raw("SELECT x.user_id, u.name, SUM(x.score) score, SUM(x.attempts) attempts, COUNT(1) problems FROM users u JOIN (SELECT s.user_id, s.event_problem_id, MAX(s.score) score, COUNT(1) attempts FROM submissions s JOIN event_problems ep ON s.event_problem_id = ep.id WHERE ep.event_id = ? GROUP BY user_id, event_problem_id) x ON u.id = x.user_id WHERE u.role = 1 GROUP BY x.user_id, u.name ORDER BY score DESC, attempts ASC, problems DESC", [event.id!])
         
 //        for s in scores.array! {
 //            print(s)
