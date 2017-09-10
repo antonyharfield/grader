@@ -50,26 +50,6 @@ extension User: NodeRepresentable {
     }
 }
 
-
-extension User: Preparation {
-    /// Prepares a table/collection in the database
-    /// for storing Users
-    static func prepare(_ database: Database) throws {
-        try database.create(self) { builder in
-            builder.id()
-            builder.string("name")
-            builder.string("username")
-            builder.string("password")
-            builder.int("role")
-        }
-    }
-    
-    /// Undoes what was done in `prepare`
-    static func revert(_ database: Database) throws {
-        try database.delete(self)
-    }
-}
-
 extension User: PasswordAuthenticatable {
     public static let usernameKey = "username"
     public static let passwordVerifier: PasswordVerifier? = User.passwordHasher
