@@ -7232,7 +7232,7 @@
 		OBJ_167 /* Contains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contains.swift; sourceTree = "<group>"; };
 		OBJ_168 /* Count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Count.swift; sourceTree = "<group>"; };
 		OBJ_169 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
-		OBJ_17 /* SeedDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeedDatabase.swift; path = Sources/App/Commands/SeedDatabase.swift; sourceTree = "<group>"; };
+		OBJ_17 /* SeedDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedDatabase.swift; sourceTree = "<group>"; };
 		OBJ_170 /* Equals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equals.swift; sourceTree = "<group>"; };
 		OBJ_171 /* In.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = In.swift; sourceTree = "<group>"; };
 		OBJ_172 /* Unique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unique.swift; sourceTree = "<group>"; };
@@ -7665,7 +7665,6 @@
 		OBJ_667 /* Console+Ask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Ask.swift"; sourceTree = "<group>"; };
 		OBJ_668 /* Console+Center.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Center.swift"; sourceTree = "<group>"; };
 		OBJ_669 /* Console+Confirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Confirm.swift"; sourceTree = "<group>"; };
-		OBJ_67 /* Database */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Database; sourceTree = SOURCE_ROOT; };
 		OBJ_670 /* Console+Ephemeral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Ephemeral.swift"; sourceTree = "<group>"; };
 		OBJ_671 /* Console+Options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Options.swift"; sourceTree = "<group>"; };
 		OBJ_672 /* Console+Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Console+Print.swift"; sourceTree = "<group>"; };
@@ -9138,8 +9137,7 @@
 				6E23EDA31F6536E2000E00B8 /* Preparations */,
 				6E23EDA21F6536DC000E00B8 /* Seeders */,
 			);
-			name = Database;
-			path = ../..;
+			path = Database;
 			sourceTree = "<group>";
 		};
 		6E23EDA21F6536DC000E00B8 /* Seeders */ = {
@@ -9147,7 +9145,7 @@
 			children = (
 				OBJ_17 /* SeedDatabase.swift */,
 			);
-			name = Seeders;
+			path = Seeders;
 			sourceTree = "<group>";
 		};
 		6E23EDA31F6536E2000E00B8 /* Preparations */ = {
@@ -9155,7 +9153,7 @@
 			children = (
 				6E23EDA61F653DEF000E00B8 /* v0 */,
 			);
-			name = Preparations;
+			path = Preparations;
 			sourceTree = "<group>";
 		};
 		6E23EDA61F653DEF000E00B8 /* v0 */ = {
@@ -9163,7 +9161,7 @@
 			children = (
 				6E23EDA41F653748000E00B8 /* P20170910.swift */,
 			);
-			name = v0;
+			path = v0;
 			sourceTree = "<group>";
 		};
 		OBJ_102 /* Job */ = {
@@ -10304,7 +10302,6 @@
 				OBJ_7 /* Sources */,
 				OBJ_61 /* Tests */,
 				OBJ_66 /* Config */,
-				OBJ_67 /* Database */,
 				OBJ_68 /* docker */,
 				OBJ_69 /* Public */,
 				OBJ_70 /* Resources */,
