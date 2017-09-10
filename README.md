@@ -65,7 +65,7 @@ This setup uses docker-compose to create 4 containers:
 * Build the base docker image `docker build -t apptitude/vapor vapor`
 * Build the application `./build`
 * Change `Config/fluent.json` to use `"driver": "mysql"`
-* Start redis & database `docker-compose up -d redis mysql`
+* Start redis & database `docker-compose up -d redis database`
 * Check they're up `docker-compose ps`
 * Check the logs if you have problems `docker-compose logs -ft <container_id>`
 * After database is up, start web `docker-compose up -d web`
