@@ -48,7 +48,6 @@ vapor run seed
 If you change Package.swift then use `vapor update` to download dependencies.
 
 
-
 ## Serious setup
 
 You will need Docker (at least version 17).
@@ -63,11 +62,14 @@ This setup uses docker-compose to create 4 containers:
 
 * Clone the repo
 * Open your terminal at the repo root, and `cd docker`
-* Build the docker image `docker build -t apptitude/vapor vapor`
+* Build the base docker image `docker build -t apptitude/vapor vapor`
 * Build the application `./build`
-* Change Config/fluent.json to use MySQL `"driver": "mysql"`
-* Start the containers `docker-compose up -d`
-* Check the containers are up `docker-compose ps` (re-run the previous command if web failed to connect to the database)
+* Change `Config/fluent.json` to use `"driver": "mysql"`
+* Start redis & database `docker-compose up -d redis mysql`
+* Check they're up `docker-compose ps`
+* Check the logs if you have problems `docker-compose logs -ft <container_id>`
+* After database is up, start web `docker-compose up -d web`
+* After web is up, start worker `docker-compose up -d worker`
 * Open your browser at `http://localhost` or your docker VM IP address
 * By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed`
 
@@ -81,7 +83,6 @@ This setup uses docker-compose to create 4 containers:
 ### Other commands
 
 Compile our custom Vapor image (required before we start using `docker run apptitude/vapor`):
-
 ```
 docker build -t apptitude/vapor vapor
 ```
