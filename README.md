@@ -63,8 +63,9 @@ This setup uses docker-compose to create 4 containers:
 
 * Clone the repo
 * Open your terminal at the repo root, and `cd docker`
-* Start the containers `docker-compose up -d`
+* Build the docker image `docker build -t apptitude/vapor vapor`
 * Build the application `./build`
+* Start the containers `docker-compose up -d`
 * Open your browser at `http://localhost` or your docker VM IP address
 * By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed`
 
@@ -95,7 +96,7 @@ docker run -it --volume=$PWD/..:/app apptitude/vapor build
 
 In general, you can run any Vapor command (e.g. `vapor XXX`):
 ```
-docker run -it --volume=$PWD/..:/app apptitude/vapor build
+docker run -it --volume=$PWD/..:/app apptitude/vapor XXX
 ```
 
 Run a one-off worker:
@@ -161,7 +162,7 @@ mysqldump -u root -p grader > dump.sql
 
 2. Copy backup down to localhost
 ```
-docker cp 43eb385d737c:/dump.sql /app/dump.sql
+docker cp <container_id>:/dump.sql /app/dump.sql
 [Ctrl-D]
 scp grader:/app/dump.sql ./
 ```
