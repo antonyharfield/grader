@@ -4,27 +4,35 @@ import FluentProvider
 final class P20170910: Preparation {
     
     static func prepare(_ database: Database) throws {
-        try prepareUser(database)
-        try prepareProblem(database)
-        try prepareProblemCase(database)
-        try prepareEvent(database)
-        try prepareEventProblem(database)
-        try prepareSubmission(database)
-        try prepareResultCase(database)
+        try database.prepare([
+            User.self,
+            Problem.self,
+            ProblemCase.self,
+            Event.self,
+            EventProblem.self,
+            Submission.self,
+            ResultCase.self
+            ])
     }
     
     static func revert(_ database: Database) throws {
-        try revertResultCase(database)
-        try revertSubmission(database)
-        try revertEventProblem(database)
-        try revertEvent(database)
-        try revertProblemCase(database)
-        try revertProblem(database)
-        try revertUser(database)
+        try database.revertAll([
+            ResultCase.self,
+            Submission.self,
+            EventProblem.self,
+            Event.self,
+            ProblemCase.self,
+            Problem.self,
+            User.self
+            ])
     }
     
-    static func prepareEvent(_ database: Database) throws {
-        try database.create(Event.self) { builder in
+}
+
+extension Event: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.string("name")
             builder.parent(User.self, optional: false)
@@ -34,12 +42,16 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertEvent(_ database: Database) throws {
-        try database.delete(Event.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
-    static func prepareEventProblem(_ database: Database) throws {
-        try database.create(EventProblem.self) { builder in
+}
+
+extension EventProblem: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.parent(Event.self, optional: false)
             builder.parent(Problem.self, optional: false)
@@ -47,12 +59,16 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertEventProblem(_ database: Database) throws {
-        try database.delete(EventProblem.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
-    static func prepareProblem(_ database: Database) throws {
-        try database.create(Problem.self) { builder in
+}
+
+extension Problem: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.string("name")
             builder.text("description")
@@ -62,12 +78,16 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertProblem(_ database: Database) throws {
-        try database.delete(Problem.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
-    static func prepareProblemCase(_ database: Database) throws {
-        try database.create(ProblemCase.self) { builder in
+}
+
+extension ProblemCase: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.string("input")
             builder.string("output")
@@ -76,13 +96,17 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertProblemCase(_ database: Database) throws {
-        try database.delete(ProblemCase.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
+}
+
+extension ResultCase: Preparation {
     
-    static func prepareResultCase(_ database: Database) throws {
-        try database.create(ResultCase.self) { builder in
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
+            
             builder.id()
             builder.parent(Submission.self, optional: false)
             builder.parent(ProblemCase.self, optional: false)
@@ -91,12 +115,17 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertResultCase(_ database: Database) throws {
-        try database.delete(ResultCase.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
-    static func prepareSubmission(_ database: Database) throws {
-        try database.create(Submission.self) { builder in
+}
+
+
+extension Submission: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.parent(EventProblem.self, optional: false)
             builder.parent(User.self, optional: false)
@@ -108,12 +137,16 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertSubmission(_ database: Database) throws {
-        try database.delete(Submission.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
-    static func prepareUser(_ database: Database) throws {
-        try database.create(User.self) { builder in
+}
+
+extension User: Preparation {
+    
+    static func prepare(_ database: Database) throws {
+        try database.create(self) { builder in
             builder.id()
             builder.string("name")
             builder.string("username")
@@ -122,8 +155,8 @@ final class P20170910: Preparation {
         }
     }
     
-    static func revertUser(_ database: Database) throws {
-        try database.delete(User.self)
+    static func revert(_ database: Database) throws {
+        try database.delete(self)
     }
     
 }
