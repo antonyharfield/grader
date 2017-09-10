@@ -4,22 +4,22 @@ import FluentProvider
 final class P20170910: Preparation {
     
     static func prepare(_ database: Database) throws {
-        try prepareEvent(database)
-        try prepareEventProblem(database)
+        try prepareUser(database)
         try prepareProblem(database)
         try prepareProblemCase(database)
-        try prepareResultCase(database)
+        try prepareEvent(database)
+        try prepareEventProblem(database)
         try prepareSubmission(database)
-        try prepareUser(database)
+        try prepareResultCase(database)
     }
     
     static func revert(_ database: Database) throws {
-        try revertEvent(database)
-        try revertEventProblem(database)
-        try revertProblem(database)
-        try revertProblemCase(database)
         try revertResultCase(database)
         try revertSubmission(database)
+        try revertEventProblem(database)
+        try revertEvent(database)
+        try revertProblemCase(database)
+        try revertProblem(database)
         try revertUser(database)
     }
     
