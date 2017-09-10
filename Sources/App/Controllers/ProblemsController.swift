@@ -15,7 +15,7 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
         
-        return try render("event-problems", [
+        return try render("Events/event", [
             "event": event,
             "problems": problems
             ], for: request, with: view)
@@ -55,7 +55,7 @@ final class ProblemsController {
             }
         }
         
-        return try render("submissions", [
+        return try render("Events/submissions", [
             "event": event,
             "submissions": joinedSubmissions,
             "shouldRefresh": shouldRefreshPageAutomatically
@@ -72,7 +72,7 @@ final class ProblemsController {
 //            print(s)
 //        }
         
-        return try render("scores", [
+        return try render("Events/scores", [
             "event": event,
             "scores": scores
             ], for: request, with: view)
@@ -90,7 +90,7 @@ final class ProblemsController {
         
         let problemCases = try problem.cases.filter("visible", true).all()
         
-        return try render("problem-form", [
+        return try render("Events/problem-form", [
             "event": event,
             "eventProblem": eventProblem,
             "problem": problem,
@@ -149,7 +149,7 @@ final class ProblemsController {
     
     /// GET /problems/:id/cases/new
     func problemCaseNew(request: Request) throws -> ResponseRepresentable {
-        return try render("Teacher/problem-case-new", for: request, with: view)
+        return try render("Events/Teacher/problem-case-new", for: request, with: view)
     }
     
     /// POST /problems/:id/cases/new

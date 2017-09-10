@@ -1,4 +1,4 @@
-#extend("base")
+#extend("Layouts/base")
 
 #export("title") { #(event.name) }
 
@@ -6,19 +6,22 @@
 
     <h2>#(event.name)</h2>
 
-    #embed("Fragments/event-menu")
+    <p><big><a href="/login">Login</a> to participate.</big></p>
 
     <div class="column-group gutters">
         <div class="all-50 small-100 tiny-100">
+            <h3>Problems</h3>
+
             <ol>
             #loop(problems, "ep") {
                 <li><a href="/events/#(event.id)/problems/#(ep.sequence)">#(ep.problem.name)</a></li>
             }
             </ol>
         </div>
+
         <div class="all-50 small-100 tiny-100">
-            <!-- <h3>Your submissions</h3>
-            <p>None.</p> -->
+
         </div>
+
     </div>
 }

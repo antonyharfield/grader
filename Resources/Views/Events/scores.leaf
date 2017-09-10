@@ -1,4 +1,4 @@
-#extend("base")
+#extend("Layouts/base")
 
 #export("title") { #(event.name) }
 
@@ -6,7 +6,7 @@
 
     <h2>#(event.name)</h2>
 
-    #embed("Fragments/event-menu")
+    #embed("Events/Fragments/event-menu")
 
     <table class="ink-table scores">
       <thead>

@@ -15,7 +15,7 @@ final class EventsController: ResourceRepresentable {
         let activeEvents = try Event.makeQuery().filter(raw: "(starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)").all()
         let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
         
-        return try render("events", ["activeEvents": activeEvents, "pastEvents": pastEvents], for: req, with: view)
+        return try render("Events/events", ["activeEvents": activeEvents, "pastEvents": pastEvents], for: req, with: view)
     }
     
     /// GET /events/:id
@@ -29,7 +29,7 @@ final class EventsController: ResourceRepresentable {
         }
         
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
-        return try render("event", ["event": event, "problems": problems], for: request, with: view)
+        return try render("Events/event-logged-out", ["event": event, "problems": problems], for: request, with: view)
     }
     
     func makeResource() -> Resource<String> {
@@ -38,7 +38,7 @@ final class EventsController: ResourceRepresentable {
     
     /// GET /events/new
     func eventNew(request: Request) throws -> ResponseRepresentable {
-        return try render("Teacher/event-new", for: request, with: view)
+        return try render("Events/Teacher/event-new", for: request, with: view)
     }
     
     /// POST /events/new
@@ -79,7 +79,7 @@ final class EventsController: ResourceRepresentable {
     
     /// GET /events/:id/problems/new
     func eventProblemNew(request: Request) throws -> ResponseRepresentable {
-        return try render("Teacher/event-problem-new", for: request, with: view)
+        return try render("Events/Teacher/event-problem-new", for: request, with: view)
     }
 
     /// POST /events/:id/problems/new

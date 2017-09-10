@@ -1,4 +1,4 @@
-#extend("base")
+#extend("Layouts/base")
 
 #export("title") { #(event.name) }
 
@@ -12,7 +12,7 @@
 
     <h2>#(event.name)</h2>
 
-    #embed("Fragments/event-menu")
+    #embed("Events/Fragments/event-menu")
 
     <table class="ink-table">
       <thead>
@@ -31,7 +31,7 @@
                 <td>#(submission.createdAt)</td>
                 <td>#(submission.userName)</td>
                 <td>#(submission.problemName)</td>
-                <td>#embed("Fragments/submission-state")</td>
+                <td>#embed("Events/Fragments/submission-state")</td>
                 <td>
                     #equal(submission.state, "30") {
                         #(submission.score)%

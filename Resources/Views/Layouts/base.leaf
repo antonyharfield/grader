@@ -53,14 +53,14 @@
     </div>
     -->
 
-    #embed("Fragments/header")
-    #embed("Fragments/flash")
+    #embed("Layouts/Fragments/header")
+    #embed("Layouts/Fragments/flash")
 
     #import("content")
 
 </div>
 
-#embed("Fragments/footer")
+#embed("Layouts/Fragments/footer")
 
 </body>
 </html>
