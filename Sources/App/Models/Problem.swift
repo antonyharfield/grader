@@ -45,6 +45,10 @@ final class Problem: Model, NodeRepresentable {
         return try Node(node: [
             "id": id?.string ?? "",
             "name": name,
-            "description": description])
+            "description": description,
+            "comparisonMethod": comparisonMethod.rawValue,
+            "comparisonIgnoresSpaces": comparisonIgnoresSpaces,
+            "comparisonIgnoresBreaks": comparisonIgnoresBreaks
+        ])
     }
 }

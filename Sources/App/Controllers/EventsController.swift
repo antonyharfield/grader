@@ -81,11 +81,27 @@ final class EventsController: ResourceRepresentable {
     func eventProblemNew(request: Request) throws -> ResponseRepresentable {
         return try render("Events/Teacher/event-problem-new", for: request, with: view)
     }
+    
+    /// GET /events/:id/problems/:seq/edit
+    func eventProblemEdit(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
+        let eventProblemSeq = request.parameters["eventProblemSeq"]!
+        let eventProblem = try EventProblem.makeQuery()
+            .filter(EventProblem.self, "event_id", event.id)
+            .filter(EventProblem.self, "sequence", eventProblemSeq)
+            .first()!
+        
+        let problem = try eventProblem.problem.get()!
+        let cases = try problem.cases.all()
+        return try render("Events/Teacher/event-problem-new", ["eventProblem": eventProblem, "problem": problem, "cases": cases], for: request, with: view)
+    }
 
     /// POST /events/:id/problems/new
+    /// POST /events/:id/problems/:seq/edit
     func eventProblemNewSubmit(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         
+        // Extract
         guard
             let eventId = event.id,
             let name = request.data["name"]?.string,
@@ -95,23 +111,42 @@ final class EventsController: ResourceRepresentable {
         else {
             throw Abort.badRequest
         }
-
-        // Extract
-        // TBD: Probably need a better way to define sequence
-        let seq = try EventProblem.makeQuery()
-            .filter(EventProblem.self, "event_id", eventId).count() + 1
-
+        
         let comparisonIgnoreSpaces = (request.data["comparison_ignore_spaces"]?.string == "true")
         let comparisonIgnoreBreaks = (request.data["comparison_ignore_breaks"]?.string == "true")
         
         // Save & continue
-        let problem = Problem(name: name, description: description, comparisonMethod: comparisonMethod, comparisonIgnoresSpaces: comparisonIgnoreSpaces, comparisonIgnoresBreaks: comparisonIgnoreBreaks)
-        try problem.save()
-        
-        let eventProblem = EventProblem(eventID: eventId, problemID: problem.id!, sequence: seq)
-        try eventProblem.save()
-        
-        return Response(redirect: "/problems/\(problem.id!.string!)/cases/new")
+        let eventProblemSeq = request.parameters["eventProblemSeq"]
+        let eventProblem: EventProblem
+        if(eventProblemSeq == nil) {
+            // New
+            let problem = Problem(name: name, description: description, comparisonMethod: comparisonMethod, comparisonIgnoresSpaces: comparisonIgnoreSpaces, comparisonIgnoresBreaks: comparisonIgnoreBreaks)
+            try problem.save()
+            
+            // TBD: Probably need a better way to define sequence
+            let seq = try EventProblem.makeQuery()
+                .filter(EventProblem.self, "event_id", eventId).count() + 1
+
+            eventProblem = EventProblem(eventID: eventId, problemID: problem.id!, sequence: seq)
+            try eventProblem.save()
+        } else {
+            // Edit
+            eventProblem = try EventProblem.makeQuery()
+                .filter(EventProblem.self, "event_id", event.id)
+                .filter(EventProblem.self, "sequence", eventProblemSeq!)
+                .first()!
+            
+            let problem = try eventProblem.problem.get()!
+            problem.name = name
+            problem.description = description
+            problem.comparisonMethod = comparisonMethod
+            problem.comparisonIgnoresSpaces = comparisonIgnoreSpaces
+            problem.comparisonIgnoresBreaks = comparisonIgnoreBreaks
+            try problem.save()
+            
+        }
+
+        return Response(redirect: "/events/\(eventId.string!)/problems/\(eventProblem.sequence)")
     }
     
 }

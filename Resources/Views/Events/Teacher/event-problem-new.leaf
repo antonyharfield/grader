@@ -1,22 +1,27 @@
 #extend("Layouts/base")
 
-#export("title") { New Problem }
+#export("title") {
+    #if(eventProblem.id) { Edit Problem: #(problem.name) }
+    ##else() { New Problem }
+}
 
 #export("content") {
-    <h2>Create a New Problem</h2>
+    <h2>
+        #if(eventProblem.id) { Edit Problem: #(problem.name) }
+        ##else() { Create a New Problem }
+    </h2>
     <form method="post" class="ink-form">
         <div class="control-group">
             <fieldset>
                 <legend>Instructions</legend>
-
                 <label for="name">Problem name</label>
                 <div class="control">
-                    <input name="name" id="name" />
+                    <input name="name" id="name" value="#(problem.name)" />
                 </div>
 
                 <label for="description">Problem description</label>
                 <div class="control">
-                    <textarea name="description" id="description"></textarea>
+                    <textarea name="description" id="description">#(problem.description)</textarea>
                 </div>
             </fieldset>
 
@@ -26,15 +31,15 @@
                     <div class="all-50">
                         <p class="label">Comparison method</p>
                         <ul class="control unstyled">
-                            <li><input type="radio" name="comparison_method" value="exactMatch" id="comparison_method_exact" checked="checked"><label for="comparison_method_exact">Exact match</label></li>
-                            <li><input type="radio" name="comparison_method" value="endsWith" id="comparison_method_ends_with"><label for="comparison_method_ends_with">Ends with</label></li>
+                            <li><input type="radio" name="comparison_method" value="endsWith" id="comparison_method_ends_with" checked="checked"><label for="comparison_method_ends_with">Ends with</label></li>
+                            <li><input type="radio" name="comparison_method" value="exactMatch" id="comparison_method_exact"#equal(problem.comparisonMethod, "exactMatch") { checked="checked"}><label for="comparison_method_exact">Exact match</label></li>
                         </ul>
                     </div>
                     <div class="all-50">
                         <p class="label">Whitespace tolerance</p>
                         <ul class="control unstyled">
-                            <li><input type="checkbox" name="comparison_ignore_spaces" value="true" id="comparison_ignore_spaces"><label for="comparison_ignore_spaces">Ignore spaces &amp; tabs</label></li>
-                            <li><input type="checkbox" name="comparison_ignore_breaks" value="true" id="comparison_ignore_breaks"><label for="comparison_ignore_breaks">Ignore line breaks</label></li>
+                            <li><input type="checkbox" name="comparison_ignore_spaces" value="true" id="comparison_ignore_spaces"#if(problem.comparisonIgnoresSpaces) { checked="checked"}><label for="comparison_ignore_spaces">Ignore spaces &amp; tabs</label></li>
+                            <li><input type="checkbox" name="comparison_ignore_breaks" value="true" id="comparison_ignore_breaks"#if(problem.comparisonIgnoresBreaks) { checked="checked"}><label for="comparison_ignore_breaks">Ignore line breaks</label></li>
                         </ul>
                     </div>
                 </div>

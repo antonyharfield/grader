@@ -19,6 +19,9 @@ final class TeacherRoutes: RouteCollection {
         builder.get("events", Event.parameter, "problems/new", handler: eventsController.eventProblemNew)
         builder.post("events", Event.parameter, "problems/new", handler: eventsController.eventProblemNewSubmit)
         
+        builder.get("events", Event.parameter, "problems", ":eventProblemSeq", "edit", handler: eventsController.eventProblemEdit)
+        builder.post("events", Event.parameter, "problems", ":eventProblemSeq", "edit", handler: eventsController.eventProblemNewSubmit)
+        
         builder.get("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNew)
         builder.post("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNewSubmit)
         
