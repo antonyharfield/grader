@@ -14,7 +14,7 @@
 
 <p><a href="/events/#(event.id)">&lt; #(event.name)</a></p>
 
-<h2>#(eventProblem.sequence). #(problem.name)</h2>
+<h2>#(problem.name)</h2>
 
 <div class="column-group gutters">
     <div class="all-50 small-100 tiny-100">
