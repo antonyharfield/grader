@@ -21,11 +21,15 @@ footer .note {
     padding-left: 0;
 }
 
-
 table.scores tbody tr:nth-child(-n+3) td {
     font-size: 1.2em;
 }
 
 table.scores tbody tr:first-child td {
     font-size: 1.4em;
+}
+
+.ink-form textarea {
+    height: 10em;
+    min-height: 10em;
 }
