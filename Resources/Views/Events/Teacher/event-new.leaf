@@ -32,6 +32,7 @@
                                             <option value="kotlin">Kotlin</option>
                                             <option value="php">PHP</option>
                                             <option value="python">Python</option>
+                                            <option value="sql">SQL</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -81,9 +82,9 @@
     </form>
 
     <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function(event) {
-        document.getElementById('starts_at_date').value = "";
-        document.getElementById('ends_at_date').value = "";
-    });
+        document.addEventListener("DOMContentLoaded", function(event) {
+            document.getElementById('starts_at_date').value = "";
+            document.getElementById('ends_at_date').value = "";
+        });
     </script>
 }
