@@ -16,6 +16,31 @@ class JavaRunner: Runner {
     let javacPath = "/usr/bin/javac"
     let javaPath = "/usr/bin/java"
     
+    func readPackage(filePath: String) -> String? {
+        let url = URL(fileURLWithPath: filePath)
+        let lines = try? String(contentsOf: url, encoding: String.Encoding.utf8)
+        
+        return lines?.components(separatedBy: CharacterSet.newlines)
+            .first(where: { $0.hasPrefix("package") })
+            .map { $0
+                .substring(to: $0.index($0.endIndex, offsetBy: -1))
+                .substring(from: $0.index($0.startIndex, offsetBy: 8))
+        }
+    }
+    
+    func readPackagePath(filePath: String) -> String? {
+        return readPackage(filePath: filePath).map {
+            $0.replacingOccurrences(of: ".", with: "/") + "/"
+        }
+    }
+    
+    func getCompilationPath(fileName: String, uploadPath: String, compilationPath: String) -> String {
+        let packagePath = readPackagePath(filePath: uploadPath + fileName) ?? ""
+        let compilationLocation = compilationPath + packagePath + fileName
+        fileSystem.ensurePathExists(path: compilationPath + packagePath)
+        return compilationLocation
+    }
+    
     func process(submission: Submission, problemCases: [ProblemCase], comparisonMethod: ComparisonMethod) -> RunnerResult {
         
         console.print("Copying uploads to compilation path")
@@ -23,22 +48,26 @@ class JavaRunner: Runner {
         let uploadPath = fileSystem.uploadPath(submission: submission)
         fileSystem.ensurePathExists(path: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
-        for file in submission.files {
-            if !fileSystem.copyFile(from: uploadPath + file, to: compilationPath + file) {
+        
+        let compilationPaths = submission.files.map { (uploadPath + $0, getCompilationPath(fileName: $0, uploadPath: uploadPath, compilationPath: compilationPath)) }
+        for (source, destination) in compilationPaths {
+            console.print("\(source) => \(destination)")
+            if !fileSystem.copyFile(from: source, to: destination) {
                 return .unknownFailure
             }
         }
         
         console.print("Compiling")
         
-        let sourcePaths = submission.files.map { compilationPath + $0 }
+        let sourcePaths = compilationPaths.map { $0.1 }
         let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)
         }
         
         // Determine which class has the main method
-        let mainClass = stripFileExtension(submission.files.first!)
+        let mainPackage = readPackage(filePath: sourcePaths.first!).map { $0 + "." } ?? ""
+        let mainClass = stripFileExtension(mainPackage + submission.files.first!)
         
         console.print("Running test cases")
         
