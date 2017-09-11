@@ -45,6 +45,12 @@
                 </div>
             </fieldset>
 
+            <fieldset>
+                <legend>Test cases</legend>
+                #embed("Events/Teacher/Fragments/event-problem-cases")
+                #embed("Events/Teacher/Fragments/event-problem-cases-new")
+            </fieldset>
+
             <div class="control">
                 <input type="submit" class="ink-button">
             </div>

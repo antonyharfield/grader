@@ -1,0 +1,48 @@
+<div class="control">
+    <button id="case_add" class="ink-button" type="button">Add Test Case</button>
+</div>
+
+<script type="text/javascript">
+    var caseCount = 0;
+    var addTestCase = function(event) {
+        var addCaseButton = event.srcElement;
+        var caseId = "new-" + caseCount;
+
+        var caseHtml =
+`           <div class="control-group">
+                <div class="control">
+                    <div class="column-group gutters">
+                        <div class="all-35">
+                            <label for="case_input_` + caseId + `">Input</label>
+                            <div class="control">
+                                <textarea name="case[` + caseId + `][case_input]" id="case_input_` + caseId + `">#(case.input)</textarea>
+                            </div>
+                        </div>
+                        <div class="all-35">
+                            <label for="case_output_` + caseId + `">Output</label>
+                            <div class="control">
+                                <textarea name="case[` + caseId + `][case_output]" id="case_output_` + caseId + `">#(case.output)</textarea>
+                            </div>
+                        </div>
+                        <div class="all-30">
+                            <label>Visibility #(case.visible)</label>
+                            <ul class="control unstyled">
+                                <li><input type="radio" name="case[` + caseId + `][visibility]" value="display" id="visiblity_display_` + caseId + `"#if(case.visible) { checked="checked" }><label for="visiblity_display_` + caseId + `">Display on problem</label></li>
+                                <li><input type="radio" name="case[` + caseId + `][visibility]" value="offer" id="visibility_offer_` + caseId + `"#equal(case.visible, false) { checked="checked" }><label for="visibility_offer_` + caseId + `">Offer for debugging</label></li>
+                                <li><input type="radio" name="case[` + caseId + `][visibility]" value="hidden" id="visibility_hidden_` + caseId + `"><label for="visibility_hidden_` + caseId + `">Hidden</label></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+`
+
+        addCaseButton.parentNode.insertAdjacentHTML("beforebegin", caseHtml);
+        caseCount++;
+
+        event.preventDefault();
+        return false;
+    };
+
+    document.getElementById("case_add").addEventListener("click", addTestCase);
+</script>
