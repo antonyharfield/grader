@@ -58,4 +58,12 @@ final class Event: Model, NodeRepresentable {
             "endsAt": endsAt,
             "languageRestriction": languageRestriction ?? ""])
     }
+    
+    func isVisible(to user: User) -> Bool {
+        return user.has(role: .teacher) || isPubliclyVisible()
+    }
+    
+    func isPubliclyVisible() -> Bool {
+        return startsAt == nil || startsAt! < Date()
+    }
 }

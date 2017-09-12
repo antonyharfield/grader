@@ -39,6 +39,17 @@ final class User: Model {
         try row.set("role", role.rawValue)
         return row
     }
+    
+    func has(role: Role) -> Bool {
+        switch role {
+        case .admin:
+            return self.role == .admin
+        case .teacher:
+            return self.role == .teacher || self.role == .admin
+        case .student:
+            return true
+        }
+    }
 }
 
 extension User: NodeRepresentable {

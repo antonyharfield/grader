@@ -28,6 +28,10 @@ final class EventsController: ResourceRepresentable {
             throw Abort.notFound
         }
         
+        guard event.isPubliclyVisible() else {
+            throw Abort.unauthorized
+        }
+        
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
         return try render("Events/event-logged-out", ["event": event, "problems": problems], for: request, with: view)
     }

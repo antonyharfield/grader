@@ -15,6 +15,10 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
         
+        guard let user = request.user, event.isVisible(to: user) else {
+            throw Abort.unauthorized
+        }
+        
         return try render("Events/event", [
             "event": event,
             "problems": problems
@@ -23,11 +27,12 @@ final class ProblemsController {
     
     /// GET /events/:id/submissions
     func submissions(request: Request) throws -> ResponseRepresentable {
-        guard let user = request.user else {
-            throw Abort.unauthorized
-        }
         
         let event = try request.parameters.next(Event.self)
+        
+        guard let user = request.user, event.isVisible(to: user) else {
+            throw Abort.unauthorized
+        }
         
         var query = try Submission.makeQuery()
             .join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
@@ -66,6 +71,10 @@ final class ProblemsController {
     func scores(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         
+        guard let user = request.user, event.isVisible(to: user) else {
+            throw Abort.unauthorized
+        }
+        
         let scores = try User.database!.raw("SELECT x.user_id, u.name, SUM(x.score) score, SUM(x.attempts) attempts, COUNT(1) problems FROM users u JOIN (SELECT s.user_id, s.event_problem_id, MAX(s.score) score, COUNT(1) attempts FROM submissions s JOIN event_problems ep ON s.event_problem_id = ep.id WHERE ep.event_id = ? GROUP BY user_id, event_problem_id) x ON u.id = x.user_id WHERE u.role = 1 GROUP BY x.user_id, u.name ORDER BY score DESC, attempts ASC, problems DESC", [event.id!])
         
 //        for s in scores.array! {
@@ -82,6 +91,10 @@ final class ProblemsController {
     func form(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
         let sequence = try request.parameters.next(Int.self)
+        
+        guard let user = request.user, event.isVisible(to: user) else {
+            throw Abort.unauthorized
+        }
         
         guard let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
             let problem = try eventProblem.problem.get() else {
@@ -103,11 +116,11 @@ final class ProblemsController {
         let event = try request.parameters.next(Event.self)
         let sequence = try request.parameters.next(Int.self)
         
-        guard
-            let eventProblem = try event.eventProblems.filter("sequence", sequence).first(),
-            let problem = try eventProblem.problem.get(),
-            let user = request.user
-        else {
+        guard let user = request.user, event.isVisible(to: user) else {
+            throw Abort.unauthorized
+        }
+        
+        guard let eventProblem = try event.eventProblems.filter("sequence", sequence).first() else {
             throw Abort.notFound
         }
         
@@ -154,6 +167,7 @@ final class ProblemsController {
     
     /// POST /problems/:id/cases/new
     func problemCaseNewSubmit(request: Request) throws -> ResponseRepresentable {
+        
         let problem = try request.parameters.next(Problem.self)
         
         guard
