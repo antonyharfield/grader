@@ -42,7 +42,12 @@
                         }
                     </div>
                 </div>
-
+                <div class="column-group gutters">
+                    <label for="inline-name" class="all-30">Problem ID</label>
+                    <div class="control all-70">
+                        <p>#(problem.id)</p>
+                    </div>
+                </div>
                 <div class="control">
                     <input type="submit" class="ink-button">
                 </div>
