@@ -55,8 +55,10 @@ final class User: Model {
 extension User: NodeRepresentable {
     func makeNode(in context: Context?) throws -> Node {
         var node = Node(context)
+        try node.set("id", id)
         try node.set("name", name)
         try node.set("username", username)
+        try node.set("role", role.rawValue)
         return node
     }
 }
