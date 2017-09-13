@@ -55,12 +55,15 @@ class SwiftRunner: Runner {
         
         for problemCase in problemCases {
             let result = run(input: problemCase.input)
+            let expectedOutput = prepareOutput(problemCase.output)
+            let actualOutput = prepareOutput(result.output)
             let match = (comparisonMethod == .exactMatch)
-                ? isExactMatch(expected: problemCase.output, actual: result.output)
-                : isEndsWithMatch(expected: problemCase.output, actual: result.output)
+                ? isExactMatch(expected: expectedOutput, actual: actualOutput)
+                : isEndsWithMatch(expected: expectedOutput, actual: actualOutput)
             
             let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && match)
-            print("Result case: \(result.success) \(result.exitStatus) \(result.output)")
+            print("Result: \(result.success) \(result.exitStatus) \(trim(result.output))   Match: \(match)")
+            print("Problem case: \(trim(problemCase.input))")
             resultCases.append(resultCase)
         }
         
