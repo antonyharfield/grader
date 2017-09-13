@@ -45,7 +45,7 @@ class JavaRunner: Runner {
         
         console.print("Copying uploads to compilation path")
         
-        let uploadPath = fileSystem.uploadPath(submission: submission)
+        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
         fileSystem.ensurePathExists(path: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
         

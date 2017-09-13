@@ -20,18 +20,30 @@ class SwiftRunner: Runner {
         
         console.print("Copying uploads to compilation path")
         
-        let uploadPath = fileSystem.uploadPath(submission: submission)
+        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
         fileSystem.ensurePathExists(path: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
         for file in submission.files {
             if !fileSystem.copyFile(from: uploadPath + file, to: compilationPath + file) {
                 return .unknownFailure
             }
+            print("Found \(file)")
+        }
+        
+        console.print("Copying problem files to compilation path")
+        
+        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID!)
+        let problemFiles = fileSystem.files(at: problemFilesPath)
+        for file in problemFiles {
+            if !fileSystem.copyFile(from: problemFilesPath + file, to: compilationPath + file) {
+                return .unknownFailure
+            }
+            print("Found \(file)")
         }
         
         console.print("Compiling")
         
-        let sourcePaths = submission.files.map { compilationPath + $0 }
+        let sourcePaths = (submission.files.map { compilationPath + $0 }) + (problemFiles.map { problemFilesPath + $0 })
         let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)

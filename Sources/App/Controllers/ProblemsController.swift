@@ -144,7 +144,7 @@ final class ProblemsController {
         
         // Save the files
         let fileSystem = FileSystem()
-        let uploadPath = fileSystem.uploadPath(submission: submission)
+        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
         fileSystem.ensurePathExists(path: uploadPath)
         for file in files {
             if !fileSystem.save(bytes: file.1, path: uploadPath + file.0) {

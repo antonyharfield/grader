@@ -4,7 +4,8 @@ import Node
 class FileSystem {
     
     // TODO: use drop.configUrl
-    private let defaultUploadsPath = "/app/uploads/"
+    private let defaultSubmissionsPath = "/app/uploads/submissions/"
+    private let defaultProblemFilesPath = "/app/uploads/problems/"
     private let defaultCompilationPath = "/app/srctest/"
     
     // TODO: pass in some configuration that allows custom paths
@@ -34,9 +35,14 @@ class FileSystem {
         return true
     }
     
-    func uploadPath(submission: Submission) -> String {
-        let submissionFolderName = submission.id?.string ?? "test"
-        return defaultUploadsPath + submissionFolderName + "/"
+    func submissionUploadPath(submission: Submission) -> String {
+        let submissionFolderName = submission.id?.string ?? ""
+        return defaultSubmissionsPath + submissionFolderName + "/"
+    }
+    
+    func problemFilesPath(problemID: Identifier) -> String {
+        let problemFolderName = problemID.string ?? ""
+        return defaultProblemFilesPath + problemFolderName + "/"
     }
     
     func compilationPath(workerID: Identifier? = nil) -> String {
@@ -67,6 +73,14 @@ class FileSystem {
         } catch {
             print("Could not create folder: \(error)")
         }
+    }
+    
+    func files(at path: String) -> [String] {
+        let fileManager = FileManager.default
+        guard fileManager.fileExists(atPath: path) else {
+            return []
+        }
+        return try! fileManager.contentsOfDirectory(atPath: path)
     }
     
     func copyFile(from: String, to: String) -> Bool {
