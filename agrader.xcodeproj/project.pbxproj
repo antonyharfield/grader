@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EDF625A81F6A1CC1001A22A6 /* SubmissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF625A71F6A1CC1001A22A6 /* SubmissionsController.swift */; };
 		OBJ_1040 /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_961 /* Aliases.swift */; };
 		OBJ_1041 /* Base64Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_962 /* Base64Encoder.swift */; };
 		OBJ_1042 /* Byte+Alphabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_963 /* Byte+Alphabet.swift */; };
@@ -7157,6 +7158,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EDF625A71F6A1CC1001A22A6 /* SubmissionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmissionsController.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Droplet+Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Droplet+Setup.swift"; sourceTree = "<group>"; };
 		OBJ_1000 /* Branches.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Branches.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_1001 /* Routing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Routing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -9439,6 +9441,7 @@
 				OBJ_21 /* LoginController.swift */,
 				OBJ_22 /* ProblemsController.swift */,
 				OBJ_23 /* UsersController.swift */,
+				EDF625A71F6A1CC1001A22A6 /* SubmissionsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -10278,7 +10281,7 @@
 			path = Mail;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -10293,7 +10296,6 @@
 				OBJ_83 /* Dependencies */,
 				OBJ_980 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_501 /* Middleware */ = {
@@ -13516,7 +13518,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_980 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -14656,6 +14658,7 @@
 				OBJ_3331 /* RunSubmissionJob.swift in Sources */,
 				OBJ_3332 /* TestSwiftRunnerCommand.swift in Sources */,
 				OBJ_3333 /* WorkerCommand.swift in Sources */,
+				EDF625A81F6A1CC1001A22A6 /* SubmissionsController.swift in Sources */,
 				OBJ_3334 /* EventsController.swift in Sources */,
 				OBJ_3335 /* LoginController.swift in Sources */,
 				OBJ_3336 /* ProblemsController.swift in Sources */,

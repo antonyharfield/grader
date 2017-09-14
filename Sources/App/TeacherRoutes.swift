@@ -12,6 +12,7 @@ final class TeacherRoutes: RouteCollection {
                 
         let eventsController = EventsController(view)
         let problemsController = ProblemsController(view)
+        let submissionsController = SubmissionsController(view)
         
         builder.get("events/new", handler: eventsController.eventNew)
         builder.post("events/new", handler: eventsController.eventNewSubmit)
@@ -25,5 +26,6 @@ final class TeacherRoutes: RouteCollection {
         builder.get("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNew)
         builder.post("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNewSubmit)
         
+        builder.post("submissions", Submission.parameter, "run", handler: submissionsController.manualRun)
     }
 }

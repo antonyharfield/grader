@@ -23,6 +23,9 @@
           <th class="align-left">Status</th>
           <th class="align-left">Grade</th>
           <th class="align-left">Message</th>
+        #equal(user.role,"2") {
+          <th></th>
+        }
         </tr>
       </thead>
       <tbody>
@@ -40,6 +43,12 @@
                 <td>
                     -
                 </td>
+                #equal(user.role,"2") {
+                    <td class="align-right">
+                        <form method="post" action="/submissions/#(submission.id)/run">
+                        <button type="submit" class="ink-button">Re-run</button></form>
+                    </td>
+                }
             </tr>
         }
       </tbody>
