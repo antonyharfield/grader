@@ -119,12 +119,14 @@ final class EventsController: ResourceRepresentable {
         let comparisonIgnoreSpaces = (request.data["comparison_ignore_spaces"]?.string == "true")
         let comparisonIgnoreBreaks = (request.data["comparison_ignore_breaks"]?.string == "true")
         
-        // Save & continue
+        // Save EventProblem & Problem
         let eventProblemSeq = request.parameters["eventProblemSeq"]
         let eventProblem: EventProblem
+        let problem: Problem
+        
         if(eventProblemSeq == nil) {
             // New
-            let problem = Problem(name: name, description: description, comparisonMethod: comparisonMethod, comparisonIgnoresSpaces: comparisonIgnoreSpaces, comparisonIgnoresBreaks: comparisonIgnoreBreaks)
+            problem = Problem(name: name, description: description, comparisonMethod: comparisonMethod, comparisonIgnoresSpaces: comparisonIgnoreSpaces, comparisonIgnoresBreaks: comparisonIgnoreBreaks)
             try problem.save()
             
             // TBD: Probably need a better way to define sequence
@@ -140,16 +142,45 @@ final class EventsController: ResourceRepresentable {
                 .filter(EventProblem.self, "sequence", eventProblemSeq!)
                 .first()!
             
-            let problem = try eventProblem.problem.get()!
+            problem = try eventProblem.problem.get()!
             problem.name = name
             problem.description = description
             problem.comparisonMethod = comparisonMethod
             problem.comparisonIgnoresSpaces = comparisonIgnoreSpaces
             problem.comparisonIgnoresBreaks = comparisonIgnoreBreaks
             try problem.save()
-            
         }
 
+        // Save ProblemCases
+        if let ids = request.data["case_ids"]?.array {
+            for idNode in ids {
+                if let id = idNode.string {
+                    // Extract
+                    let caseInput = request.data["case_inputs"]?[id]?.string ?? ""
+                    let caseOutput = request.data["case_outputs"]?[id]?.string ?? ""
+                    let visibility = request.data["case_visibilities"]?[id]?.string
+                    let visible = (visibility == "display")
+                    
+                    // Save
+                    if(id.hasPrefix("new-")) {
+                        // New
+                        let problemCase = ProblemCase(input: caseInput, output: caseOutput, visible: visible, problemID: problem.id)
+                        try problemCase.save()
+                    } else {
+                        // Edit
+                        let problemCase = try ProblemCase.makeQuery()
+                            .filter(ProblemCase.self, "id", id)
+                            .first()!
+                        
+                        problemCase.input = caseInput
+                        problemCase.output = caseOutput
+                        problemCase.visible = visible
+                        try problemCase.save()
+                    }
+                }
+            }
+        }
+        
         return Response(redirect: "/events/\(eventId.string!)/problems/\(eventProblem.sequence)")
     }
     
