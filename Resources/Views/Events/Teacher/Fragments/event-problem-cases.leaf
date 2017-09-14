@@ -1,26 +1,26 @@
 #loop(cases, "case") {
     <div class="control-group">
         <div class="control">
-            <input type="hidden" name="cases[#(case.id)][id]" value="#(case.id)" />
+            <input type="hidden" name="case_ids[]" value="#(case.id)" />
             <div class="column-group gutters">
                 <div class="all-35">
                     <label for="case_input_#(case.id)">Input</label>
                     <div class="control">
-                        <textarea name="cases[#(case.id)][case_input]" id="case_input_#(case.id)">#(case.input)</textarea>
+                        <textarea name="case_inputs[#(case.id)]" id="case_input_#(case.id)">#(case.input)</textarea>
                     </div>
                 </div>
                 <div class="all-35">
                     <label for="case_output_#(case.id)">Output</label>
                     <div class="control">
-                        <textarea name="cases[#(case.id)][case_output]" id="case_output_#(case.id)">#(case.output)</textarea>
+                        <textarea name="case_outputs[#(case.id)]" id="case_output_#(case.id)">#(case.output)</textarea>
                     </div>
                 </div>
                 <div class="all-30">
                     <label>Visibility #(case.visible)</label>
                     <ul class="control unstyled">
-                        <li><input type="radio" name="cases[#(case.id)][visibility]" value="display" id="visiblity_display_#(case.id)"#if(case.visible) { checked="checked" }><label for="visiblity_display_#(case.id)">Display on problem</label></li>
-                        <li><input type="radio" name="cases[#(case.id)][visibility]" value="offer" id="visibility_offer_#(case.id)"#equal(case.visible, false) { checked="checked" }><label for="visibility_offer_#(case.id)">Offer for debugging</label></li>
-                        <li><input type="radio" name="cases[#(case.id)][visibility]" value="hidden" id="visibility_hidden_#(case.id)"><label for="visibility_hidden_#(case.id)">Hidden</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="display" id="visiblity_display_#(case.id)"#if(case.visible) { checked="checked" }><label for="visiblity_display_#(case.id)">Display on problem</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="offer" id="visibility_offer_#(case.id)"#equal(case.visible, false) { checked="checked" }><label for="visibility_offer_#(case.id)">Offer for debugging</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="hidden" id="visibility_hidden_#(case.id)"><label for="visibility_hidden_#(case.id)">Hidden</label></li>
                     </ul>
                 </div>
             </div>
