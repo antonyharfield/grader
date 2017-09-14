@@ -46,6 +46,10 @@ table.scores tbody tr:first-child td {
     text-overflow: ellipsis;
 }
 
+.problem-box .description svg, .problem-box .description pre {
+    display: none;
+}
+
 /* Problem progress indicator */
 
 /*
