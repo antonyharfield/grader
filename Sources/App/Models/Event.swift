@@ -60,7 +60,8 @@ final class Event: Model, NodeRepresentable {
     }
     
     func isVisible(to user: User) -> Bool {
-        return user.has(role: .teacher) || isPubliclyVisible()
+        // TBD: Replace roles with permissions => grant permission to both teacher and admin roles
+        return user.has(role: .teacher) || user.has(role: .admin) || isPubliclyVisible()
     }
     
     func isPubliclyVisible() -> Bool {
