@@ -4,12 +4,18 @@
 ### MacOS ###
 .DS_Store
 
+### Database ###
+data.sqlite
+
 ### Vapor ###
 Config/secrets
 
 ## Vapor Patch
 Packages
 xcuserdata
+
+### AppCode ###
+.idea
 
 ### Swift & Xcode ###
 ## Build generated
@@ -62,4 +68,3 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
-data.sqlite
