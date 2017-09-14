@@ -4,22 +4,36 @@
 
 #export("content") {
 
-    <!-- <nav class="ink-navigation">
-    <ul class="breadcrumbs">
-    <li><a href="/events">Events</a></li>
-    <li><a href="/events/#(event.id)">#(event.name)</a></li>
-    <li class="active"><a href="#">#(eventProblem.sequence). #(problem.name)</a></li>
-</ul>
-</nav> -->
+#if(authenticatedUserHasTeacherRole) {
+    <div class="pull-right button-group">
+        <a href="/events/#(event.id)/problems/#(eventProblem.sequence)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Problem</a>
+        <a href="/problems/#(problem.id)/cases/new" class="ink-button"><span class="fa fa-plus"></span> Add Case</a>
+    </div>
+}
 
-<p><a href="/events/#(event.id)">&lt; #(event.name)</a></p>
+<p><a href="/events/#(event.id)">#(event.name)</a></p>
 
 <h2>#(problem.name)</h2>
 
 <div class="column-group gutters">
-    <div class="all-50 small-100 tiny-100">
+    <div class="all-60 small-100 tiny-100">
         <h3>Problem</h3>
         <p class="quarter-top-space">#raw(problem.description)</p>
+        <h3>Examples</h3>
+        #loop(problemCases, "case") {
+            <div class="column-group gutters">
+                <div class="all-50">
+                    <p class="note">Input</p>
+                    <pre>#(case.input)</pre>
+                </div>
+                <div class="all-50">
+                    <p class="note">Output</p>
+                    <pre>#(case.output)</pre>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="all-40 small-100 tiny-100">
         <h3>Submit your solution</h3>
         <form method="post" enctype="multipart/form-data" class="ink-form">
             <div class="control-group">
@@ -42,28 +56,11 @@
                         }
                     </div>
                 </div>
-                #equal(user.role, "2") {
-                <div class="column-group gutters">
-                    <label for="inline-name" class="all-30">Problem ID</label>
-                    <div class="control all-70">
-                        <p>#(problem.id)</p>
-                    </div>
-                </div>
-                }
                 <div class="control">
                     <input type="submit" class="ink-button">
                 </div>
             </div>
         </form>
-    </div>
-    <div class="all-50 small-100 tiny-100">
-        <h3>Examples</h3>
-        #loop(problemCases, "case") {
-            <h4>Input</h4>
-            <pre>#(case.input)</pre>
-            <h4>Output</h4>
-            <pre>#(case.output)</pre>
-        }
     </div>
 </div>
 }
