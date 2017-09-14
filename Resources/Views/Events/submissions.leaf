@@ -14,7 +14,7 @@
 
     #embed("Events/Fragments/event-menu")
 
-    <table class="ink-table">
+    <table class="ink-table top-space">
       <thead>
         <tr>
           <th class="align-left">Date</th>

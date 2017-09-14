@@ -13,11 +13,24 @@ final class ProblemsController {
     /// GET /events/:id/problems
     func problems(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
-        let problems = try event.eventProblems.sort("sequence", .ascending).all()
         
         guard let user = request.user, event.isVisible(to: user) else {
             throw Abort.unauthorized
         }
+        
+        let sql: String = [
+            "SELECT p.*, ep.sequence, IFNULL(s.score,0) score, IFNULL(s.attempts,0) attempts",
+            "FROM event_problems ep",
+            "JOIN problems p ON ep.problem_id = p.id",
+            "LEFT JOIN (",
+                "SELECT s.user_id, s.event_problem_id, MAX(s.score) score, COUNT(1) attempts",
+                "FROM submissions s",
+                "GROUP BY user_id, event_problem_id) s ON ep.id = s.event_problem_id AND s.user_id = ?",
+            "WHERE ep.event_id = ?",
+            "ORDER BY ep.sequence"
+            ].joined(separator: " ")
+        
+        let problems = try Problem.database!.raw(sql, [user.id!, event.id!])
         
         return try render("Events/event", [
             "event": event,
