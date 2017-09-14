@@ -13,7 +13,7 @@
 
             #if(authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
-                <li class="right disabled"><a href="#">Logged in as #(user.name)</a></li>
+                <li class="right disabled"><a href="#">Logged in as #(authenticatedUser.name)</a></li>
             }
             ##else() {
                 <li class="right"><a href="/register">Register</a></li>

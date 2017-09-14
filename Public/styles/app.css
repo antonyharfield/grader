@@ -33,3 +33,72 @@ table.scores tbody tr:first-child td {
     height: 10em;
     min-height: 10em;
 }
+
+.problem-box {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+
+.problem-box .description {
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.problem-box .description svg, .problem-box .description pre {
+    display: none;
+}
+
+/* Problem progress indicator */
+
+/*
+.progress-indicator svg circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  stroke: #666;
+  stroke-width: 0.5em;
+}
+.progress-indicator svg #bar {
+  stroke: #FF9F1E;
+}
+*/
+.progress-indicator svg {
+    transform: rotate(-90deg);
+}
+.progress-indicator svg circle {
+    stroke-linecap: round;
+}
+.progress-indicator {
+  display: block;
+  height: 120px;
+  width: 120px;
+  margin: 1em auto;
+  border-radius: 100%;
+  position: relative;
+}
+.progress-indicator:after {
+  position: absolute;
+  display: block;
+  height: 80px;
+  width: 80px;
+  left: 50%;
+  top: 50%;
+  content: attr(data-pct)"%";
+  margin-top: -40px;
+  margin-left: -40px;
+  border-radius: 100%;
+  line-height: 80px;
+  font-size: 1.5em;
+}
+
+.problem-box .not-started {
+  display: block;
+  height: 120px;
+  width: 120px;
+  margin: 1em auto;
+  padding-top: 40px;
+  border-radius: 100%;
+  background-color: #e6e6e6;
+  color: #ccc;
+}

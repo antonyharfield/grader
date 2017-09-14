@@ -14,7 +14,7 @@
 
     #embed("Events/Fragments/event-menu")
 
-    <table class="ink-table">
+    <table class="ink-table top-space">
       <thead>
         <tr>
           <th class="align-left">Date</th>
@@ -23,7 +23,7 @@
           <th class="align-left">Status</th>
           <th class="align-left">Grade</th>
           <th class="align-left">Message</th>
-        #equal(user.role,"2") {
+        #if(authenticatedUserHasTeacherRole) {
           <th></th>
         }
         </tr>
@@ -43,7 +43,7 @@
                 <td>
                     -
                 </td>
-                #equal(user.role,"2") {
+                #if(authenticatedUserHasTeacherRole) {
                     <td class="align-right">
                         <form method="post" action="/submissions/#(submission.id)/run">
                         <button type="submit" class="ink-button">Re-run</button></form>

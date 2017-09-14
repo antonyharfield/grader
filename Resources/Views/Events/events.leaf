@@ -3,6 +3,13 @@
 #export("title") { Events }
 
 #export("content") {
+
+    #if(authenticatedUserHasTeacherRole) {
+        <div class="pull-right button-group">
+            <a href="/events/new" class="ink-button"><span class="fa fa-plus"></span> Add Event</a>
+        </div>
+    }
+
     <h2>Events</h2>
 
     <h3>Active this week</h3>

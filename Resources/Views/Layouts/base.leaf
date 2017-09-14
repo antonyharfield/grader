@@ -35,6 +35,8 @@
     <script type="text/javascript" src="http://cdn.ink.sapo.pt/3.1.10/js/ink-all.min.js"></script>
     <script type="text/javascript" src="http://cdn.ink.sapo.pt/3.1.10/js/autoload.js"></script>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
     #import("head-after")
 </head>
@@ -62,5 +64,6 @@
 
 #embed("Layouts/Fragments/footer")
 
+#import("body-after")
 </body>
 </html>

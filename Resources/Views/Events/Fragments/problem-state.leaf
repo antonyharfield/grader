@@ -1,0 +1,7 @@
+#equal(p.attempts, "0") {
+  not-yet-attempted
+} ##equal(p.score, "100") {
+  passed
+} ##else() {
+  graded-not-passed
+}
