@@ -8,6 +8,12 @@
 
     #embed("Events/Fragments/event-menu")
 
+    <p class="note pull-right">
+        Submitted:
+        <time datetime="#(event.startsAt)">#(event.startsAt)</time>
+        - <time datetime="#(event.endsAt)">#(event.endsAt)</time>
+    </p>
+
     <table class="ink-table scores">
       <thead>
         <tr>
@@ -30,4 +36,21 @@
         }
       </tbody>
     </table>
+}
+
+#export("body-after") {
+    <script>
+    $(document).ready(function() {
+        $("time").each(function() {
+            var datetime = $(this).attr("datetime");
+            if (datetime != "") {
+                var localDatetime = moment(datetime).format("llll");
+                $(this).text(localDatetime);
+            }
+            else {
+                $(this).text("Anytime");
+            }
+        });
+    });
+    </script>
 }
