@@ -11,9 +11,10 @@
     #loop(events, "event") {
         <li><a href="/events/#(event.id)">#(event.name)</a></li>
     }
-    </ul>
 
+  </ul>
     <h3>Previous events</h3>
 
     <p>None</p>
+
 }

@@ -31,6 +31,10 @@ final class User: Model {
         self.role = role
     }
     
+    func setPassword(_ password: String) {
+        self.password = try! User.passwordHasher.make(password.makeBytes()).makeString()
+    }
+    
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("name", name)
@@ -44,8 +48,10 @@ final class User: Model {
 extension User: NodeRepresentable {
     func makeNode(in context: Context?) throws -> Node {
         var node = Node(context)
+        try node.set("id", id?.string ?? "")
         try node.set("name", name)
         try node.set("username", username)
+        try node.set("role", role.rawValue)
         return node
     }
 }

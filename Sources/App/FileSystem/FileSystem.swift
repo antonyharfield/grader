@@ -3,8 +3,8 @@ import Node
 
 class FileSystem {
     
-    private let defaultUploadsPath = "/app/uploads/"
-    private let defaultCompilationPath = "/app/srctest/"
+    private let defaultUploadsPath = "/Users/student/desktop/grader-master/uploads/"
+    private let defaultCompilationPath = "/Users/student/desktop/grader-master/srctest/"
     
     // TODO: pass in some configuration that allows custom paths
     init() {
@@ -18,6 +18,16 @@ class FileSystem {
             try data.write(to: URL(fileURLWithPath: path))
         }
         catch {
+            return false
+        }
+        return true
+    }
+    
+    func save(string: String, path: String) -> Bool {
+        do {
+            try string.write(to: URL(fileURLWithPath: path), atomically: false, encoding: .utf8)
+        } catch {
+            print("error writing to url: \(path)\n\(error)")
             return false
         }
         return true
@@ -56,6 +66,10 @@ class FileSystem {
         } catch {
             print("Could not create folder: \(error)")
         }
+    }
+    
+    func copyFile(from: String, to: String) -> Bool {
+        return shell(launchPath: "/bin/cp", arguments: [from, to]).success
     }
     
 }

@@ -23,10 +23,23 @@ final class ProblemsController {
     
     /// GET /events/:id/submissions
     func submissions(request: Request) throws -> ResponseRepresentable {
+        guard let user = request.user else {
+            throw Abort.unauthorized
+        }
+        
         let event = try request.parameters.next(Event.self)
-        let submissions = try Submission.makeQuery()
+        
+        var query = try Submission.makeQuery()
             .join(EventProblem.self, baseKey: "event_problem_id", joinedKey: "id")
-            .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).all()
+            .filter(EventProblem.self, "event_id", event.id).sort("created_at", .descending).limit(20)
+        
+        if user.role == .student {
+            query = try query.filter(Submission.self, "user_id", request.user!.id)
+        }
+        
+        let submissions = try query.all()
+        
+        var shouldRefreshPageAutomatically = false
         
         var joinedSubmissions: [Node] = []
         for submission in submissions {
@@ -36,11 +49,16 @@ final class ProblemsController {
             joinedSubmission["userName"] = user.name.makeNode(in: nil)
             joinedSubmission["problemName"] = problem.name.makeNode(in: nil)
             joinedSubmissions.append(joinedSubmission)
+            
+            if submission.state == .submitted || submission.state == .gradingInProgress {
+                shouldRefreshPageAutomatically = true
+            }
         }
         
         return try render("submissions", [
             "event": event,
-            "submissions": joinedSubmissions
+            "submissions": joinedSubmissions,
+            "shouldRefresh": shouldRefreshPageAutomatically
             ], for: request, with: view)
     }
     
@@ -92,7 +110,9 @@ final class ProblemsController {
         
         guard let fileData = request.formData?["file"],
             let filename = fileData.filename, let bytes = fileData.bytes,
-            let mimeType = fileData.part.headers["Content-Type"] else {
+            let mimeType = fileData.part.headers["Content-Type"],
+            let languageRaw = request.data["language"]?.string,
+            let language = Language(rawValue: languageRaw) else {
             throw Abort.badRequest
         }
         
@@ -100,7 +120,7 @@ final class ProblemsController {
         let files: [(String, [UInt8])] = [(filename, bytes)]
         
         // Create submission first so it has an ID
-        let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, files: files.map { $0.0 })
+        let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: files.map { $0.0 })
         try submission.save()
         
         // Save the files
@@ -114,8 +134,8 @@ final class ProblemsController {
         }
         
         // Queue job
-        let job = SubmissionJob(submissionID: submission.id!.int!)
-        try Reswifq.defaultQueue.enqueue(job)
+        //let job = SubmissionJob(submissionID: submission.id!.int!)
+        //try Reswifq.defaultQueue.enqueue(job)
         
         return Response(redirect: "/events/\(event.id!.string!)/submissions")
     }

@@ -34,6 +34,7 @@ extension Config {
     private func addCommands() {
         addConfigurable(command: WorkerCommand.init, name: "worker")
         addConfigurable(command: SeedCommand.init, name: "seed")
+        addConfigurable(command: RunSubmissionJob.init, name: "submission")
         addConfigurable(command: TestSwiftRunnerCommand.init, name: "swiftrunner")
     }
 }

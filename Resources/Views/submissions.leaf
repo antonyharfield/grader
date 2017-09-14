@@ -2,6 +2,12 @@
 
 #export("title") { #(event.name) }
 
+#export("head-after") {
+    #if(shouldRefresh) {
+        <meta http-equiv="refresh" content="5">
+    }
+}
+
 #export("content") {
 
     <h2>#(event.name)</h2>

@@ -54,6 +54,20 @@ final class SeedCommand: Command {
         try ProblemCase(input: "9", output: "16", visible: true, problemID: problem4.id).save()
         try ProblemCase(input: "100", output: "107", problemID: problem4.id).save()
         try ProblemCase(input: "0", output: "7", problemID: problem4.id).save()
+        
+        let problem5 = Problem(name: "Semi-Diagonal Alphabet", description: "First, you take the position of the letter in the alphabet, P (P is 1-indexed here). Then, you print each letter until the input (inclusive) on a line, preceded by P-1 and repeat that letter P times, interleaving with spaces.")
+        try problem5.save()
+        try ProblemCase(input: "A", output: "A", problemID: problem5.id).save()
+        try ProblemCase(input: "B", output: "A\n B B", visible: true, problemID: problem5.id).save()
+        try ProblemCase(input: "F", output: "A\n B B\n  C C C\n   D D D D\n    E E E E E\n     F F F F F F", visible: true, problemID: problem5.id).save()
+        try ProblemCase(input: "K", output: "A\n B B\n  C C C\n   D D D D\n    E E E E E\n     F F F F F F\n      G G G G G G G\n       H H H H H H H H\n        I I I I I I I I I\n         J J J J J J J J J J\n          K K K K K K K K K K K", problemID: problem5.id).save()
+        
+        let problem6 = Problem(name: "Palindrome Numbers", description: "Read in a number and check if it is a palindrome or not.")
+        try problem6.save()
+        try ProblemCase(input: "1221", output: "true", visible: true, problemID: problem6.id).save()
+        try ProblemCase(input: "3345433", output: "true", visible: true, problemID: problem6.id).save()
+        try ProblemCase(input: "1212", output: "false", visible: true, problemID: problem6.id).save()
+        try ProblemCase(input: "98712421789", output: "true", problemID: problem6.id).save()
     }
     
     private func insertUsers() throws {
@@ -144,6 +158,8 @@ final class SeedCommand: Command {
         try EventProblem(eventID: event1.id!, problemID: problems[1].id!, sequence: 4).save()
         try EventProblem(eventID: event1.id!, problemID: problems[2].id!, sequence: 3).save()
         try EventProblem(eventID: event1.id!, problemID: problems[3].id!, sequence: 2).save()
+        try EventProblem(eventID: event1.id!, problemID: problems[4].id!, sequence: 5).save()
+        try EventProblem(eventID: event1.id!, problemID: problems[5].id!, sequence: 6).save()
         
 //        let event2 = Event(name: "Swift Mini-test 1", userID: teacherID)
 //        try event2.save()
@@ -161,16 +177,16 @@ final class SeedCommand: Command {
             return
         }
         
-        let submission1 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .compileFailed, compilerOutput: "Missing semicolon")
+        let submission1 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .compileFailed, compilerOutput: "Missing semicolon")
         try submission1.save()
         
-        let submission2 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .graded, score: 200)
+        let submission2 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .graded, score: 200)
         try submission2.save()
         
-        let submission3 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        let submission3 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .submitted)
         try submission3.save()
         
-        let submission4 = Submission(eventProblemID: problem.id!, userID: student.id!, files: ["hello.swift"], state: .submitted)
+        let submission4 = Submission(eventProblemID: problem.id!, userID: student.id!, language: .swift, files: ["hello.swift"], state: .submitted)
         try submission4.save()
     }
     

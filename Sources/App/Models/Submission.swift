@@ -5,6 +5,7 @@ final class Submission: Model, NodeRepresentable, Timestampable {
     
     var eventProblemID: Identifier
     var userID: Identifier
+    var language: Language
     var files: [String]
     var state: SubmissionState
     var score: Int
@@ -23,15 +24,17 @@ final class Submission: Model, NodeRepresentable, Timestampable {
     init(row: Row) throws {
         eventProblemID = try row.get("event_problem_id")
         userID = try row.get("user_id")
+        language = Language(rawValue: try row.get("language") as String)!
         files = (try row.get("files") as String).components(separatedBy: "\n")
         state = SubmissionState(rawValue: try row.get("state"))!
         score = try row.get("score")
         compilerOutput = try row.get("compiler_output")
     }
     
-    init(eventProblemID: Identifier, userID: Identifier, files: [String], state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
+    init(eventProblemID: Identifier, userID: Identifier, language: Language, files: [String], state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
         self.eventProblemID = eventProblemID
         self.userID = userID
+        self.language = language
         self.files = files
         self.state = state
         self.score = score
@@ -42,6 +45,7 @@ final class Submission: Model, NodeRepresentable, Timestampable {
         var row = Row()
         try row.set("event_problem_id", eventProblemID)
         try row.set("user_id", userID)
+        try row.set("language", language.rawValue)
         try row.set("files", files.joined(separator: "\n"))
         try row.set("state", state.rawValue)
         try row.set("score", score)
@@ -54,6 +58,7 @@ final class Submission: Model, NodeRepresentable, Timestampable {
             "id": id?.string ?? "",
             "eventProblemID": eventProblemID,
             "userID": userID,
+            "language": language,
             "files": files,
             "state": state,
             "score": score,
@@ -68,6 +73,7 @@ extension Submission: Preparation {
             builder.id()
             builder.parent(EventProblem.self, optional: false)
             builder.parent(User.self, optional: false)
+            builder.string("language")
             builder.string("files")
             builder.int("state")
             builder.int("score")

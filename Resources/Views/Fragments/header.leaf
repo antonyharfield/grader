@@ -9,6 +9,7 @@
     <nav class="ink-navigation">
         <ul class="menu horizontal grey">
             <li class="active"><a href="/events">Events</a></li>
+            <li class="active"><a href="/users">User</a></li>
             <!--<li><a href="/scores">Scores</a></li>-->
 
             #if(authenticated) {

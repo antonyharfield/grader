@@ -1,6 +1,6 @@
 # A-Grader
 
-## Setup
+## Simple setup (using Xcode and no docker/worker agents -- frontend only)
 
 ### Install vapor and dependencies
 
@@ -33,26 +33,47 @@ Check it is running in your browser at `http:://localhost:8080`.
 
 ### Setup database
 
-Using the `sqlite3` command, create a database in the location the example
-app will look for:
+The database will be created automatically when you run the project.
 
-```bash
-sqlite3 Database/main.sqlite
+If you want to run the project in Xcode, then you can use an sqlite database that is included. To do this, change fluent.json to use the sqlite driver.
+
+To seed the tables:
 ```
-
-That will put you in a sql prompt. Copy and paste the following SQL query to set up the tables.
-
-```sql
-CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, password TEXT NOT NULL);
+vapor run seed
 ```
-
-Then use Ctrl-d to exit.
 
 
 ### Adding dependencies
 
 If you change Package.swift then use `vapor update` to download dependencies.
 
+
+
+## Serious setup
+
+You will need Docker (at least version 17).
+
+This setup uses docker-compose to create 4 containers:
+* `database` - a standard mariadb image
+* `redis` - a standard redis image
+* `web` - our vapor image that serves the website
+* `worker` - our vapor image that runs multiple job threads
+
+### Orchestrate your containers
+
+* Clone the repo
+* Open your terminal at the repo root, and `cd docker`
+* Start the containers `docker-compose up -d`
+* Build the application `./build`
+* Open your browser at `http://localhost` or your docker VM IP address
+* By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed`
+
+### Workflow
+
+* Every change to the Swift source code requires compilation and restart the web/worker containers. The script `./build` will stop, compile and start.
+* Changes to the resources (html, css, js, images -- and Leaf!) do not require recompilation (just refresh the browser).
+* To inspect the database, it is easiest to login directly to the database container `docker-compose exec database mysql -u root -p grader`
+* To test the running of submission jobs (or manually run a job), login to the worker container `docker-compose exec worker bash` and then use the vapor command `vapor run submission X` where `X` is your submission id.
 
 ### Other commands
 
@@ -75,11 +96,6 @@ docker run -it --volume=$PWD/..:/app apptitude/vapor build
 In general, you can run any Vapor command (e.g. `vapor XXX`):
 ```
 docker run -it --volume=$PWD/..:/app apptitude/vapor build
-```
-
-Seed the database:
-```
-docker run -it --volume=$PWD/..:/app apptitude/vapor run seed
 ```
 
 Run a one-off worker:

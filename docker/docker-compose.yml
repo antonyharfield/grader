@@ -25,7 +25,7 @@ services:
         command: ["run", "serve"]
 
     worker:
-        build: vapor
+        build: vapor-jdk
         volumes:
             - '..:/app'
         links:

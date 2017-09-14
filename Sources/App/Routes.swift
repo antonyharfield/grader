@@ -26,6 +26,14 @@ final class Routes: RouteCollection {
         builder.get("register", handler: loginController.registerForm)
         builder.post("register", handler: loginController.register)
         
+        let userController = UsersController(view)
+        builder.get("users", handler: userController.showUser)
+        builder.get("users", Int.parameter, "edit", handler: userController.editForm)
+        builder.post("users", Int.parameter, "edit", handler: userController.edit)
+        
+        builder.get("users", Int.parameter,"delete", handler: userController.deleteForm)
+        builder.post("users", Int.parameter,"delete", handler: userController.delete)
+        
         builder.resource("events", EventsController(view))
 
         builder.get("about") { req in

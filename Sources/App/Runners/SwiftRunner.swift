@@ -24,7 +24,7 @@ class SwiftRunner: Runner {
         fileSystem.ensurePathExists(path: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
         for file in submission.files {
-            if !copyFile(from: uploadPath + file, to: compilationPath + file) {
+            if !fileSystem.copyFile(from: uploadPath + file, to: compilationPath + file) {
                 return .unknownFailure
             }
         }
@@ -44,6 +44,7 @@ class SwiftRunner: Runner {
         for problemCase in problemCases {
             let result = run(input: problemCase.input)
             let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && trim(result.output) == problemCase.output)
+            print("Result case: \(result.success) \(result.exitStatus) \(result.output)")
             resultCases.append(resultCase)
         }
         
@@ -58,30 +59,9 @@ class SwiftRunner: Runner {
     
     private func run(input: String) -> ShellResult {
         let inputFile = compilationPath + "input.txt"
-        _ = createFile(path: inputFile, content: input)
-        return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
-    }
-    
-    // TODO: move file utility methods to FileSystem
-    
-    private func copyFile(from: String, to: String) -> Bool {
-        return shell(launchPath: "/bin/cp", arguments: [from, to]).success
-    }
-    
-    private func createFile(path: String, content: String) -> Bool {
-        do {
-            try content.write(to: URL(fileURLWithPath: path), atomically: false, encoding: .utf8)
-        } catch {
-            console.print("error writing to url: \(path)\n\(error)")
-            return false
-        }
-        return true
-    }
-    
-    // TODO: move submission comparison utility methods to somewhere shared between runners
-    
-    private func trim(_ input: String) -> String {
-        return input.trimmingCharacters(in: .whitespacesAndNewlines)
+        _ = fileSystem.save(string: input, path: inputFile)
+        //return shell(launchPath: "/bin/bash", arguments: ["-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
+        return shell(launchPath: "/usr/bin/timeout", arguments: ["1s", "/bin/bash", "-c", "cat \(inputFile) | \(compilationPath)\(executableFileName)"])
     }
     
 }
