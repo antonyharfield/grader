@@ -9,9 +9,16 @@
     <nav class="ink-navigation">
         <ul class="menu horizontal grey">
             <li class="active"><a href="/events">Events</a></li>
-            <li class="active"><a href="/users">User</a></li>
-            <!--<li><a href="/scores">Scores</a></li>-->
 
+            <li>
+            <a class="active">Admin</a>
+            <ul class="submenu">
+              <li><a href="/users">User</a></li>
+              <li><a href="#">Problem</a></li>
+            </ul>
+            </li>
+            <!--<li class="active"><a href="/users">User</a></li>-->
+            <!--<li><a href="/scores">Scores</a></li>-->
             #if(authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
                 <li class="right disabled"><a href="#">Logged in as #(user.name)</a></li>
@@ -20,6 +27,7 @@
                 <li class="right"><a href="/register">Register</a></li>
                 <li class="right"><a href="/login">Login</a></li>
             }
+
         </ul>
     </nav>
 </header>
