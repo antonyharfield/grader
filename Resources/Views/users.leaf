@@ -1,4 +1,4 @@
-#extend("Layouts/base")
+#extend("base")
 
 #export("title") { User }
 

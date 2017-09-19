@@ -184,4 +184,40 @@ final class EventsController: ResourceRepresentable {
         return Response(redirect: "/events/\(eventId.string!)/problems/\(eventProblem.sequence)")
     }
     
+    //GET Edit event
+    func eventEditForm(request: Request) throws -> ResponseRepresentable {
+        let eventID = try request.parameters.next(Int.self)
+        let event = try Event.find(eventID)
+        return try view.make("Events/event-edit", ["editEvent": event])
+        //return try render("Events/Teacher/event-edit", for: request, with: view)
+    }
+    
+    //POST Edit event
+    func eventEdit(request: Request) throws -> ResponseRepresentable {
+        guard let name =  request.data["name"]?.string,
+            let userID =  request.data["userID"]?.string,
+            let startsAt =  request.data["startsAt"]?.string,
+            let endsAt = request.data["endsAt"]?.string,
+            let languageRestriction = request.data["languageRestriction"]?.string else {
+                throw Abort.badRequest
+                
+        }
+        
+        // get the Post model and save to DB
+        let eventID = try request.parameters.next(Int.self)
+        if let event = try Event.find(eventID){
+            event.name = name
+           // event.userID = userID
+           // event.startsAt = startsAt
+            //event.endsAt = endsAt
+            //event.lannguageRestriction = languageRestriction
+        
+            try event.save()
+        }
+        
+        return Response(redirect: "/users")
+        
+    }
+    
+    
 }
