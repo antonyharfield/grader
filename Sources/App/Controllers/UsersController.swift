@@ -23,8 +23,7 @@ public final class UsersController {
     func showUser(request: Request) throws -> ResponseRepresentable {
         
         let users = try User.all()
-        return try view.make("users", ["users": users])
-
+        return try render("users", ["users": users], for: request, with: view)
     }
     
     //Edit
