@@ -1351,10 +1351,6 @@
 		OBJ_3342 /* EventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* EventsController.swift */; };
 		OBJ_3343 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* LoginController.swift */; };
 		OBJ_3344 /* ProblemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ProblemsController.swift */; };
-		OBJ_3345 /* ProblemsController_BACKUP_7346.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* ProblemsController_BACKUP_7346.swift */; };
-		OBJ_3346 /* ProblemsController_BASE_7346.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* ProblemsController_BASE_7346.swift */; };
-		OBJ_3347 /* ProblemsController_LOCAL_7346.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* ProblemsController_LOCAL_7346.swift */; };
-		OBJ_3348 /* ProblemsController_REMOTE_7346.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* ProblemsController_REMOTE_7346.swift */; };
 		OBJ_3349 /* SubmissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* SubmissionsController.swift */; };
 		OBJ_3350 /* UsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* UsersController.swift */; };
 		OBJ_3351 /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Date+Formatting.swift */; };
@@ -7312,7 +7308,6 @@
 		OBJ_227 /* Prepare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prepare.swift; sourceTree = "<group>"; };
 		OBJ_228 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		OBJ_229 /* SQLite+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SQLite+Config.swift"; sourceTree = "<group>"; };
-		OBJ_23 /* ProblemsController_BACKUP_7346.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsController_BACKUP_7346.swift; sourceTree = "<group>"; };
 		OBJ_231 /* Config+Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Config+Driver.swift"; sourceTree = "<group>"; };
 		OBJ_232 /* Config+Preparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Config+Preparation.swift"; sourceTree = "<group>"; };
 		OBJ_233 /* Droplet+Prepare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Droplet+Prepare.swift"; sourceTree = "<group>"; };
@@ -7321,14 +7316,12 @@
 		OBJ_237 /* FilterableKey+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterableKey+String.swift"; sourceTree = "<group>"; };
 		OBJ_238 /* FilterableKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterableKey.swift; sourceTree = "<group>"; };
 		OBJ_239 /* Query+Filterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Filterable.swift"; sourceTree = "<group>"; };
-		OBJ_24 /* ProblemsController_BASE_7346.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsController_BASE_7346.swift; sourceTree = "<group>"; };
 		OBJ_241 /* Request+Updateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Request+Updateable.swift"; sourceTree = "<group>"; };
 		OBJ_242 /* Updateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updateable.swift; sourceTree = "<group>"; };
 		OBJ_243 /* UpdateableKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateableKey.swift; sourceTree = "<group>"; };
 		OBJ_247 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		OBJ_248 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		OBJ_249 /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
-		OBJ_25 /* ProblemsController_LOCAL_7346.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsController_LOCAL_7346.swift; sourceTree = "<group>"; };
 		OBJ_250 /* Executor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
 		OBJ_251 /* ThreadConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadConnectionPool.swift; sourceTree = "<group>"; };
 		OBJ_252 /* Transactable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactable.swift; sourceTree = "<group>"; };
@@ -7338,7 +7331,6 @@
 		OBJ_257 /* KeyNamingConvention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyNamingConvention.swift; sourceTree = "<group>"; };
 		OBJ_258 /* SoftDeletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftDeletable.swift; sourceTree = "<group>"; };
 		OBJ_259 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		OBJ_26 /* ProblemsController_REMOTE_7346.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsController_REMOTE_7346.swift; sourceTree = "<group>"; };
 		OBJ_260 /* Timestampable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestampable.swift; sourceTree = "<group>"; };
 		OBJ_262 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		OBJ_263 /* Paginatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginatable.swift; sourceTree = "<group>"; };
@@ -9433,10 +9425,6 @@
 				OBJ_20 /* EventsController.swift */,
 				OBJ_21 /* LoginController.swift */,
 				OBJ_22 /* ProblemsController.swift */,
-				OBJ_23 /* ProblemsController_BACKUP_7346.swift */,
-				OBJ_24 /* ProblemsController_BASE_7346.swift */,
-				OBJ_25 /* ProblemsController_LOCAL_7346.swift */,
-				OBJ_26 /* ProblemsController_REMOTE_7346.swift */,
 				OBJ_27 /* SubmissionsController.swift */,
 				OBJ_28 /* UsersController.swift */,
 			);
@@ -14680,10 +14668,6 @@
 				OBJ_3342 /* EventsController.swift in Sources */,
 				OBJ_3343 /* LoginController.swift in Sources */,
 				OBJ_3344 /* ProblemsController.swift in Sources */,
-				OBJ_3345 /* ProblemsController_BACKUP_7346.swift in Sources */,
-				OBJ_3346 /* ProblemsController_BASE_7346.swift in Sources */,
-				OBJ_3347 /* ProblemsController_LOCAL_7346.swift in Sources */,
-				OBJ_3348 /* ProblemsController_REMOTE_7346.swift in Sources */,
 				OBJ_3349 /* SubmissionsController.swift in Sources */,
 				OBJ_3350 /* UsersController.swift in Sources */,
 				OBJ_3351 /* Date+Formatting.swift in Sources */,
