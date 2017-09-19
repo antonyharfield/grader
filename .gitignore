@@ -1,15 +1,70 @@
+# Derived from https://www.gitignore.io/api/swift,xcode,vapor
+# (feel free to fix this!)
 
-# Created by https://www.gitignore.io/api/vapor
+### MacOS ###
+.DS_Store
+
+### Database ###
+data.sqlite
 
 ### Vapor ###
 Config/secrets
 
-### Vapor Patch ###
+## Vapor Patch
 Packages
-.build
 xcuserdata
-*.xcodeproj
-DerivedData/
-.DS_Store
 
-# End of https://www.gitignore.io/api/vapor
+### AppCode ###
+.idea
+
+### Swift & Xcode ###
+## Build generated
+build/
+DerivedData/
+
+## User settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+## Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Swift Package Manager
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+.build/
+
+## fastlane
+# Don't store screenshots in the git repo > re-generate them
+# https://docs.fastlane.tools/best-practices/source-control/#source-control
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output

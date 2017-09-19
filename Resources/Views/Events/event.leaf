@@ -1,0 +1,66 @@
+#extend("Layouts/base")
+
+#export("title") { #(event.name) }
+
+#export("content") {
+
+    #if(authenticatedUserHasTeacherRole) {
+        <div class="pull-right button-group">
+            <a href="/events/#(event.id)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Event</a>
+            <a href="/events/#(event.id)/problems/new" class="ink-button"><span class="fa fa-plus"></span> Add Problem</a>
+        </div>
+    }
+
+    <h2>#(event.name)</h2>
+
+    #embed("Events/Fragments/event-menu")
+
+    <div class="column-group top-space">
+    #loop(problems, "p") {
+        <div class="all-25 small-50 tiny-50 align-center">
+            <div class="problem-box #embed("Events/Fragments/problem-state")">
+                #equal(p.attempts, "0") {
+                    <div class="not-started small">
+                        Awaiting submission
+                    </div>
+                } ##else() {
+                    <div class="progress-indicator" data-pct="#(p.score)">
+                        <svg width="120" height="120" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="#()e6e6e6" stroke-width="12" />
+                            <circle class="progress-value" cx="60" cy="60" r="54" fill="none" stroke="#()ff9c00" stroke-width="12"
+                              stroke-dasharray="339.292 339.292" stroke-dashoffset="135.717" />
+                        </svg>
+                    </div>
+                }
+                <div class="large">
+                    <a href="/events/#(event.id)/problems/#(p.sequence)">#(p.name)</a>
+                </div>
+                <div class="description">
+                    #(p.description)
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+}
+
+#export("body-after") {
+    <script>
+    var RADIUS = 54;
+    var CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+    $(document).ready(function() {
+        $(".progress-indicator").each(function() {
+            var value = $(this).attr("data-pct");
+            var progress = value / 100;
+            var dashoffset = CIRCUMFERENCE * (1 - progress);
+            var progressValue = $(this).find("circle.progress-value").get(0);
+            progressValue.style.strokeDasharray = CIRCUMFERENCE;
+            progressValue.style.strokeDashoffset = dashoffset;
+            if (value == 100) {
+                progressValue.style.stroke = "#()4a9b17";
+            }
+        });
+    });
+    </script>
+}

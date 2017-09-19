@@ -1,4 +1,4 @@
-#extend("base")
+#extend("Layouts/base")
 
 #export("title") { #(event.name) }
 
@@ -12,9 +12,9 @@
 
     <h2>#(event.name)</h2>
 
-    #embed("Fragments/event-menu")
+    #embed("Events/Fragments/event-menu")
 
-    <table class="ink-table">
+    <table class="ink-table top-space">
       <thead>
         <tr>
           <th class="align-left">Date</th>
@@ -23,6 +23,9 @@
           <th class="align-left">Status</th>
           <th class="align-left">Grade</th>
           <th class="align-left">Message</th>
+        #if(authenticatedUserHasTeacherRole) {
+          <th></th>
+        }
         </tr>
       </thead>
       <tbody>
@@ -31,7 +34,7 @@
                 <td>#(submission.createdAt)</td>
                 <td>#(submission.userName)</td>
                 <td>#(submission.problemName)</td>
-                <td>#embed("Fragments/submission-state")</td>
+                <td>#embed("Events/Fragments/submission-state")</td>
                 <td>
                     #equal(submission.state, "30") {
                         #(submission.score)%
@@ -40,6 +43,12 @@
                 <td>
                     -
                 </td>
+                #if(authenticatedUserHasTeacherRole) {
+                    <td class="align-right">
+                        <form method="post" action="/submissions/#(submission.id)/run">
+                        <button type="submit" class="ink-button">Re-run</button></form>
+                    </td>
+                }
             </tr>
         }
       </tbody>

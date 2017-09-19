@@ -12,7 +12,8 @@ func render(_ viewName: String, _ data: [String: NodeRepresentable] = [:], for r
 fileprivate func wrap(_ data: [String: NodeRepresentable], user: User) -> [String: NodeRepresentable] {
     var result = data
     result["authenticated"] = true
-    result["user"] = user
+    result["authenticatedUser"] = user
+    result["authenticatedUserHasTeacherRole"] = user.has(role: .teacher)
     return result
 }
 

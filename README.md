@@ -48,7 +48,6 @@ vapor run seed
 If you change Package.swift then use `vapor update` to download dependencies.
 
 
-
 ## Serious setup
 
 You will need Docker (at least version 17).
@@ -63,8 +62,14 @@ This setup uses docker-compose to create 4 containers:
 
 * Clone the repo
 * Open your terminal at the repo root, and `cd docker`
-* Start the containers `docker-compose up -d`
+* Build the base docker image `docker build -t apptitude/vapor vapor`
 * Build the application `./build`
+* Change `Config/fluent.json` to use `"driver": "mysql"`
+* Start redis & database `docker-compose up -d redis database`
+* Check they're up `docker-compose ps`
+* Check the logs if you have problems `docker-compose logs -ft <container_id>`
+* After database is up, start web `docker-compose up -d web`
+* After web is up, start worker `docker-compose up -d worker`
 * Open your browser at `http://localhost` or your docker VM IP address
 * By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed`
 
@@ -78,7 +83,6 @@ This setup uses docker-compose to create 4 containers:
 ### Other commands
 
 Compile our custom Vapor image (required before we start using `docker run apptitude/vapor`):
-
 ```
 docker build -t apptitude/vapor vapor
 ```
@@ -95,7 +99,7 @@ docker run -it --volume=$PWD/..:/app apptitude/vapor build
 
 In general, you can run any Vapor command (e.g. `vapor XXX`):
 ```
-docker run -it --volume=$PWD/..:/app apptitude/vapor build
+docker run -it --volume=$PWD/..:/app apptitude/vapor XXX
 ```
 
 Run a one-off worker:
@@ -114,7 +118,7 @@ This was tested on AWS, to a Ubuntu Xenial 16.04 (20170414) (ami-8fcc75ec) insta
 ```
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
-sudo apt-get install -y docker-ce
+sudo apt-get install -y --allow-unauthenticated docker-ce
 sudo systemctl status docker
 sudo usermod -aG docker ${USER}
 ```
@@ -147,4 +151,41 @@ docker-compose up -d
 7. Check everything looks ok on the logs.
 ```
 docker-compose logs -ft
+```
+
+### Updates to the server
+
+1. Make a backup first
+```
+ssh grader
+cd /app
+docker-compose exec database bash
+mysqldump -u root -p grader > dump.sql
+```
+
+2. Copy backup down to localhost
+```
+docker cp <container_id>:/dump.sql /app/dump.sql
+[Ctrl-D]
+scp grader:/app/dump.sql ./
+```
+
+3. Make database changes (from aws)
+```
+ssh grader
+cd /app
+docker-compose exec database mysql -u root -p grader
+```
+(and do you stuff!)
+
+4. Resync files (logout to localhost first)
+```
+./deploy
+```
+
+5. Rebuild the worker container (if required)
+```
+ssh grader
+cd /app
+docker-compose up -d --no-deps --build worker
 ```

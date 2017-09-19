@@ -7,6 +7,7 @@ final class Event: Model, NodeRepresentable {
     var userID: Identifier
     var startsAt: Date?
     var endsAt: Date?
+    var languageRestriction: Language?
     
     var user: Parent<Event, User> {
         return parent(id: userID)
@@ -25,13 +26,17 @@ final class Event: Model, NodeRepresentable {
         userID = try row.get("user_id")
         startsAt = try row.get("starts_at")
         endsAt = try row.get("ends_at")
+        if let languageRestriction = try row.get("language_restriction") as String? {
+            self.languageRestriction = Language(rawValue: languageRestriction)
+        }
     }
     
-    init(name: String, userID: Identifier, startsAt: Date? = nil, endsAt: Date? = nil) {
+    init(name: String, userID: Identifier, startsAt: Date? = nil, endsAt: Date? = nil, languageRestriction: Language? = nil) {
         self.name = name
         self.userID = userID
         self.startsAt = startsAt
         self.endsAt = endsAt
+        self.languageRestriction = languageRestriction
     }
     
     func makeRow() throws -> Row {
@@ -40,6 +45,7 @@ final class Event: Model, NodeRepresentable {
         try row.set("user_id", userID)
         try row.set("starts_at", startsAt)
         try row.set("ends_at", endsAt)
+        try row.set("language_restriction", languageRestriction?.rawValue)
         return row
     }
     
@@ -49,22 +55,16 @@ final class Event: Model, NodeRepresentable {
             "name": name.makeNode(in: context),
             "userID": userID.makeNode(in: context),
             "startsAt": startsAt,
-            "endsAt": endsAt])
-    }
-}
-
-extension Event: Preparation {
-    static func prepare(_ database: Database) throws {
-        try database.create(self) { builder in
-            builder.id()
-            builder.string("name")
-            builder.parent(User.self, optional: false)
-            builder.date("starts_at", optional: true)
-            builder.date("ends_at", optional: true)
-        }
+            "endsAt": endsAt,
+            "languageRestriction": languageRestriction ?? ""])
     }
     
-    static func revert(_ database: Database) throws {
-        try database.delete(self)
+    func isVisible(to user: User) -> Bool {
+        // TBD: Replace roles with permissions => grant permission to both teacher and admin roles
+        return user.has(role: .teacher) || user.has(role: .admin) || isPubliclyVisible()
+    }
+    
+    func isPubliclyVisible() -> Bool {
+        return startsAt == nil || startsAt! < Date()
     }
 }

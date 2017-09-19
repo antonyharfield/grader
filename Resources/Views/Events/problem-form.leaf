@@ -1,0 +1,66 @@
+#extend("Layouts/base")
+
+#export("title") { Problem #(problem.name) }
+
+#export("content") {
+
+#if(authenticatedUserHasTeacherRole) {
+    <div class="pull-right button-group">
+        <a href="/events/#(event.id)/problems/#(eventProblem.sequence)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Problem</a>
+        <a href="/problems/#(problem.id)/cases/new" class="ink-button"><span class="fa fa-plus"></span> Add Case</a>
+    </div>
+}
+
+<p><a href="/events/#(event.id)">#(event.name)</a></p>
+
+<h2>#(problem.name)</h2>
+
+<div class="column-group gutters">
+    <div class="all-60 small-100 tiny-100">
+        <h3>Problem</h3>
+        <p class="quarter-top-space">#raw(problem.description)</p>
+        <h3>Examples</h3>
+        #loop(problemCases, "case") {
+            <div class="column-group gutters">
+                <div class="all-50">
+                    <p class="note">Input</p>
+                    <pre>#(case.input)</pre>
+                </div>
+                <div class="all-50">
+                    <p class="note">Output</p>
+                    <pre>#(case.output)</pre>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="all-40 small-100 tiny-100">
+        <h3>Submit your solution</h3>
+        <form method="post" enctype="multipart/form-data" class="ink-form">
+            <div class="control-group">
+                <div class="column-group gutters">
+                    <label for="inline-name" class="all-30">Source file</label>
+                    <div class="control all-70">
+                        <input type="file" name="file">
+                    </div>
+                </div>
+                <div class="column-group gutters">
+                    <label for="inline-name" class="all-30">Language</label>
+                    <div class="control all-70">
+                        #if(event.languageRestriction) {
+                            <p>#(event.languageRestriction)</p>
+                        } ##else() {
+                            <select name="language">
+                                <option value="swift" selected>Swift</option>
+                                <option value="java">Java</option>
+                            </select>
+                        }
+                    </div>
+                </div>
+                <div class="control">
+                    <input type="submit" class="ink-button">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}

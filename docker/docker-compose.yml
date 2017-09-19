@@ -22,7 +22,7 @@ services:
             - "8080"
         ports:
             - 80:8080
-        command: ["run", "serve"]
+        command: ["run", "serve", "--env=docker"]
 
     worker:
         build: vapor-jdk
@@ -31,4 +31,4 @@ services:
         links:
             - redis:redis
             - database:database
-        command: ["run", "worker"]
+        command: ["run", "worker", "--env=docker"]

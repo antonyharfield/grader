@@ -39,14 +39,15 @@ public struct SubmissionJob: Job {
         try submission.save()
         
         // Get the problem cases
-        guard let problemCases = try submission.eventProblem.get()?.problem.get()?.cases.all() else {
+        guard let problem = try submission.eventProblem.get()?.problem.get() else {
             print("Problem with the data") // TODO: how to handle?
             submission.state = .runnerError
             try submission.save()
             return
         }
         
-        let result = runner.process(submission: submission, problemCases: problemCases)
+        let problemCases = try problem.cases.all()
+        let result = runner.process(submission: submission, problemCases: problemCases, comparisonMethod: problem.comparisonMethod)
         
         switch result {
         case .unknownFailure:

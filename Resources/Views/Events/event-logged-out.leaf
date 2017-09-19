@@ -1,4 +1,4 @@
-#extend("base")
+#extend("Layouts/base")
 
 #export("title") { #(event.name) }
 

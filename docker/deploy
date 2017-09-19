@@ -7,4 +7,4 @@ rsync --verbose --delete --archive -z --exclude .build --exclude uploads --exclu
 
 
 # Build (pauses and restarts the server)
-ssh $sshhostname "cd /app/docker ; ./build"
+ssh $sshhostname "cd /app/docker ; ./build --verbose"

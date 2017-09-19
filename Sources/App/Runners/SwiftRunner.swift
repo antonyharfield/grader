@@ -16,22 +16,34 @@ class SwiftRunner: Runner {
     let swiftcPath = "/usr/bin/swiftc"
     let executableFileName = "run"
     
-    func process(submission: Submission, problemCases: [ProblemCase]) -> RunnerResult {
+    func process(submission: Submission, problemCases: [ProblemCase], comparisonMethod: ComparisonMethod) -> RunnerResult {
         
         console.print("Copying uploads to compilation path")
         
-        let uploadPath = fileSystem.uploadPath(submission: submission)
+        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
         fileSystem.ensurePathExists(path: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
         for file in submission.files {
             if !fileSystem.copyFile(from: uploadPath + file, to: compilationPath + file) {
                 return .unknownFailure
             }
+            print("Found \(file)")
+        }
+        
+        console.print("Copying problem files to compilation path")
+        
+        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID!)
+        let problemFiles = fileSystem.files(at: problemFilesPath)
+        for file in problemFiles {
+            if !fileSystem.copyFile(from: problemFilesPath + file, to: compilationPath + file) {
+                return .unknownFailure
+            }
+            print("Found \(file)")
         }
         
         console.print("Compiling")
         
-        let sourcePaths = submission.files.map { compilationPath + $0 }
+        let sourcePaths = (submission.files.map { compilationPath + $0 }) + (problemFiles.map { problemFilesPath + $0 })
         let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)
@@ -43,8 +55,15 @@ class SwiftRunner: Runner {
         
         for problemCase in problemCases {
             let result = run(input: problemCase.input)
-            let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && trim(result.output) == problemCase.output)
-            print("Result case: \(result.success) \(result.exitStatus) \(result.output)")
+            let expectedOutput = prepareOutput(problemCase.output)
+            let actualOutput = prepareOutput(result.output)
+            let match = (comparisonMethod == .exactMatch)
+                ? isExactMatch(expected: expectedOutput, actual: actualOutput)
+                : isEndsWithMatch(expected: expectedOutput, actual: actualOutput)
+            
+            let resultCase = ResultCase(submissionID: submission.id!, problemCaseID: problemCase.id!, output: result.output, pass: result.success && match)
+            print("Result: \(result.success) \(result.exitStatus) \(trim(result.output))   Match: \(match)")
+            print("Problem case: \(trim(problemCase.input))")
             resultCases.append(resultCase)
         }
         

@@ -1,0 +1,31 @@
+#extend("Layouts/base")
+
+#export("title") { Events }
+
+#export("content") {
+
+    #if(authenticatedUserHasTeacherRole) {
+        <div class="pull-right button-group">
+            <a href="/events/new" class="ink-button"><span class="fa fa-plus"></span> Add Event</a>
+        </div>
+    }
+
+    <h2>Events</h2>
+
+    <h3>Active this week</h3>
+
+    <ul>
+    #loop(activeEvents, "event") {
+        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+    }
+    </ul>
+
+    <h3>Previous events</h3>
+
+    <ul>
+    #loop(pastEvents, "event") {
+        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+    }
+    </ul>
+
+}

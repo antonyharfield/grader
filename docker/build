@@ -13,7 +13,7 @@ WORKER_IS_RUNNING=`docker inspect -f '{{.State.Running}}' $WEB_CONTAINER`
 [ "$WORKER_IS_RUNNING" == "true" ] && docker-compose stop worker
 
 # Build
-docker run -it --volume=$PWD/..:/app apptitude/vapor build
+docker run -i --volume=$PWD/..:/app apptitude/vapor build "$@"
 
 # Restart containers
 [ "$WEB_IS_RUNNING" == "true" ] && docker-compose start web
