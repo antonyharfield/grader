@@ -13,6 +13,7 @@ final class TeacherRoutes: RouteCollection {
         let eventsController = EventsController(view)
         let problemsController = ProblemsController(view)
         let submissionsController = SubmissionsController(view)
+        let userController = UsersController(view)
         
         builder.get("events/new", handler: eventsController.eventNew)
         builder.post("events/new", handler: eventsController.eventNewSubmit)
@@ -27,5 +28,12 @@ final class TeacherRoutes: RouteCollection {
         builder.post("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNewSubmit)
         
         builder.post("submissions", Submission.parameter, "run", handler: submissionsController.manualRun)
+        
+        builder.get("users", handler: userController.showUser)
+        builder.get("users", Int.parameter, "edit", handler: userController.editForm)
+        builder.post("users", Int.parameter, "edit", handler: userController.edit)
+        
+        builder.get("users", Int.parameter,"delete", handler: userController.deleteForm)
+        builder.post("users", Int.parameter,"delete", handler: userController.delete)
     }
 }

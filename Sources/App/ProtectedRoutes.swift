@@ -11,13 +11,6 @@ final class ProtectedRoutes: RouteCollection {
     func build(_ builder: RouteBuilder) throws {
         
         let userController = UsersController(view)
-        builder.get("users", handler: userController.showUser)
-        builder.get("users", Int.parameter, "edit", handler: userController.editForm)
-        builder.post("users", Int.parameter, "edit", handler: userController.edit)
-        
-        builder.get("users", Int.parameter,"delete", handler: userController.deleteForm)
-        builder.post("users", Int.parameter,"delete", handler: userController.delete)
-        
         builder.get("logout", handler: userController.logout)
         
         let problemsController = ProblemsController(view)

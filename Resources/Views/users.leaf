@@ -1,0 +1,35 @@
+#extend("Layouts/base")
+
+#export("title") { User }
+
+#export("content") {
+  <h2>Users</h2>
+
+<table class="ink-table">
+  <thead>
+    <tr>
+      <th class="align-left">Name</th>
+      <th class="align-left">Username</th>
+      <th class="align-left">Password</th>
+      <th class="align-left">Role</th>
+      <th class="align-left"></th>
+      <th class="align-left"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+  #loop(users, "user"){
+    <tr>
+      <td>#(user.name)</td>
+      <td>#(user.username)</td>
+      <td>#(user.password)</td>
+      <td>#(user.role)</td>
+      <td><a href="/users/#(user.id)/edit" class="btn btn-primary">Edit</a></td>
+      <td><a href="/users/#(user.id)/delete" class="btn btn-danger">Delete</a></td>
+    </tr>
+
+    }
+  </tbody>
+  </table>
+
+}
