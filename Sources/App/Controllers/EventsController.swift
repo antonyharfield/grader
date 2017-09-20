@@ -189,7 +189,7 @@ final class EventsController: ResourceRepresentable {
         let eventID = try request.parameters.next(Int.self)
         let event = try Event.find(eventID)
         return try view.make("Events/event-edit", ["editEvent": event])
-        //return try render("Events/Teacher/event-edit", for: request, with: view)
+        
     }
     
     //POST Edit event
@@ -207,17 +207,19 @@ final class EventsController: ResourceRepresentable {
         let eventID = try request.parameters.next(Int.self)
         if let event = try Event.find(eventID){
             event.name = name
-           // event.userID = userID
-           // event.startsAt = startsAt
-            //event.endsAt = endsAt
-            //event.lannguageRestriction = languageRestriction
-        
+          //  event.userID = userID
+          //  event.startsAt = startsAt
+          //  event.endsAt = endsAt
+            event.languageRestriction = Language(rawValue: languageRestriction)
+
+    
             try event.save()
         }
         
-        return Response(redirect: "/users")
+        return Response(redirect: "/events/#(event.eventId)/problems")
         
     }
+    
     
     
 }

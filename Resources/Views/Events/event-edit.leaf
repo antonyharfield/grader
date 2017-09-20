@@ -3,8 +3,8 @@
 #export("title") { Edit Event }
 
 #export("content") {
-    <h2>Edit a New Event</h2>
-    <form action="/events/#(eventID.id)/edit" method="POST" class="ink-form">
+    <h2>Edit a Event</h2>
+    <form action="/events/#(eventID.id)/edit" method="POST" enctype="multipart/form-data" class="ink-form">
       <div class="control-group">
           <div class="column-group gutters">
               <div class="all-60">
@@ -15,12 +15,12 @@
                           <div class="all-100">
                               <label for="name">Event name</label>
                               <div class="control">
-                                  <input name="name" id="name" type="text" />
+                                  <input name="name" id="name" type="text" name="name" value="#(editEvent.name)" />
                               </div>
 
                               <label for="language_restriction">Programming Language</label>
                               <div class="control">
-                                  <select name="language_restriction" id="language_restriction">
+                                  <select name="language_restriction" id="language_restriction" name="language_restriction" value="#(editEvent.languageRestriction)">
                                       <optgroup label="Available Languages">
                                           <option value="" selected>Any</option>
                                           <option value="java">Java</option>
@@ -49,7 +49,7 @@
                           <div class="all-50">
                               <label for="starts_at_date">Start Date</label>
                               <div class="control">
-                                  <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " />
+                                  <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(editEvent.startsAt)"/>
                               </div>
                           </div>
                           <div class="all-50">
@@ -61,7 +61,7 @@
                           <div class="all-50">
                               <label for="starts_at_date">End Date</label>
                               <div class="control">
-                                  <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " />
+                                  <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(editEvent.endsAt)" />
                               </div>
                           </div>
                           <div class="all-50">
