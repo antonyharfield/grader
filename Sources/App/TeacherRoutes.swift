@@ -37,6 +37,6 @@ final class TeacherRoutes: RouteCollection {
         builder.post("users", Int.parameter,"delete", handler: userController.delete)
         
         builder.get("events", Int.parameter, "edit", handler: eventsController.eventEditForm)
-        builder.post("events", Int.parameter, "problems", handler: eventsController.eventEdit)
+        builder.post("events", Int.parameter, "edit", handler: eventsController.eventEdit)
     }
 }

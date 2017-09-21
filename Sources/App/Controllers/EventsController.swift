@@ -189,28 +189,37 @@ final class EventsController: ResourceRepresentable {
         let eventID = try request.parameters.next(Int.self)
         let event = try Event.find(eventID)
         return try view.make("Events/event-edit", ["editEvent": event])
+        //  return try view.make("Events/event-edit", ["editEvent": event, "startsAtDate": ..., "startsAtTime": ...])
         
     }
     
     //POST Edit event
     func eventEdit(request: Request) throws -> ResponseRepresentable {
-        guard let name =  request.data["name"]?.string,
-            let userID =  request.data["userID"]?.string,
-            let startsAt =  request.data["startsAt"]?.string,
-            let endsAt = request.data["endsAt"]?.string,
-            let languageRestriction = request.data["languageRestriction"]?.string else {
+        guard let name =  request.data["name"]?.string else {
                 throw Abort.badRequest
-                
         }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        let startsAt = request.data["starts_at_date"]?.string
+            .flatMap { rawDate in rawDate + " " + (request.data["starts_at_time"]?.string ?? "0:00") }
+            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
+        
+        let endsAt = request.data["ends_at_date"]?.string
+            .flatMap { rawDate in rawDate + " " + (request.data["ends_at_time"]?.string ?? "0:00") }
+            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
+        
+        let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
         
         // get the Post model and save to DB
         let eventID = try request.parameters.next(Int.self)
         if let event = try Event.find(eventID){
             event.name = name
-          //  event.userID = userID
-          //  event.startsAt = startsAt
-          //  event.endsAt = endsAt
-            event.languageRestriction = Language(rawValue: languageRestriction)
+
+            event.startsAt = startsAt
+            event.endsAt = endsAt
+            event.languageRestriction = languageRestriction
 
     
             try event.save()
