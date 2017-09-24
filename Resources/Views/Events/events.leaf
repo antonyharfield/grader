@@ -4,7 +4,7 @@
 
 #export("content") {
 
-    #if(authenticatedUserHasTeacherRole) {
+    #if(canTeach) {
         <div class="pull-right button-group">
             <a href="/events/new" class="ink-button"><span class="fa fa-plus"></span> Add Event</a>
         </div>

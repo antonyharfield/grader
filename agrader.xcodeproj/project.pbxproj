@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6EC5B1EB1F723F2E005EE2BE /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5B1EA1F723F2E005EE2BE /* Role.swift */; };
+		6EC5B1ED1F725FEF005EE2BE /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC5B1EC1F725FEF005EE2BE /* Permission.swift */; };
 		OBJ_1046 /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_967 /* Aliases.swift */; };
 		OBJ_1047 /* Base64Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_968 /* Base64Encoder.swift */; };
 		OBJ_1048 /* Byte+Alphabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_969 /* Byte+Alphabet.swift */; };
@@ -1365,7 +1367,7 @@
 		OBJ_3355 /* SubmissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* SubmissionsController.swift */; };
 		OBJ_3356 /* UsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* UsersController.swift */; };
 		OBJ_3357 /* GuardMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* GuardMiddleware.swift */; };
-		OBJ_3358 /* GuardRoleMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* GuardRoleMiddleware.swift */; };
+		OBJ_3358 /* GuardPermissionsMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* GuardPermissionsMiddleware.swift */; };
 		OBJ_3359 /* ProtectedRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ProtectedRoutes.swift */; };
 		OBJ_3360 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Routes.swift */; };
 		OBJ_3361 /* TeacherRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* TeacherRoutes.swift */; };
@@ -7158,6 +7160,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6EC5B1EA1F723F2E005EE2BE /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		6EC5B1EC1F725FEF005EE2BE /* Permission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
 		OBJ_100 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		OBJ_1000 /* HTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_1001 /* WebSockets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WebSockets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -7201,7 +7205,7 @@
 		OBJ_1036 /* Redis.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Redis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_1037 /* VaporRedisClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VaporRedisClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_1038 /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_1039 /* Run */ = {isa = PBXFileReference; lastKnownFileType = text; path = Run; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_1039 /* Run */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = Run; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_104 /* StreamBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamBuffer.swift; sourceTree = "<group>"; };
 		OBJ_1040 /* AppTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_105 /* Subscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscribe.swift; sourceTree = "<group>"; };
@@ -7280,7 +7284,7 @@
 		OBJ_197 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		OBJ_198 /* RedirectMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectMiddleware.swift; sourceTree = "<group>"; };
 		OBJ_199 /* SessionPersistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPersistable.swift; sourceTree = "<group>"; };
-		OBJ_20 /* GuardRoleMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardRoleMiddleware.swift; sourceTree = "<group>"; };
+		OBJ_20 /* GuardPermissionsMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardPermissionsMiddleware.swift; sourceTree = "<group>"; };
 		OBJ_200 /* TokenMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenMiddleware.swift; sourceTree = "<group>"; };
 		OBJ_203 /* AuthenticationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationError.swift; sourceTree = "<group>"; };
 		OBJ_205 /* Authenticatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticatable.swift; sourceTree = "<group>"; };
@@ -9145,6 +9149,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6EC5B1E91F723EE8005EE2BE /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				6EC5B1EA1F723F2E005EE2BE /* Role.swift */,
+				6EC5B1EC1F725FEF005EE2BE /* Permission.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -9410,7 +9423,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_19 /* GuardMiddleware.swift */,
-				OBJ_20 /* GuardRoleMiddleware.swift */,
+				OBJ_20 /* GuardPermissionsMiddleware.swift */,
 			);
 			path = Middleware;
 			sourceTree = "<group>";
@@ -10267,6 +10280,7 @@
 				OBJ_51 /* FileSystem */,
 				OBJ_53 /* Jobs */,
 				OBJ_57 /* Models */,
+				6EC5B1E91F723EE8005EE2BE /* Security */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -10322,7 +10336,7 @@
 			path = Log;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -10337,7 +10351,6 @@
 				OBJ_89 /* Dependencies */,
 				OBJ_986 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_503 /* Mail */ = {
@@ -13559,7 +13572,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_986 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -14694,10 +14707,12 @@
 				OBJ_3332 /* Droplet+Setup.swift in Sources */,
 				OBJ_3333 /* RedisWorker.swift in Sources */,
 				OBJ_3334 /* RunSubmissionJob.swift in Sources */,
+				6EC5B1ED1F725FEF005EE2BE /* Permission.swift in Sources */,
 				OBJ_3335 /* TestSwiftRunnerCommand.swift in Sources */,
 				OBJ_3336 /* WorkerCommand.swift in Sources */,
 				OBJ_3337 /* Date+Formatting.swift in Sources */,
 				OBJ_3338 /* FileSystem.swift in Sources */,
+				6EC5B1EB1F723F2E005EE2BE /* Role.swift in Sources */,
 				OBJ_3339 /* DemoJob.swift in Sources */,
 				OBJ_3340 /* Reswifq+VaporRedisClient.swift in Sources */,
 				OBJ_3341 /* SubmissionJob.swift in Sources */,
@@ -14717,7 +14732,7 @@
 				OBJ_3355 /* SubmissionsController.swift in Sources */,
 				OBJ_3356 /* UsersController.swift in Sources */,
 				OBJ_3357 /* GuardMiddleware.swift in Sources */,
-				OBJ_3358 /* GuardRoleMiddleware.swift in Sources */,
+				OBJ_3358 /* GuardPermissionsMiddleware.swift in Sources */,
 				OBJ_3359 /* ProtectedRoutes.swift in Sources */,
 				OBJ_3360 /* Routes.swift in Sources */,
 				OBJ_3361 /* TeacherRoutes.swift in Sources */,

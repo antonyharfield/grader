@@ -9,11 +9,10 @@ extension Droplet {
         
         addLeafTags()
         
-        let memory = MemorySessions()
-        let sessionsMiddleware = SessionsMiddleware(memory)
+        let sessionsMiddleware = SessionsMiddleware(MemorySessions())
         let persistMiddleware = PersistMiddleware(User.self)
         let guardMiddleware = GuardMiddleware(User.self)
-        let teacherMiddleware = GuardRoleMiddleware(roles: [.teacher, .admin])
+        let teacherMiddleware = GuardPermissionsMiddleware(.teach)
         
         let openGroup = grouped([sessionsMiddleware, persistMiddleware])
         let protectedGroup = grouped([sessionsMiddleware, persistMiddleware, guardMiddleware])
@@ -36,4 +35,5 @@ extension Droplet {
             leaf.stem.register(Add())
         }
     }
+    
 }

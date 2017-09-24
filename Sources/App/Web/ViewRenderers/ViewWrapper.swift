@@ -11,9 +11,11 @@ func render(_ viewName: String, _ data: [String: NodeRepresentable] = [:], for r
 
 fileprivate func wrap(_ data: [String: NodeRepresentable], user: User) -> [String: NodeRepresentable] {
     var result = data
+
     result["authenticated"] = true
     result["authenticatedUser"] = user
-    result["authenticatedUserHasTeacherRole"] = user.has(role: .teacher)
+    user.role.permitted.forEach { result["can\($0.rawValue.capitalized)"] = true }
+    
     return result
 }
 

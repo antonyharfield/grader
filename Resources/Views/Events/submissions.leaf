@@ -23,7 +23,7 @@
           <th class="align-left">Status</th>
           <th class="align-left">Grade</th>
           <th class="align-left">Message</th>
-        #if(authenticatedUserHasTeacherRole) {
+        #if(canTeach) {
           <th></th>
         }
         </tr>
@@ -43,7 +43,7 @@
                 <td>
                     -
                 </td>
-                #if(authenticatedUserHasTeacherRole) {
+                #if(canTeach) {
                     <td class="align-right">
                         <form method="post" action="/submissions/#(submission.id)/run">
                         <button type="submit" class="ink-button">Re-run</button></form>

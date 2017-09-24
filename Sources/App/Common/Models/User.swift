@@ -2,12 +2,6 @@ import Foundation
 import FluentProvider
 import AuthProvider
 
-enum Role: Int {
-    case student = 1
-    case teacher = 2
-    case admin = 3
-}
-
 final class User: Model {
     
     var name: String
@@ -40,16 +34,15 @@ final class User: Model {
         return row
     }
     
-    func has(role: Role) -> Bool {
-        switch role {
-        case .admin:
-            return self.role == .admin
-        case .teacher:
-            return self.role == .teacher || self.role == .admin
-        case .student:
-            return true
-        }
+    func can(_ permissions: Permission...) -> Bool {
+        return self.can(permissions)
     }
+    
+    func can(_ permissions: [Permission]) -> Bool {
+        // true if ALL permissions are permitted
+        return !permissions.lazy.map { self.role.permits($0) }.contains(false)
+    }
+    
 }
 
 extension User: NodeRepresentable {
