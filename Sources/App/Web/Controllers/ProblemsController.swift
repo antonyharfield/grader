@@ -110,7 +110,7 @@ final class ProblemsController {
                 throw Abort.notFound
         }
         
-        let problemCases = try problem.cases.filter("visible", true).all()
+        let problemCases = try problem.cases.filter("visibility", ProblemCaseVisibility.show.rawValue).all()
         
         return try render("Events/problem-form", [
             "event": event,

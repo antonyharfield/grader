@@ -6,7 +6,7 @@ final class ProblemCase: Model, NodeRepresentable {
     var problemID: Identifier?
     var input: String
     var output: String
-    var visible: Bool
+    var visibility: ProblemCaseVisibility
     
     var problem: Parent<ProblemCase, Problem> {
         return parent(id: problemID)
@@ -15,34 +15,35 @@ final class ProblemCase: Model, NodeRepresentable {
     let storage = Storage()
     
     init(row: Row) throws {
+        problemID = try row.get("problem_id")
         input = try row.get("input")
         output = try row.get("output")
-        problemID = try row.get("problem_id")
-        visible = try row.get("visible")
+        visibility = ProblemCaseVisibility(rawValue: try row.get("visibility")) ?? .show
     }
     
-    init(input: String, output: String, visible: Bool = false, problemID: Identifier? = nil) {
+    init(input: String, output: String, visibility: ProblemCaseVisibility = .hide, problemID: Identifier? = nil) {
+        self.problemID = problemID
         self.input = input
         self.output = output
-        self.visible = visible
-        self.problemID = problemID
+        self.visibility = visibility
     }
     
     func makeRow() throws -> Row {
         var row = Row()
+        try row.set("problem_id", problemID)
         try row.set("input", input)
         try row.set("output", output)
-        try row.set("visible", visible)
-        try row.set("problem_id", problemID)
+        try row.set("visibility", visibility.rawValue)
         return row
     }
     
     func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
             "id": id?.string ?? "",
+            "problemID": problemID?.string ?? "",
             "input": input,
             "output": output,
-            "visible": visible,
-            "problemID": problemID?.string ?? ""])
+            "visibility": visibility.rawValue,
+        ])
     }
 }

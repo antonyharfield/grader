@@ -32,7 +32,7 @@ extension Config {
         preparations.append(ResultCase.self)
         
         // Migrations
-        //preparations.append(P20170910.self)
+        preparations.append(P170924_ProblemCaseVisibility.self)
     }
     
     private func addCommands() {

@@ -16,11 +16,11 @@
                     </div>
                 </div>
                 <div class="all-30">
-                    <label>Visibility #(case.visible)</label>
+                    <label>Visibility</label>
                     <ul class="control unstyled">
-                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="display" id="visiblity_display_#(case.id)"#if(case.visible) { checked="checked" }><label for="visiblity_display_#(case.id)">Display on problem</label></li>
-                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="offer" id="visibility_offer_#(case.id)"#equal(case.visible, false) { checked="checked" }><label for="visibility_offer_#(case.id)">Offer for debugging</label></li>
-                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="hidden" id="visibility_hidden_#(case.id)"><label for="visibility_hidden_#(case.id)">Hidden</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="1" id="visiblity_show_#(case.id)"#equal(case.visibility, "1") { checked="checked" }><label for="visiblity_show_#(case.id)">Show on problem</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="3" id="visibility_debug_#(case.id)"#equal(case.visibility, "3") { checked="checked" }><label for="visibility_debug_#(case.id)">Show for debugging</label></li>
+                        <li><input type="radio" name="case_visibilities[#(case.id)]" value="2" id="visibility_hide_#(case.id)"#equal(case.visibility, "2") { checked="checked" }><label for="visibility_hide_#(case.id)">Hidden</label></li>
                     </ul>
                 </div>
             </div>

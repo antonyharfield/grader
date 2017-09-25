@@ -158,13 +158,13 @@ final class EventsController: ResourceRepresentable {
                     // Extract
                     let caseInput = request.data["case_inputs"]?[id]?.string ?? ""
                     let caseOutput = request.data["case_outputs"]?[id]?.string ?? ""
-                    let visibility = request.data["case_visibilities"]?[id]?.string
-                    let visible = (visibility == "display")
+                    let visibilityRaw = request.data["case_visibilities"]?[id]?.int
+                    let visibility = (visibilityRaw.flatMap { ProblemCaseVisibility(rawValue: $0) }) ?? .hide
                     
                     // Save
                     if(id.hasPrefix("new-")) {
                         // New
-                        let problemCase = ProblemCase(input: caseInput, output: caseOutput, visible: visible, problemID: problem.id)
+                        let problemCase = ProblemCase(input: caseInput, output: caseOutput, visibility: visibility, problemID: problem.id)
                         try problemCase.save()
                     } else {
                         // Edit
@@ -174,7 +174,7 @@ final class EventsController: ResourceRepresentable {
                         
                         problemCase.input = caseInput
                         problemCase.output = caseOutput
-                        problemCase.visible = visible
+                        problemCase.visibility = visibility
                         try problemCase.save()
                     }
                 }
