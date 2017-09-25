@@ -3,8 +3,8 @@ import PackageDescription
 let package = Package(
     name: "agrader",
     targets: [
-        Target(name: "App"),
-        Target(name: "Run", dependencies: ["App"]),
+        Target(name: "App", dependencies: []),
+        Target(name: "Run", dependencies: ["App"])
     ],
     dependencies: [
         .Package(url: "https://github.com/vapor/vapor.git", majorVersion: 2),
@@ -18,6 +18,7 @@ let package = Package(
         .Package(url: "https://github.com/reswifq/redis-client-vapor", majorVersion: 1),
         .Package(url: "https://github.com/vapor/redis.git", majorVersion: 2)
     ],
+    swiftLanguageVersions: [3, 4],
     exclude: [
         "Config",
         "Database",
@@ -25,4 +26,3 @@ let package = Package(
         "Resources",
     ]
 )
-
