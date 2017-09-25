@@ -10,9 +10,8 @@ final class TeacherRoutes: RouteCollection {
     
     func build(_ builder: RouteBuilder) throws {
         let eventsController = EventsController(view)
-        let problemsController = ProblemsController(view)
         let submissionsController = SubmissionsController(view)
-        
+
         
         /// EVENTS
         
@@ -30,13 +29,6 @@ final class TeacherRoutes: RouteCollection {
         // events/:id/problems/:seq/edit
         builder.get("events", Event.parameter, "problems", ":eventProblemSeq", "edit", handler: eventsController.eventProblemEdit)
         builder.post("events", Event.parameter, "problems", ":eventProblemSeq", "edit", handler: eventsController.eventProblemNewSubmit)
-        
-        
-        /// PROBLEM CASE
-        
-        // problems/:id/cases/new (obsolete)
-        builder.get("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNew)
-        builder.post("problems", Problem.parameter, "cases/new", handler: problemsController.problemCaseNewSubmit)
         
         
         /// SUBMISSION

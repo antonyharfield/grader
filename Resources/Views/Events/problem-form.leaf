@@ -7,7 +7,6 @@
 #if(canTeach) {
     <div class="pull-right button-group">
         <a href="/events/#(event.id)/problems/#(eventProblem.sequence)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Problem</a>
-        <a href="/problems/#(problem.id)/cases/new" class="ink-button"><span class="fa fa-plus"></span> Add Case</a>
     </div>
 }
 
