@@ -1,15 +1,16 @@
 import Foundation
 import FluentProvider
 
-extension ProblemCase: Preparation {
+extension Event: Preparation {
     
     static func prepare(_ database: Database) throws {
         try database.create(self) { builder in
             builder.id()
-            builder.string("input")
-            builder.string("output")
-            builder.bool("visible")
-            builder.parent(Problem.self, optional: false)
+            builder.parent(User.self, optional: false)
+            builder.string("name")
+            builder.date("starts_at", optional: true)
+            builder.date("ends_at", optional: true)
+            builder.string("language_restriction", optional: true)
         }
     }
     
