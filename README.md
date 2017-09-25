@@ -35,13 +35,12 @@ Check it is running in your browser at `http:://localhost:8080`.
 
 The database will be created automatically when you run the project.
 
-If you want to run the project in Xcode, then you can use an sqlite database that is included. To do this, change fluent.json to use the sqlite driver.
+If you want to run the project in Xcode, then you can use a SQLite database. The base Config/fluent.json is already setup to use the sqlite driver by default. Docker will use the driver defined in Config/docker/fluent.json, which is set to MySQL by default.
 
 To seed the tables:
 ```
 vapor run seed
 ```
-
 
 ### Adding dependencies
 
@@ -64,14 +63,13 @@ This setup uses docker-compose to create 4 containers:
 * Open your terminal at the repo root, and `cd docker`
 * Build the base docker image `docker build -t apptitude/vapor vapor`
 * Build the application `./build`
-* Change `Config/fluent.json` to use `"driver": "mysql"`
 * Start redis & database `docker-compose up -d redis database`
 * Check they're up `docker-compose ps`
 * Check the logs if you have problems `docker-compose logs -ft <container_id>`
 * After database is up, start web `docker-compose up -d web`
 * After web is up, start worker `docker-compose up -d worker`
 * Open your browser at `http://localhost` or your docker VM IP address
-* By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed`
+* By default you will be using mysql and the db will be empty, so next you should seed the db `docker-compose run worker run seed --env=docker`
 
 ### Workflow
 
@@ -99,12 +97,12 @@ docker run -it --volume=$PWD/..:/app apptitude/vapor build
 
 In general, you can run any Vapor command (e.g. `vapor XXX`):
 ```
-docker run -it --volume=$PWD/..:/app apptitude/vapor XXX
+docker run -it --volume=$PWD/..:/app apptitude/vapor XXX --env=docker
 ```
 
 Run a one-off worker:
 ```
-docker run -it --volume=$PWD/..:/app apptitude/vapor run worker
+docker run -it --volume=$PWD/..:/app apptitude/vapor run worker --env=docker
 ```
 
 
