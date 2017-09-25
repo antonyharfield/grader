@@ -5,7 +5,7 @@
 .DS_Store
 
 ### Database ###
-data.sqlite
+*.sqlite*
 
 ### Vapor ###
 Config/secrets
