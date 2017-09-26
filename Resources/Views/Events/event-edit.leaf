@@ -49,25 +49,25 @@
                           <div class="all-50">
                               <label for="starts_at_date">Start Date</label>
                               <div class="control">
-                                  <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(editEvent.startsAt)"/>
+                                  <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(startsAtDate)"/>
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">Time</label>
                               <div class="control">
-                                  <input name="starts_at_time" id="starts_at_time" type="text" />
+                                  <input name="starts_at_time" id="starts_at_time" type="text" value="#(startsAtTime)" />
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">End Date</label>
                               <div class="control">
-                                  <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(editEvent.endsAt)" />
+                                  <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(endsAtDate)" />
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">Time</label>
                               <div class="control">
-                                  <input name="ends_at_time" id="ends_at_time" type="text" />
+                                  <input name="ends_at_time" id="ends_at_time" type="text" value="#(endsAtTime)" />
                               </div>
                           </div>
                       </div>
@@ -80,12 +80,6 @@
           </div>
       </div>
 
-      <script type="text/javascript">
-          document.addEventListener("DOMContentLoaded", function(event) {
-              document.getElementById('starts_at_date').value = "";
-              document.getElementById('ends_at_date').value = "";
-          });
-      </script>
 
     </form>
 

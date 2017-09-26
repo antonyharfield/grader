@@ -160,7 +160,7 @@ final class EventsController: ResourceRepresentable {
                     let caseOutput = request.data["case_outputs"]?[id]?.string ?? ""
                     let visibility = request.data["case_visibilities"]?[id]?.string
                     let visible = (visibility == "display")
-                    
+
                     // Save
                     if(id.hasPrefix("new-")) {
                         // New
@@ -186,22 +186,19 @@ final class EventsController: ResourceRepresentable {
     
     //GET Edit event
     func eventEditForm(request: Request) throws -> ResponseRepresentable {
-        let eventID = try request.parameters.next(Int.self)
-        let event = try Event.find(eventID)
+        let event = try request.parameters.next(Event.self)
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+       let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy-MM-dd"
+        let timeformatter = DateFormatter()
+        timeformatter.dateFormat = "HH:mm"
         
-        let startsAt = request.data["starts_at_date"]?.string
-            .flatMap { rawDate in rawDate + " " + (request.data["starts_at_time"]?.string ?? "0:00") }
-            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
-        
-        let endsAt = request.data["ends_at_date"]?.string
-            .flatMap { rawDate in rawDate + " " + (request.data["ends_at_time"]?.string ?? "0:00") }
-            .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
-        
-        let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
-      //  return try view.make("Events/event-edit", ["editEvent": event, "startsAtDate": Date?() , "startsAtTime": Date?()])
+        return try view.make("Events/event-edit", [
+            "editEvent": event,
+            "startsAtDate": event.startsAt == nil ? "" : dateformatter.string(from: event.startsAt!),
+            "startsAtTime": event.startsAt == nil ? "" : timeformatter.string(from: event.startsAt!),
+            "endsAtDate": event.endsAt == nil ? "" : dateformatter.string(from: event.endsAt!),
+            "endsAtTime": event.endsAt == nil ? "" : timeformatter.string(from: event.endsAt!)])
     }
     
     //POST Edit event
@@ -224,8 +221,8 @@ final class EventsController: ResourceRepresentable {
         let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
         
         // get the Post model and save to DB
-        let eventID = try request.parameters.next(Int.self)
-        if let event = try Event.find(eventID){
+        let event = try request.parameters.next(Event.self)
+        
             event.name = name
 
             event.startsAt = startsAt
@@ -234,7 +231,7 @@ final class EventsController: ResourceRepresentable {
 
     
             try event.save()
-        }
+
         
         return Response(redirect: "/events/#(event.eventId)/problems")
         
