@@ -23,8 +23,6 @@ final class Routes: RouteCollection {
         builder.get("register", handler: loginController.registerForm)
         builder.post("register", handler: loginController.register)
         
-        
-        
         builder.resource("events", EventsController(view))
 
         builder.get("about") { req in

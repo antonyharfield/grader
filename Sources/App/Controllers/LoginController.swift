@@ -79,4 +79,12 @@ final class LoginController {
 
     }
     
+    func changePassword(request: Request) throws -> ResponseRepresentable {
+        let userID = try request.parameters.next(Int.self)
+        let user = try User.find(userID)
+        return try view.make("change-password", ["changpassword": user])
+
+        
+    }
+    
 }
