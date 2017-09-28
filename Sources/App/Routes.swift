@@ -24,7 +24,7 @@ final class Routes: RouteCollection {
         builder.post("register", handler: loginController.register)
         
         builder.resource("events", EventsController(view))
-
+       
         builder.get("about") { req in
             return try render("about", for: req, with: self.view)
         }

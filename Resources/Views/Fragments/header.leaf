@@ -13,10 +13,11 @@
             <li>
             <a class="active">Admin</a>
             <ul class="submenu">
-              <li><a href="/users">User</a></li>
+              <li><a href="/users">Users</a></li>
               <li><a href="#">Problem</a></li>
             </ul>
             </li>
+
             <!--<li class="active"><a href="/users">User</a></li>-->
             <!--<li><a href="/scores">Scores</a></li>-->
             #if(authenticated) {
