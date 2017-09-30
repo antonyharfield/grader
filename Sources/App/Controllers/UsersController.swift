@@ -20,6 +20,7 @@ public final class UsersController {
         return Response(redirect: "/").flash(.error, "User is logged out")
     }
     
+    //Show User
     func showUser(request: Request) throws -> ResponseRepresentable {
         
         let users = try User.all()
