@@ -14,7 +14,7 @@ final class TeacherRoutes: RouteCollection {
         let problemsController = ProblemsController(view)
         let submissionsController = SubmissionsController(view)
         let userController = UsersController(view)
-        let loginController = LoginController(view)
+       // let loginController = LoginController(view)
         
         builder.get("events/new", handler: eventsController.eventNew)
         builder.post("events/new", handler: eventsController.eventNewSubmit)
@@ -41,7 +41,7 @@ final class TeacherRoutes: RouteCollection {
         builder.get("events", Event.parameter, "edit", handler: eventsController.eventEditForm)
         builder.post("events", Event.parameter, "edit", handler: eventsController.eventEdit)
         
-        builder.get("changepassword", handler: loginController.changePassword)
+        //builder.get("changepassword", handler: loginController.changePassword)
         
       //  builder.get("users",Int.parameter, "changepassword", handler: loginController.changePassword)    
     }

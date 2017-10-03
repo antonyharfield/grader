@@ -79,13 +79,26 @@ final class LoginController {
 
     }
     
+    func changePasswordForm(request: Request) throws -> ResponseRepresentable {
+
+        return try render("change-password", [:], for: request, with: view)
+
+    }
+    
     func changePassword(request: Request) throws -> ResponseRepresentable {
-       // let userID = try request.parameters.next(Int.self)
-       // let user = try User.find(userID)
-
-        return try view.make("change-password", ["changpassword"], for: request)
-
+        guard let password = request.data["newpassword"]?.string else {
+            throw Abort.badRequest
+        }
+        let userID = request.user!.id
+        let user = try User.find(userID)!
+        user.setPassword(password)
+            
+        try user.save()
+        
+        
+        return Response(redirect: "/login")
         
     }
+
     
 }

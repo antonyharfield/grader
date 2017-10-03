@@ -73,6 +73,12 @@ public final class UsersController {
         
         return Response(redirect: "/users")
     }
+    
+    func profile(request: Request) throws -> ResponseRepresentable {
+        let user = request.user!
+        return try view.make("profile", ["user": user])
+ 
+    }
 
 
 //    /**
