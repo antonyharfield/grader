@@ -28,6 +28,14 @@
             <input type="password" class="form-control" id="password" name="password" />
         </div>
     </div>
+
+    <div class="control-group all-20">
+      <label for="image">Image</label>
+      <div class="control">
+        <input type="file" class="form-control" name="image">
+      </div>
+    </div>
+    
     <a href="/users/#(editUser.id)/changepassword" class="btn btn-primary">Change password</a>
 
     <div class="control-group">
