@@ -58,8 +58,8 @@ final class LoginController {
     func register(_ request: Request) throws -> ResponseRepresentable {
         guard let email = request.data["email"]?.string,
             let password = request.data["password"]?.string,
-            let name = request.data["name"]?.string,
-            let imageUser = request.formData?["image"] else {
+            let imageUser = request.formData?["image"],
+            let name = request.data["name"]?.string else {
                 
                 throw Abort.badRequest
         }

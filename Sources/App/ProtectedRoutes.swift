@@ -12,6 +12,8 @@ final class ProtectedRoutes: RouteCollection {
         
         let userController = UsersController(view)
         builder.get("profile", handler: userController.profile)
+        builder.get("edit", handler: userController.editForm)
+      //  builder.post("edit", handler: userController.edit)
         builder.get("logout", handler: userController.logout)
         
         let problemsController = ProblemsController(view)

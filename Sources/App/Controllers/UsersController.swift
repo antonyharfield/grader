@@ -76,7 +76,7 @@ public final class UsersController {
     
     func profile(request: Request) throws -> ResponseRepresentable {
         let user = request.user!
-        return try view.make("profile", ["user": user])
+        return try render("profile", ["user": user], for: request, with: view)
  
     }
 

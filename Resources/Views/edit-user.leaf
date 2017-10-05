@@ -6,7 +6,7 @@
 
 <h2>Edit user</h2>
 
-<form action="/users/#(editUser.id)/edit" method="POST" enctype="multipart/form-data" class="ink-form">
+<form action="/edit" method="POST" enctype="multipart/form-data" class="ink-form">
 
     <div class="control-group all-20">
         <label for="name">Name</label>
@@ -35,14 +35,12 @@
         <input type="file" class="form-control" name="image">
       </div>
     </div>
-    
+
     <a href="/users/#(editUser.id)/changepassword" class="btn btn-primary">Change password</a>
 
     <div class="control-group">
         <input type="submit" class="ink-button" value="Submit"/>
     </div>
-
-
 
 </form>
 
