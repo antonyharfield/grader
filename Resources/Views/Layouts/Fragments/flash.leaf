@@ -1,41 +1,24 @@
-<!-- Error -->
 #if(flash.error) {
-	<div class="alert alert-danger alert-dismissible fade in to-be-animated-in" role="alert">
-		<button type="button" class="close" data-dismiss="alert">
-			<span>&times;</span>
-		</button>
-		<span class="fa fa-exclamation-circle"></span>
-		#(flash.error)
-	</div>
+    <div class="ink-alert basic error" role="alert">
+        <button class="ink-dismiss">&times;</button>
+        <p><b>Error:</b> #(flash.error)</p>
+    </div>
 }
-
-<!-- Success -->
 #if(flash.success) {
-<div class="alert alert-success alert-dismissible fade in to-be-animated-in" role="alert">
-	<button type="button" class="close" data-dismiss="alert">
-		<span>&times;</span>
-	</button>
-	<span class="fa fa-check-circle"></span>
-	#(flash.success)
-</div>
+	<div class="ink-alert basic success" role="alert">
+        <button class="ink-dismiss">&times;</button>
+        <p><b>Success:</b> #(flash.success)</p>
+    </div>
 }
-
-<!-- Warning -->
 #if(flash.warning) {
-<div class="alert alert-warning alert-dismissible fade in to-be-animated-in" role="alert">
-	<button type="button" class="close" data-dismiss="alert">
-		<span>&times;</span>
-	</button>
-	#(flash.warning)
-</div>
+	<div class="ink-alert basic warning" role="alert">
+        <button class="ink-dismiss">&times;</button>
+        <p><b>Warning:</b> #(flash.warning)</p>
+    </div>
 }
-
-<!-- Info -->
 #if(flash.info) {
-<div class="alert alert-info alert-dismissible fade in to-be-animated-in" role="alert">
-	<button type="button" class="close" data-dismiss="alert">
-		<span>&times;</span>
-	</button>
-	#(flash.info)
-</div>
+	<div class="ink-alert basic info" role="alert">
+        <button class="ink-dismiss">&times;</button>
+        <p><b>Warning:</b> #(flash.info)</p>
+    </div>
 }

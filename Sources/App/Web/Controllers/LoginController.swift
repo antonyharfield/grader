@@ -28,7 +28,7 @@ final class LoginController {
     
     /// Login page
     public func loginForm(request: Request) throws -> ResponseRepresentable {
-        return try view.make("Auth/login", [], for: request)
+        return try render("Auth/login", for: request, with: view)
     }
 
     /// Login page submission
@@ -51,7 +51,7 @@ final class LoginController {
     
     /// Register page
     public func registerForm(request: Request) throws -> ResponseRepresentable {
-        return try view.make("Auth/register", [], for: request)
+        return try render("Auth/register", for: request, with: view)
     }
 
     /// Register page submission

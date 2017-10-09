@@ -1,6 +1,7 @@
 import LeafProvider
 import MySQLProvider
 import FluentProvider
+import Flash
 
 extension Config {
     public func setup() throws {
@@ -10,6 +11,7 @@ extension Config {
 
         try setupProviders()
         
+        addMiddleware()
         addPreparations()
         addCommands()
     }
@@ -19,6 +21,10 @@ extension Config {
         try addProvider(LeafProvider.Provider.self)
         try addProvider(MySQLProvider.Provider.self)
         try addProvider(FluentProvider.Provider.self)
+    }
+    
+    private func addMiddleware() {
+        addConfigurable(middleware: FlashMiddleware(), name: "flash")
     }
     
     private func addPreparations() {

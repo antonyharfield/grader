@@ -9,14 +9,13 @@ extension Droplet {
         
         addLeafTags()
         
-        let sessionsMiddleware = SessionsMiddleware(MemorySessions())
         let persistMiddleware = PersistMiddleware(User.self)
         let guardMiddleware = GuardMiddleware(User.self)
         let teacherMiddleware = GuardPermissionsMiddleware(.teach)
         
-        let openGroup = grouped([sessionsMiddleware, persistMiddleware])
-        let protectedGroup = grouped([sessionsMiddleware, persistMiddleware, guardMiddleware])
-        let teacherGroup = grouped([sessionsMiddleware, persistMiddleware, guardMiddleware, teacherMiddleware])
+        let openGroup = grouped([persistMiddleware])
+        let protectedGroup = grouped([persistMiddleware, guardMiddleware])
+        let teacherGroup = grouped([persistMiddleware, guardMiddleware, teacherMiddleware])
         
         let routes = Routes(view)
         try openGroup.collection(routes)
@@ -26,7 +25,6 @@ extension Droplet {
 
         let teacherRoutes = TeacherRoutes(view)
         try teacherGroup.collection(teacherRoutes)
-        
     }
     
     private func addLeafTags() {
