@@ -9,12 +9,7 @@ public final class ProfileController {
         self.view = view
     }
     
-    /**
-     * Logout, will logout auther user and redirect back to login
-     *
-     * - param: Request
-     * - return: Response
-     */
+ 
     public func logout(request: Request) throws -> ResponseRepresentable {
         try request.auth.unauthenticate()
         return Response(redirect: "/").flash(.error, "User is logged out")

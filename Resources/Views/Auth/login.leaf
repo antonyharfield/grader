@@ -28,5 +28,13 @@
     <div class="control-group">
         <input type="submit" class="ink-button" value="Login"/>
     </div>
+
+    #if(credentials){
+      <div class="ink-alert basic" role="alert">
+          <button class="ink-dismiss">&times;</button>
+          <p><b>Warning:</b> There's a warning for you </p>
+      </div>
+    }
+
 </form>
 }

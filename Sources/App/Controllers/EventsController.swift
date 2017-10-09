@@ -49,11 +49,15 @@ final class EventsController: ResourceRepresentable {
     func eventNewSubmit(request: Request) throws -> ResponseRepresentable {
         guard
             let userId = request.user?.id,
+            //let iconLanguage = request.formData?["icon"],
             let name = request.data["name"]?.string
         else {
             throw Abort.badRequest
         }
+        
+        //let path = "/Users/student/Documents/Thesis-garder/grader/Public/icons/\(iconLanguage.name.string).jpg"
 
+        
         // Extract
         // TBD: How do we handle invalid dates? (I think I'm just consuming them as nil)
         let formatter = DateFormatter()
@@ -68,11 +72,12 @@ final class EventsController: ResourceRepresentable {
             .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
         
         let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
+        
 
         // Save & continue
         let event = Event(
             name: name,
-            userID:userId,
+            userID: userId,
             startsAt: startsAt,
             endsAt: endsAt,
             languageRestriction: languageRestriction

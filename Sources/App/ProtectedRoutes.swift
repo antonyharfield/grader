@@ -28,6 +28,6 @@ final class ProtectedRoutes: RouteCollection {
         builder.get("changepassword", handler: loginController.changePasswordForm)
         builder.post("changepassword", handler: loginController.changePassword)
 
-       
     }
 }
+

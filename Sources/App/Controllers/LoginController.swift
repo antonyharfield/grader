@@ -98,7 +98,6 @@ final class LoginController {
             
         try user.save()
         
-        
         return Response(redirect: "/login")
         
     }
