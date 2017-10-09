@@ -1,4 +1,4 @@
-FROM swift:3.1
+FROM swift:4.0
 
 # Install Vapor Toolbox
 RUN apt-get update && \
