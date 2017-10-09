@@ -27,6 +27,8 @@ public struct SubmissionJob: Job {
             return SwiftRunner()
         case .java:
             return JavaRunner()
+        case .python:
+            return PythonRunner()
         }
     }
     

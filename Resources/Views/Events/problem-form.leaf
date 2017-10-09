@@ -49,8 +49,9 @@
                             <p>#(event.languageRestriction)</p>
                         } ##else() {
                             <select name="language">
-                                <option value="swift" selected>Swift</option>
-                                <option value="java">Java</option>
+                                <option value="java" selected>Java 8</option>
+                                <option value="python">Python 3</option>
+                                <option value="swift">Swift 4</option>
                             </select>
                         }
                     </div>

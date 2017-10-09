@@ -3,6 +3,7 @@ import Node
 enum Language: String {
     case swift = "swift"
     case java = "java"
+    case python = "python"
 }
 
 extension Language: NodeRepresentable {
