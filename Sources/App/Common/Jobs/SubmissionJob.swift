@@ -13,8 +13,6 @@ public struct SubmissionJob: Job {
     
     // MARK: Job
     public func perform() throws {
-        try User(name: "test", username: "aaa", password: "1234", role: .student).save()
-        
         guard let submission = try Submission.find(submissionID) else {
             return
         }
