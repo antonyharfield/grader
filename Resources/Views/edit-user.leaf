@@ -18,7 +18,7 @@
     <div class="control-group all-20">
         <label for="email">E-mail</label>
         <div class="control">
-            <input type="email" class="form-control" id="username" name="username" value="#(editUser.username)" />
+            <input type="text" class="form-control" id="username" name="username" value="#(editUser.username)" />
         </div>
     </div>
 
