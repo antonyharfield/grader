@@ -35,6 +35,7 @@ public final class ProfileController {
     func edit(request: Request) throws -> ResponseRepresentable {
         guard let name =  request.data["name"]?.string,
             let username =  request.data["username"]?.string,
+            let imageUser = request.formData?["image"],
             let password =  request.data["password"]?.string else {
                 throw Abort.badRequest
                 
@@ -49,6 +50,9 @@ public final class ProfileController {
             user.setPassword(password)
         }
         try user.save()
+        
+        let path = "/Users/student/Documents/Thesis-garder/grader/Public/uploads/\(user.id!.string!).jpg"
+        _ = save(bytes: imageUser.bytes!, path: path)
         
         return Response(redirect: "/profile")
         
