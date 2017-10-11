@@ -7,7 +7,8 @@
 <header class="vertical-space">
     <h1>Grader<small>practice for programmers</small></h1>
     <nav class="ink-navigation">
-        <ul class="menu horizontal grey">
+        <ul class="menu horizontal blue">
+            <li class="active"><a href="/classes">Classes</a></li>          
             <li class="active"><a href="/events">Events</a></li>
 
             #if(authenticatedUserHasTeacherRole) {
