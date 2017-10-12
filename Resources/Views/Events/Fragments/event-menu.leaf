@@ -1,5 +1,5 @@
 <nav class="ink-navigation">
-    <ul class="pagination pills grey">
+    <ul class="pagination pills blue">
         <li #contains(path,"problems") { class="active" }><a href="/events/#(event.id)/problems">Problems</a></li>
         <li #contains(path,"submissions") { class="active" }><a href="/events/#(event.id)/submissions">Submissions</a></li>
         <li #contains(path,"scores") { class="active" }><a href="/events/#(event.id)/scores">Scores</a></li>
