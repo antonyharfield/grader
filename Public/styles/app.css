@@ -102,3 +102,10 @@ table.scores tbody tr:first-child td {
   background-color: #e6e6e6;
   color: #ccc;
 }
+
+
+h2 img.language {
+    width: 0.9em;
+    height: 0.9em;
+    vertical-align: baseline;
+}

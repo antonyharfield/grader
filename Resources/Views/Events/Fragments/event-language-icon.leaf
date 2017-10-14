@@ -1,0 +1,9 @@
+#equal(event.languageRestriction, "") {
+    <img class="language" src="/images/languages/java.png">
+    <img class="language" src="/images/languages/kotlin.png">
+    <img class="language" src="/images/languages/python.png">
+    <img class="language" src="/images/languages/swift.png">
+}
+##else() {
+    <img class="language" src="/images/languages/#(event.languageRestriction).png">
+}
