@@ -50,6 +50,7 @@
                         } ##else() {
                             <select name="language">
                                 <option value="java" selected>Java 8</option>
+                                <option value="kotlin">Kotlin</option>
                                 <option value="python">Python 3</option>
                                 <option value="swift">Swift 4</option>
                             </select>

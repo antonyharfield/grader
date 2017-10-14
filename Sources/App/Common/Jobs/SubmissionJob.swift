@@ -29,6 +29,8 @@ public struct SubmissionJob: Job {
             return JavaRunner()
         case .python:
             return PythonRunner()
+        case .kotlin:
+            return KotlinRunner()
         }
     }
     
