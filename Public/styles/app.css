@@ -104,8 +104,11 @@ table.scores tbody tr:first-child td {
 }
 
 
-h2 img.language {
+h2 img.language, li img.language {
     width: 0.9em;
     height: 0.9em;
     vertical-align: baseline;
+}
+img.language:first-of-type {
+    margin-left: 0.1em;
 }

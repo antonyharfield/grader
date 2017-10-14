@@ -16,7 +16,7 @@
 
     <ul>
     #loop(activeEvents, "event") {
-        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+        <li><a href="/events/#(event.id)">#(event.name)</a> #embed("Events/Fragments/event-language-icon")</li>
     }
     </ul>
 
@@ -24,7 +24,7 @@
 
     <ul>
     #loop(pastEvents, "event") {
-        <li><a href="/events/#(event.id)">#(event.name)</a></li>
+        <li><a href="/events/#(event.id)">#(event.name)</a> #embed("Events/Fragments/event-language-icon")</li>
     }
     </ul>
 
