@@ -1,0 +1,20 @@
+#extend("Layouts/base")
+
+#export("title")
+
+#export("content") {
+
+  <h2>Delete user</h2>
+
+  <form action="/users/#(user.id)/delete" method="POST">
+      <p>Are you sure you want to delete <strong>#(user.name)</strong>?</p>
+
+      <div>
+        <input type="submit" class="ink-button" value="Delete"/>
+      </div>
+
+      <div>
+        <a href="/users/#(user.id)" class="ink-button">Cancel</a>
+      </div>
+  </form>
+}

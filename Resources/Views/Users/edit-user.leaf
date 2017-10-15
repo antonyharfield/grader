@@ -11,14 +11,14 @@
     <div class="control-group all-20">
         <label for="name">Name</label>
         <div class="control">
-            <input type="text" class="form-control" id="name" name="name" value="#(editUser.name)" />
+            <input type="text" class="form-control" name="name" value="#(user.name)" />
         </div>
     </div>
 
     <div class="control-group all-20">
-        <label for="email">E-mail</label>
+        <label for="username">Username</label>
         <div class="control">
-            <input type="text" class="form-control" id="username" name="username" value="#(editUser.username)" />
+            <input type="text" class="form-control" name="username" value="#(user.username)" />
         </div>
     </div>
 
@@ -30,8 +30,7 @@
     </div>
 
     <div class="control-group">
-        <a href="/changepassword" class="ink-button blue">Change password</a>
-        <input type="submit" class="ink-button blue" value="Submit"/>
+        <input type="submit" class="ink-button" value="Save"/>
     </div>
 
 </form>

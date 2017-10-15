@@ -13,7 +13,6 @@
       <th class="align-left">Password</th>
       <th class="align-left">Role</th>
       <th class="align-left"></th>
-      <th class="align-left"></th>
     </tr>
   </thead>
   <tbody>
@@ -24,11 +23,12 @@
       <td>#(user.username)</td>
       <td>#(user.password)</td>
       <td>#(user.role)</td>
-      <td><a href="/users/#(user.id)/edit" class="btn btn-primary">Edit Profile</a></td>
-      <td><a href="/users/#(user.id)/delete" class="btn btn-danger">Delete</a></td>
+      <td>
+          <a href="/users/#(user.id)/edit" class="ink-button">Edit</a>
+          <a href="/users/#(user.id)/delete" class="ink-button">Delete</a>
+      </td>
     </tr>
-
-    }
+  }
   </tbody>
   </table>
 

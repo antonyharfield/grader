@@ -3,8 +3,8 @@
 #export("title") { Edit Event }
 
 #export("content") {
-    <h2>Edit a Event</h2>
-    <form action="/events/#(editEvent.id)/edit" method="POST" enctype="multipart/form-data" class="ink-form">
+    <h2>Edit event</h2>
+    <form action="/events/#(event.id)/edit" method="POST" enctype="multipart/form-data" class="ink-form">
       <div class="control-group">
           <div class="column-group gutters">
               <div class="all-60">
@@ -15,23 +15,23 @@
                           <div class="all-100">
                               <label for="name">Event name</label>
                               <div class="control">
-                                  <input name="name" id="name" type="text" name="name" value="#(editEvent.name)" />
+                                  <input name="name" type="text" name="name" value="#(event.name)" />
                               </div>
 
                               <label for="language_restriction">Programming Language</label>
                               <div class="control">
-                                  <select name="language_restriction" id="language_restriction" name="language_restriction" value="#(editEvent.languageRestriction)">
+                                  <select name="language_restriction" name="language_restriction" value="#(event.languageRestriction)">
                                       <optgroup label="Available Languages">
                                           <option value="" selected>Any</option>
                                           <option value="java">Java</option>
+                                          <option value="kotlin">Kotlin</option>
+                                          <option value="python">Python</option>
                                           <option value="swift">Swift</option>
                                       </optgroup>
                                       <optgroup label="Coming Soon" disabled="disable">
                                           <option value="c">C / C++</option>
                                           <option value="c-sharp">C#</option>
-                                          <option value="kotlin">Kotlin</option>
                                           <option value="php">PHP</option>
-                                          <option value="python">Python</option>
                                           <option value="sql">SQL</option>
                                       </optgroup>
                                   </select>
@@ -49,25 +49,25 @@
                           <div class="all-50">
                               <label for="starts_at_date">Start Date</label>
                               <div class="control">
-                                  <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(startsAtDate)"/>
+                                  <input name="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(startsAtDate)"/>
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">Time</label>
                               <div class="control">
-                                  <input name="starts_at_time" id="starts_at_time" type="text" value="#(startsAtTime)" />
+                                  <input name="starts_at_time" type="text" value="#(startsAtTime)" />
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">End Date</label>
                               <div class="control">
-                                  <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(endsAtDate)" />
+                                  <input name="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(endsAtDate)" />
                               </div>
                           </div>
                           <div class="all-50">
                               <label for="starts_at_date">Time</label>
                               <div class="control">
-                                  <input name="ends_at_time" id="ends_at_time" type="text" value="#(endsAtTime)" />
+                                  <input name="ends_at_time" type="text" value="#(endsAtTime)" />
                               </div>
                           </div>
                       </div>
