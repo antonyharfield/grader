@@ -25,6 +25,10 @@ final class User: Model {
         self.role = role
     }
     
+    func setPassword(_ password: String) {
+        self.password = try! User.passwordHasher.make(password.makeBytes()).makeString()
+    }
+    
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("name", name)

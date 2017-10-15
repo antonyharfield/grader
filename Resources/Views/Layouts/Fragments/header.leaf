@@ -11,8 +11,17 @@
             <li class="active"><a href="/events">Events</a></li>
             <!--<li><a href="/scores">Scores</a></li>-->
 
+            #if(canTeach) {
+              <li>
+                  <a class="active">Admin</a>
+                  <ul class="submenu">
+                    <li><a href="/users">Users</a></li>
+                  </ul>
+              </li>
+            }
             #if(authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
+                <li class="right"><a href="/profile">Profile</a></li>
                 <li class="right disabled"><a href="#">Logged in as #(authenticatedUser.name)</a></li>
             }
             ##else() {

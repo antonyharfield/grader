@@ -1,0 +1,39 @@
+#extend("Layouts/base")
+
+#export("title") { Edit User }
+
+#export("content") {
+
+<h2>Edit user</h2>
+
+<form action="/edit" method="POST" enctype="multipart/form-data" class="ink-form">
+
+    <div class="control-group all-20">
+        <label for="name">Name</label>
+        <div class="control">
+            <input type="text" class="form-control" id="name" name="name" value="#(editUser.name)" />
+        </div>
+    </div>
+
+    <div class="control-group all-20">
+        <label for="email">E-mail</label>
+        <div class="control">
+            <input type="text" class="form-control" id="username" name="username" value="#(editUser.username)" />
+        </div>
+    </div>
+
+    <div class="control-group all-20">
+      <label for="image">Image</label>
+      <div class="control">
+        <input type="file" class="form-control" name="image">
+      </div>
+    </div>
+
+    <div class="control-group">
+        <a href="/changepassword" class="ink-button blue">Change password</a>
+        <input type="submit" class="ink-button blue" value="Submit"/>
+    </div>
+
+</form>
+
+}
