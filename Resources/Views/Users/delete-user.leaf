@@ -14,7 +14,7 @@
       </div>
 
       <div>
-        <a href="/users/#(user.id)" class="ink-button">Cancel</a>
+        <a href="/users" class="ink-button">Cancel</a>
       </div>
   </form>
 }
