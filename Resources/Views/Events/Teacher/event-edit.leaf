@@ -53,7 +53,7 @@
                               </div>
                           </div>
                           <div class="all-50">
-                              <label for="starts_at_date">Time</label>
+                              <label for="starts_at_date">Time (GMT)</label>
                               <div class="control">
                                   <input name="starts_at_time" type="text" value="#(startsAtTime)" />
                               </div>
@@ -65,7 +65,7 @@
                               </div>
                           </div>
                           <div class="all-50">
-                              <label for="starts_at_date">Time</label>
+                              <label for="starts_at_date">Time (GMT)</label>
                               <div class="control">
                                   <input name="ends_at_time" type="text" value="#(endsAtTime)" />
                               </div>
