@@ -83,7 +83,7 @@ extension User: PasswordAuthenticatable {
     public var hashedPassword: String? {
         return password
     }
-    public static let passwordHasher = BCryptHasher(cost: 10)
+    public static let passwordHasher = BCryptHasher(cost: 7)
 }
 
 extension User {
