@@ -20,13 +20,13 @@
 
                               <label for="language_restriction">Programming Language</label>
                               <div class="control">
-                                  <select name="language_restriction" name="language_restriction" value="#(event.languageRestriction)">
+                                  <select name="language_restriction" name="language_restriction">
                                       <optgroup label="Available Languages">
-                                          <option value="" selected>Any</option>
-                                          <option value="java">Java</option>
-                                          <option value="kotlin">Kotlin</option>
-                                          <option value="python">Python</option>
-                                          <option value="swift">Swift</option>
+                                          <option value="" #equal(event.languageRestriction, "") { selected }>Any</option>
+                                          <option value="java" #equal(event.languageRestriction, "java") { selected }>Java</option>
+                                          <option value="kotlin" #equal(event.languageRestriction, "kotlin") { selected }>Kotlin</option>
+                                          <option value="python" #equal(event.languageRestriction, "python") { selected }>Python</option>
+                                          <option value="swift" #equal(event.languageRestriction, "swift") { selected }>Swift</option>
                                       </optgroup>
                                       <optgroup label="Coming Soon" disabled="disable">
                                           <option value="c">C / C++</option>
