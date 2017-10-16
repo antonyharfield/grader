@@ -43,7 +43,7 @@ public final class UsersController {
 
             if let image = image {
                 let path = "/Users/student/Documents/Thesis-garder/grader/Public/uploads/\(user.id!.string!).jpg"
-                _ = save(bytes: imageUser.bytes!, path: path)
+                _ = save(bytes: image.bytes!, path: path)
             }
         }
 
