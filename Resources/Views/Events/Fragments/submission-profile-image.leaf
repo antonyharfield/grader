@@ -1,0 +1,8 @@
+#if(submission.userHasImage) {
+    <img class="profile-tiny" src="/users/#(submission.userID)/image"/>
+}
+##else() {
+    <div class="profile-tiny" style="background-color: #()#(submission.userColor)">
+        <img src="/images/profile-placeholder.png"/>
+    </div>
+}

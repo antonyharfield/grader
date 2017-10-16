@@ -27,8 +27,8 @@
       <tbody>
         #loop(scores, "row") {
             <tr>
-                <td>#add(index, "1")</td>
-                <td>#(row.name)</td>
+                <td>#embed("Events/Fragments/position-icon")</td>
+                <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
                 <td>#(row.problems)</td>
                 <td>#(row.attempts)</td>
                 <td>#(row.score)</td>

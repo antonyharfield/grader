@@ -21,14 +21,6 @@ footer .note {
     padding-left: 0;
 }
 
-table.scores tbody tr:nth-child(-n+3) td {
-    font-size: 1.2em;
-}
-
-table.scores tbody tr:first-child td {
-    font-size: 1.4em;
-}
-
 .ink-form textarea {
     height: 10em;
     min-height: 10em;
@@ -113,6 +105,8 @@ img.language:first-of-type {
     margin-left: 0.1em;
 }
 
+/* Profile pics */
+
 img.profile {
     width: 150px;
     height: 150px;
@@ -131,7 +125,41 @@ div.profile-tiny {
     display: inline-block;
     background-color: #ccc;
     margin-bottom: -4px;
+    text-align: center;
 }
 img.profile-tiny {
     margin-top: -2px;
+}
+
+/* Scores */
+
+table.scores tbody tr:nth-child(-n+3) td {
+    font-size: 1.2em;
+}
+
+table.scores tbody tr:nth-child(-n+2) td {
+    font-size: 1.4em;
+}
+
+table.scores tbody tr:first-child td {
+    font-size: 1.6em;
+}
+
+table.scores tbody tr:nth-child(-n+3) .profile-tiny {
+    width: 28px;
+    height: 28px;
+}
+
+table.scores tbody tr:nth-child(-n+2) .profile-tiny {
+    width: 31px;
+    height: 31px;
+}
+
+table.scores tbody tr:first-child .profile-tiny {
+    width: 34px;
+    height: 34px;
+}
+
+img.cup {
+    height: 36px;
 }

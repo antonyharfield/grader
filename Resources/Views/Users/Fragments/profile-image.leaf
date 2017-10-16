@@ -2,5 +2,7 @@
     <img class="profile-tiny" src="/users/#(user.id)/image"/>
 }
 ##else() {
-    <div class="profile-tiny" style="background-color: #()#(user.color)"></div>
+    <div class="profile-tiny" style="background-color: #()#(user.color)">
+        <img src="/images/profile-placeholder.png"/>
+    </div>
 }

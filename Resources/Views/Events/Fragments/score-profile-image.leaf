@@ -1,0 +1,8 @@
+#if(row.userHasImage) {
+    <img class="profile-tiny" src="/users/#(row.userID)/image"/>
+}
+##else() {
+    <div class="profile-tiny" style="background-color: #()#(row.userColor)">
+        <img src="/images/profile-placeholder.png"/>
+    </div>
+}

@@ -32,7 +32,10 @@
         #loop(submissions, "submission") {
             <tr>
                 <td>#(submission.createdAt)</td>
-                <td>#(submission.userName) <i class="devicon-#(submission.language)-plain"></i></td>
+                <td>
+                    #embed("Events/Fragments/submission-profile-image")
+                    #(submission.userName)
+                </td>
                 <td>#(submission.problemName)</td>
                 <td>#embed("Events/Fragments/submission-state")</td>
                 <td>

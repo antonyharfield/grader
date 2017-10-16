@@ -1,0 +1,9 @@
+#equal(offset, "1") {
+    <img class="cup" src="/images/position-gold.png"/>
+} ##equal(offset, "2") {
+    <img class="cup" src="/images/position-silver.png"/>
+} ##equal(offset, "3") {
+    <img class="cup" src="/images/position-bronze.png"/>
+} ##else() {
+    #(offset)
+}
