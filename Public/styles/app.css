@@ -117,3 +117,21 @@ img.profile {
     width: 150px;
     height: 150px;
 }
+
+.profile-tiny {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin: 0 4px;
+}
+.profile-tiny:first-child {
+    margin-left: 0px;
+}
+div.profile-tiny {
+    display: inline-block;
+    background-color: #ccc;
+    margin-bottom: -4px;
+}
+img.profile-tiny {
+    margin-top: -2px;
+}

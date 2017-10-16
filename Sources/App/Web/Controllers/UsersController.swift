@@ -9,14 +9,35 @@ public final class UsersController {
         self.view = view
     }
 
-    //Show User
     func showUser(request: Request) throws -> ResponseRepresentable {
-
         let users = try User.all()
         return try render("Users/users", ["users": users], for: request, with: view)
     }
+    
+    func image(request: Request) throws -> ResponseRepresentable {
+        let user = try request.parameters.next(User.self)
+        if !user.hasImage {
+            return try Response(filePath: "Public/images/profile-placeholder.png")
+        }
+        let fileSystem = FileSystem()
+        return try Response(filePath: fileSystem.userProfileImagePath(user: user))
+    }
+    
+    func addForm(request: Request) throws -> ResponseRepresentable {
+        return try render("Users/add-users", for: request, with: view)
+    }
+    
+    func add(request: Request) throws -> ResponseRepresentable {
+        guard let data = request.data["users_raw"]?.string else {
+                throw Abort.badRequest
+        }
+        
+        // TODO: implement csv parsing
+        
+        return Response(redirect: "/users")
+    }
 
-    //Edit
+
     func editForm(request: Request) throws -> ResponseRepresentable {
         let userID = try request.parameters.next(Int.self)
         let user = try User.find(userID)
@@ -46,7 +67,6 @@ public final class UsersController {
         return Response(redirect: "/users")
     }
 
-    //Delete
     func deleteForm(request: Request) throws -> ResponseRepresentable {
         let userID = try request.parameters.next(Int.self)
         let user = try User.find(userID)
@@ -61,6 +81,5 @@ public final class UsersController {
 
         return Response(redirect: "/users")
     }
-
 
 }

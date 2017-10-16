@@ -23,3 +23,17 @@ extension Role {
     }
     
 }
+
+extension Role {
+    
+    var string: String {
+        switch self {
+        case .student:
+            return "Student"
+        case .teacher:
+            return "Teacher"
+        case .admin:
+            return "Administrator"
+        }
+    }
+}

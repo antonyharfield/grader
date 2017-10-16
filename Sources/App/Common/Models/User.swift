@@ -69,7 +69,9 @@ extension User: NodeRepresentable {
         try node.set("email", email)
         try node.set("username", username)
         try node.set("role", role.rawValue)
+        try node.set("roleName", role.string)
         try node.set("hasImage", hasImage)
+        try node.set("color", PFColorHash().hex(name))
         return node
     }
 }

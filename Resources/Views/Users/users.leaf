@@ -3,33 +3,38 @@
 #export("title") { Users }
 
 #export("content") {
-  <h2>Users</h2>
+    <div class="pull-right button-group">
+        <a href="/users/new" class="ink-button"><span class="fa fa-plus"></span> Add Users</a>
+    </div>
 
-<table class="ink-table">
-  <thead>
-    <tr>
-      <th class="align-left">Name</th>
-      <th class="align-left">Username</th>
-      <th class="align-left">Password</th>
-      <th class="align-left">Role</th>
-      <th class="align-left"></th>
-    </tr>
-  </thead>
-  <tbody>
+    <h2>Users</h2>
 
-  #loop(users, "user"){
-    <tr>
-      <td>#(user.name)</td>
-      <td>#(user.username)</td>
-      <td>#(user.password)</td>
-      <td>#(user.role)</td>
-      <td>
-          <a href="/users/#(user.id)/edit" class="ink-button">Edit</a>
-          <a href="/users/#(user.id)/delete" class="ink-button">Delete</a>
-      </td>
-    </tr>
-  }
-  </tbody>
-  </table>
+    <table class="ink-table">
+        <thead>
+            <tr>
+                <th class="align-left">Name</th>
+                <th class="align-left">Username</th>
+                <th class="align-left">Role</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            #loop(users, "user"){
+                <tr>
+                    <td>
+                        #embed("Users/Fragments/profile-image")
+                        #(user.name)
+                    </td>
+                    <td>#(user.username)</td>
+                    <td>#(user.role)</td>
+                    <td class="align-right">
+                        <a href="/users/#(user.id)/edit" class="ink-button"><span class="fa fa-edit"></span></a>
+                        <a href="/users/#(user.id)/delete" class="ink-button red"><span class="fa fa-trash"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }

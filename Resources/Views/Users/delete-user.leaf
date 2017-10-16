@@ -9,12 +9,7 @@
   <form action="/users/#(user.id)/delete" method="POST">
       <p>Are you sure you want to delete <strong>#(user.name)</strong>?</p>
 
-      <div>
-        <input type="submit" class="ink-button" value="Delete"/>
-      </div>
-
-      <div>
-        <a href="/users" class="ink-button">Cancel</a>
-      </div>
+      <a href="/users" class="ink-button">Cancel</a>
+      <input type="submit" class="ink-button red" value="Delete"/>
   </form>
 }
