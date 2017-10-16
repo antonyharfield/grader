@@ -6,6 +6,7 @@ class FileSystem {
     // TODO: use drop.configUrl
     private let defaultSubmissionsPath = "/app/uploads/submissions/"
     private let defaultProblemFilesPath = "/app/uploads/problems/"
+    private let defaultUserPath = "/app/uploads/users/"
     private let defaultCompilationPath = "/app/srctest/"
     
     // TODO: pass in some configuration that allows custom paths
@@ -43,6 +44,13 @@ class FileSystem {
     func problemFilesPath(problemID: Identifier) -> String {
         let problemFolderName = problemID.string ?? ""
         return defaultProblemFilesPath + problemFolderName + "/"
+    }
+
+    func userProfileImagePath(user: User) -> String {
+        let userID = user.id?.string ?? ""
+        let directory = defaultUserPath + userID + "/"
+        ensurePathExists(path: directory)
+        return directory + "profile.jpg"
     }
     
     func compilationPath(workerID: Identifier? = nil) -> String {

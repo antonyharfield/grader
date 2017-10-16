@@ -112,3 +112,8 @@ h2 img.language, li img.language {
 img.language:first-of-type {
     margin-left: 0.1em;
 }
+
+img.profile {
+    width: 150px;
+    height: 150px;
+}

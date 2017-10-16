@@ -77,81 +77,17 @@ final class SeedCommand: Command {
     private func insertUsers() throws {
         print("- Creating Users")
 
-        let admin = User(name: "Administrator", username: "admin", password: "1234", role: .admin)
+        let admin = User(name: "Administrator", email: "admin@test.com", username: "admin", password: "1234", role: .admin)
         try admin.save()
         
-        let teacher = User(name: "Teacher", username: "teacher", password: "1234", role: .teacher)
+        let teacher = User(name: "Teacher", email: "teacher@test.com", username: "teacher", password: "1234", role: .teacher)
         try teacher.save()
 
-        let student = User(name: "Student", username: "student", password: "1234", role: .student)
-        try student.save()
-
-        let student1 = User(name: "Arya Stark", username: "student1", password: "1234", role: .student)
+        let student1 = User(name: "Arya Stark", email: "student1@test.com", username: "student1", password: "1234", role: .student)
         try student1.save()
         
-        let student2 = User(name: "Jon Snow", username: "student2", password: "1234", role: .student)
+        let student2 = User(name: "Jon Snow", email: "student2@test.com", username: "student2", password: "1234", role: .student)
         try student2.save()
-        
-        let myClass: [(String, String)] = [
-            ("58312020", "Pimonrat Mayoo"),
-            ("58313942", "Kamolporn Khankhai"),
-            ("58313959", "Kamonphon Chaihan"),
-            ("58313973", "Kettanok Yodsunthon"),
-            ("58314024", "Julalak Phumket"),
-            ("58314048", "Chanisara Uttamawetin"),
-            ("58314062", "Titawan Laksukthom"),
-            ("58314079", "Natdanai Phoopheeyo"),
-            ("58314086", "Nattapon Phothima"),
-            ("58314093", "Nattaphon Yooson"),
-            ("58314109", "Nattawan Chomchuen"),
-            ("58314116", "Nattawat Ruamsuk"),
-            ("58314123", "Tuangporn Kaewchue"),
-            ("58314130", "Tawanrung Keawjeang"),
-            ("58314154", "Thodsaphon Phimket"),
-            ("58314178", "Thanaphong Rittem"),
-            ("58314185", "Thanaphon Wetchaphon"),
-            ("58314192", "Thanawat Makenin"),
-            ("58314222", "Tansiri Saetung"),
-            ("58314246", "Thirakan Jeenduang"),
-            ("58314277", "Nadia Nusak"),
-            ("58314284", "Nitiyaporn Pormin"),
-            ("58314321", "Bunlung Korkeattomrong"),
-            ("58314338", "Patiphan Bunaum"),
-            ("58314345", "Pathompong Jankom"),
-            ("58314352", "Piyapong Ruengsiri"),
-            ("58314369", "Pongchakorn Kanthong"),
-            ("58314376", "Phongsiri Mahingsa"),
-            ("58314406", "Phatcharaphon Naun-Ngam"),
-            ("58314420", "Pittaya Boonyam"),
-            ("58314444", "Peeraphon Khoeitui"),
-            ("58314475", "Pakaporn Kiewpuampuang"),
-            ("58314499", "Panusorn Banlue"),
-            ("58314550", "Ronnachai Kammeesawang"),
-            ("58314574", "Ratree Onchana"),
-            ("58314581", "Lisachol Srichomchun"),
-            ("58314628", "Vintaya Prasertsit"),
-            ("58314642", "Witthaya Ngamprong"),
-            ("58314659", "Winai Kengthunyakarn"),
-            ("58314666", "Wisit Soontron"),
-            ("58314697", "Sakchai Yotthuean"),
-            ("58314703", "Sansanee Yimyoo"),
-            ("58314710", "Siripaporn Kannga"),
-            ("58314734", "Supawit Kiewbanyang"),
-            ("58314741", "Supisara Wongkhamma"),
-            ("58314789", "Suchada Buathong"),
-            ("58314802", "Supicha Tejasan"),
-            ("58314819", "Surachai Detmee"),
-            ("58314826", "Surasit Yerpui"),
-            ("58314840", "Athit Saenwaet"),
-            ("58314857", "Anucha Thavorn"),
-            ("58314864", "Apichai Noihilan"),
-            ("58314895", "Akarapon Thaidee"),
-            ("58314901", "Auravee Malha"),
-        ]
-
-        for x in myClass {
-            try User(name: x.1, username: x.0, password: "1234", role: .student).save()
-        }
     }
     
     private func insertEvents() throws {

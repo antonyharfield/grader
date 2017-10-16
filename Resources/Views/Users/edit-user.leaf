@@ -6,7 +6,7 @@
 
 <h2>Edit user</h2>
 
-<form action="/edit" method="POST" enctype="multipart/form-data" class="ink-form">
+<form method="post" enctype="multipart/form-data" class="ink-form">
 
     <div class="control-group all-20">
         <label for="name">Name</label>
@@ -23,10 +23,11 @@
     </div>
 
     <div class="control-group all-20">
-      <label for="image">Image</label>
-      <div class="control">
-        <input type="file" class="form-control" name="image">
-      </div>
+        <label for="image">Image</label>
+        <div class="control">
+            <img class="profile" src="./image"/>
+            <input type="file" class="form-control" name="image">
+        </div>
     </div>
 
     <div class="control-group">

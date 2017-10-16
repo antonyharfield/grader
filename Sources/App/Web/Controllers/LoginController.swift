@@ -34,21 +34,24 @@ final class LoginController {
     /// Login page submission
     func login(_ request: Request) throws -> ResponseRepresentable {
 
-        guard let email = request.data["email"]?.string,
+        guard let username = request.data["username"]?.string,
             let password = request.data["password"]?.string else {
                 throw Abort.badRequest
         }
 
-        let credentials = Password(username: email, password: password)
+        let credentials = Password(username: username, password: password)
         do {
             let user = try User.authenticate(credentials)
             try request.auth.authenticate(user, persist: true)
-            return Response(redirect: homepage)
+            user.lastLogin = Date()
+            try user.save()
         } catch {
-            return Response(redirect: "/login").flash(.error, "Wrong email or password.")
+            return Response(redirect: "/login").flash(.error, "Wrong username or password.")
         }
+        
+        return Response(redirect: homepage)
     }
-
+    
     /// Register page
     public func registerForm(request: Request) throws -> ResponseRepresentable {
         return try render("Auth/register", for: request, with: view)
@@ -57,19 +60,15 @@ final class LoginController {
     /// Register page submission
     func register(_ request: Request) throws -> ResponseRepresentable {
         guard let email = request.data["email"]?.string,
+            let username = request.data["username"]?.string,
             let password = request.data["password"]?.string,
-            let imageUser = request.formData?["image"],
             let name = request.data["name"]?.string else {
-
                 throw Abort.badRequest
         }
 
-        let user = User(name: name, username: email, password: password, role: .student)
+        let user = User(name: name, email: email, username: username, password: password, role: .student)
+        user.lastLogin = Date()
         try user.save()
-
-        let path = "/Users/student/Documents/Thesis-garder/grader/Public/uploads/\(user.id!.string!).jpg"
-        _ = save(bytes: imageUser.bytes!, path: path)
-
 
         let credentials = Password(username: email, password: password)
         do {
@@ -77,28 +76,8 @@ final class LoginController {
             try request.auth.authenticate(user, persist: true)
             return Response(redirect: homepage)
         } catch {
-
-            return Response(redirect: "/register").flash(.error, "Something bad happened.")
+            return Response(redirect: "/login").flash(.warning, "Something unexpected happened.")
         }
     }
-
-    func changePasswordForm(request: Request) throws -> ResponseRepresentable {
-        return try render("change-password", [:], for: request, with: view)
-    }
-
-    func changePassword(request: Request) throws -> ResponseRepresentable {
-        guard let password = request.data["newpassword"]?.string, let confirmPassword = request.data["confirmpassword"]?.string else {
-            throw Abort.badRequest
-        }
-        if password != confirmPassword {
-            return Response(redirect: "/changepassword").flash(.error, "Passwords do not match")
-        }
-        let user = request.user!
-        user.setPassword(password)
-        try user.save()
-
-        return Response(redirect: "/login")
-    }
-
 
 }

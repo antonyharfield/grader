@@ -4,7 +4,7 @@ import FluentProvider
 class P170924_ProblemCaseVisibility: Preparation {
     
     static func prepare(_ database: Database) throws {
-        print("Anyone there?")
+        print("P170924_ProblemCaseVisibility")
         try database.transaction { conn in
             // Add new
             try database.modify(ProblemCase.self) { builder in

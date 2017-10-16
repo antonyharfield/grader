@@ -5,24 +5,33 @@ import AuthProvider
 final class User: Model {
     
     var name: String
+    var email: String
     var username: String
     var password: String
     var role: Role
+    var lastLogin: Date?
+    var hasImage: Bool
     
     let storage = Storage()
     
     init(row: Row) throws {
         name = try row.get("name")
+        email = try row.get("email")
         username = try row.get("username")
         password = try row.get("password")
         role = Role(rawValue: try row.get("role")) ?? .student
+        lastLogin = try row.get("last_login")
+        hasImage = try row.get("has_image")
     }
     
-    init(name: String, username: String, password: String, role: Role) {
+    init(name: String, email: String, username: String, password: String, role: Role) {
         self.name = name
+        self.email = email
         self.username = username
         self.password = try! User.passwordHasher.make(password.makeBytes()).makeString()
         self.role = role
+        self.lastLogin = nil
+        self.hasImage = false
     }
     
     func setPassword(_ password: String) {
@@ -32,9 +41,12 @@ final class User: Model {
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("name", name)
+        try row.set("email", email)
         try row.set("username", username)
         try row.set("password", password)
         try row.set("role", role.rawValue)
+        try row.set("last_login", lastLogin)
+        try row.set("has_image", hasImage)
         return row
     }
     
@@ -54,8 +66,10 @@ extension User: NodeRepresentable {
         var node = Node(context)
         try node.set("id", id)
         try node.set("name", name)
+        try node.set("email", email)
         try node.set("username", username)
         try node.set("role", role.rawValue)
+        try node.set("hasImage", hasImage)
         return node
     }
 }
@@ -67,6 +81,12 @@ extension User: PasswordAuthenticatable {
         return password
     }
     public static let passwordHasher = BCryptHasher(cost: 10)
+}
+
+extension User {
+    public static func passwordMeetsRequirements(_ proposedPassword: String) -> Bool {
+        return proposedPassword.characters.count >= 4
+    }
 }
 
 extension User: SessionPersistable { }

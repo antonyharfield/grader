@@ -12,8 +12,11 @@ final class ProtectedRoutes: RouteCollection {
         
         let profileController = ProfileController(view)
         builder.get("profile", handler: profileController.profile)
-        builder.get("edit", handler: profileController.editForm)
-        builder.post("edit", handler: profileController.edit)
+        builder.get("profile/image", handler: profileController.image)
+        builder.get("profile/edit", handler: profileController.editForm)
+        builder.post("profile/edit", handler: profileController.edit)
+        builder.get("changepassword", handler: profileController.changePasswordForm)
+        builder.post("changepassword", handler: profileController.changePassword)
         builder.get("logout", handler: profileController.logout)
         
         let problemsController = ProblemsController(view)
@@ -23,11 +26,6 @@ final class ProtectedRoutes: RouteCollection {
         
         builder.get("events", Event.parameter, "problems", Int.parameter, handler: problemsController.form)
         builder.post("events", Event.parameter, "problems", Int.parameter, handler: problemsController.submit)
-        
-        let loginController = LoginController(view)
-        builder.get("changepassword", handler: loginController.changePasswordForm)
-        builder.post("changepassword", handler: loginController.changePassword)
-
     }
 }
 

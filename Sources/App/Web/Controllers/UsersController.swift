@@ -24,27 +24,23 @@ public final class UsersController {
     }
 
     func edit(request: Request) throws -> ResponseRepresentable {
-        guard let name =  request.data["name"]?.string,
-            let username =  request.data["username"]?.string else {
+        guard let name = request.data["name"]?.string,
+            let username = request.data["username"]?.string,
+            let email = request.data["email"]?.string else {
                 throw Abort.badRequest
         }
 
-        let image = request.formData?["image"]
-        let newPassword =  request.data["password"]?.string
+        let newPassword = request.data["password"]?.string
         
         let userID = try request.parameters.next(Int.self)
         if let user = try User.find(userID){
             user.name = name
+            user.email = email
             user.username = username
             if let password = newPassword, password != "" {
                 user.setPassword(password)
             }
             try user.save()
-
-            if let image = image {
-                let path = "/Users/student/Documents/Thesis-garder/grader/Public/uploads/\(user.id!.string!).jpg"
-                _ = save(bytes: image.bytes!, path: path)
-            }
         }
 
         return Response(redirect: "/users")

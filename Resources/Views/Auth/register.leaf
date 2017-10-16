@@ -11,30 +11,37 @@
     <div class="control-group all-20">
         <label for="name">Name</label>
         <div class="control">
-            <input type="text" class="form-control" name="name" required placeholder="Your name"/>
+            <input type="text" class="form-control" name="name" required />
         </div>
     </div>
 
     <div class="control-group all-20">
-        <label for="email">E-mail</label>
+        <label for="email">Email</label>
         <div class="control">
-            <input type="email" class="form-control" name="email" required placeholder="What's ya email?"/>
+            <input type="email" class="form-control" name="email" required />
+        </div>
+    </div>
+
+    <div class="control-group all-20">
+        <label for="username">Username (Your NU student ID, e.g. 5912345)</label>
+        <div class="control">
+            <input type="text" class="form-control" name="username" required />
         </div>
     </div>
 
     <div class="control-group all-20">
         <label for="password">Password</label>
         <div class="control">
-            <input type="password" class="form-control" name="password" required placeholder="A password dammit!"/>
+            <input type="password" class="form-control" name="password" required />
         </div>
     </div>
 
-    <div class="control-group all-20">
-      <label for="image">Image</label>
+    <!-- <div class="control-group all-20">
+      <label for="image">Profile image</label>
       <div class="control">
         <input type="file" class="form-control" name="image">
       </div>
-    </div>
+    </div> -->
 
     <div class="control-group">
         <input type="submit" class="ink-button" value="Register"/>

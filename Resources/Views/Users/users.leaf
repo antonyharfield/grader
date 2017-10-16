@@ -1,6 +1,6 @@
 #extend("Layouts/base")
 
-#export("title") { User }
+#export("title") { Users }
 
 #export("content") {
   <h2>Users</h2>
