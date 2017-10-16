@@ -1,0 +1,18 @@
+#extend("Layouts/base")
+
+#export("title") { New Users }
+
+#export("content") {
+    <h2>Import New Users</h2>
+    <form method="post" class="ink-form">
+        <div class="control-group">
+            <label for="users_raw">List of users (one per line, tab-separated)</label>
+            <div>
+                <textarea name="users_raw" placeholder="name(tab)email(tab)username(tab)password" style="width:100%;height:300px;font-family:monospace"></textarea>
+            </div>
+        </div>
+        <div class="control">
+            <input type="submit" class="ink-button">
+        </div>
+    </form>
+}

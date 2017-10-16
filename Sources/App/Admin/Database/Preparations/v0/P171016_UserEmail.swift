@@ -11,6 +11,10 @@ class P171016_UserEmail: Preparation {
                 builder.date("last_login", optional: true)
                 builder.bool("has_image", default: false)
             }
+            
+            try database.raw("update users set email = concat(username,'@nu.ac.th')")
+            try database.raw("alter table users add unique (email)")
+            try database.raw("alter table users add unique (username)")
         }
     }
     

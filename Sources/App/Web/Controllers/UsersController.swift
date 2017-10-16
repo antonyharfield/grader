@@ -1,5 +1,6 @@
 import Vapor
 import AuthProvider
+import Fluent
 
 public final class UsersController {
 
@@ -29,10 +30,41 @@ public final class UsersController {
     
     func add(request: Request) throws -> ResponseRepresentable {
         guard let data = request.data["users_raw"]?.string else {
-                throw Abort.badRequest
+            throw Abort.badRequest
         }
         
-        // TODO: implement csv parsing
+        var newUsers = [User]()
+        
+        // Parse the data
+        let cleanedData = data.replacingOccurrences(of: "\r", with: "\n", options: .regularExpression)
+        for line in cleanedData.components(separatedBy: "\n") {
+            let fields = line.components(separatedBy: "\t")
+
+            // Skip empty lines
+            if fields.count == 1 {
+                continue
+            }
+
+            // Error if not 4 fields
+            if fields.count != 4 {
+                return Response(redirect: "/users/new").flash(.error, "Each line must contain only 4 fields (tab-separated)")
+            }
+
+            let user = User(name: fields[0], email: fields[1], username: fields[2], password: fields[3], role: .student)
+            newUsers.append(user)
+        }
+        
+        // Perform saves in a transaction
+        do {
+            try User.database!.transaction { conn in
+                for user in newUsers {
+                    try user.save()
+                }
+            }
+        }
+        catch let error as TransactionError {
+            return Response(redirect: "/users/new").flash(.error, "Error saving to the database: \(error.reason)")
+        }
         
         return Response(redirect: "/users")
     }

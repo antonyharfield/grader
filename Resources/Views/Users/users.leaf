@@ -14,7 +14,9 @@
             <tr>
                 <th class="align-left">Name</th>
                 <th class="align-left">Username</th>
+                <th class="align-left">Email</th>
                 <th class="align-left">Role</th>
+                <th class="align-left">Last login</th>
                 <th></th>
             </tr>
         </thead>
@@ -27,10 +29,12 @@
                         #(user.name)
                     </td>
                     <td>#(user.username)</td>
-                    <td>#(user.role)</td>
+                    <td>#(user.email)</td>
+                    <td>#(user.roleName)</td>
+                    <td>#(user.lastLogin)</td>
                     <td class="align-right">
                         <a href="/users/#(user.id)/edit" class="ink-button"><span class="fa fa-edit"></span></a>
-                        <a href="/users/#(user.id)/delete" class="ink-button red"><span class="fa fa-trash"></span></a>
+                        <a href="/users/#(user.id)/delete" class="ink-button"><span class="fa fa-trash"></span></a>
                     </td>
                 </tr>
             }
