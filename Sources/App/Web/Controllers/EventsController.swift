@@ -184,11 +184,11 @@ final class EventsController: ResourceRepresentable {
         return Response(redirect: "/events/\(eventId.string!)/problems/\(eventProblem.sequence)")
     }
 
-    //GET Edit event
+    /// GET /events/:id/edit
     func eventEditForm(request: Request) throws -> ResponseRepresentable {
         let event = try request.parameters.next(Event.self)
 
-       let dateformatter = DateFormatter()
+        let dateformatter = DateFormatter()
         dateformatter.dateFormat = "yyyy-MM-dd"
         let timeformatter = DateFormatter()
         timeformatter.dateFormat = "HH:mm"
@@ -201,9 +201,10 @@ final class EventsController: ResourceRepresentable {
             "endsAtTime": event.endsAt == nil ? "" : timeformatter.string(from: event.endsAt!)], for: request, with: view)
     }
 
-    //POST Edit event
+    /// POST /events/:id/edit
     func eventEdit(request: Request) throws -> ResponseRepresentable {
-        guard let name =  request.data["name"]?.string else {
+        guard let name = request.data["name"]?.string, let shortDescription = request.data["short_description"]?.string,
+            let status = EventStatus(rawValue: Int(request.data["status"]?.string ?? "") ?? 0) else {
                 throw Abort.badRequest
         }
 
@@ -219,13 +220,20 @@ final class EventsController: ResourceRepresentable {
             .flatMap { rawDateTime in formatter.date(from: rawDateTime) }
 
         let languageRestriction = request.data["language_restriction"]?.string.flatMap { raw in Language(rawValue: raw) }
-
+        let scoringSystem = ScoringSystem(rawValue: Int(request.data["scoring_system"]?.string ?? "") ?? 0) ?? ScoringSystem.default
+        let scoresHiddenBeforeEnd = Int(request.data["scores_hidden_before_end"]?.string ?? "") ?? 0
+        
         let event = try request.parameters.next(Event.self)
-            event.name = name
-            event.startsAt = startsAt
-            event.endsAt = endsAt
-            event.languageRestriction = languageRestriction
-            try event.save()
+        event.name = name
+        event.shortDescription = shortDescription
+        event.status = status
+        event.startsAt = startsAt
+        event.endsAt = endsAt
+        event.languageRestriction = languageRestriction
+        event.scoringSystem = scoringSystem
+        event.scoresHiddenBeforeEnd = scoresHiddenBeforeEnd
+        
+        try event.save()
 
         return Response(redirect: "/events/#(event.eventId)/problems")
     }

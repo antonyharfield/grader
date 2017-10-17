@@ -14,6 +14,7 @@ enum ScoringSystem: Int {
         }
     }
     
+    static var `default`: ScoringSystem = .pointsThenLastCorrectSubmission
 }
 
 extension ScoringSystem: NodeRepresentable {

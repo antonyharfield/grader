@@ -28,7 +28,7 @@ final class Event: Model, NodeRepresentable {
     
     init(row: Row) throws {
         name = try row.get("name")
-        shortDescription = try row.get("name")
+        shortDescription = try row.get("short_description")
         status = EventStatus(rawValue: try row.get("status")) ?? .draft
         userID = try row.get("user_id")
         startsAt = try row.get("starts_at")
@@ -37,7 +37,7 @@ final class Event: Model, NodeRepresentable {
             self.languageRestriction = Language(rawValue: languageRestriction)
         }
         hasImage = try row.get("has_image")
-        scoringSystem = ScoringSystem(rawValue: try row.get("scoring_system")) ?? .pointsThenLastCorrectSubmission
+        scoringSystem = ScoringSystem(rawValue: try row.get("scoring_system")) ?? ScoringSystem.default
         scoresHiddenBeforeEnd = try row.get("scores_hidden_before_end")
     }
     
@@ -50,7 +50,7 @@ final class Event: Model, NodeRepresentable {
         self.endsAt = endsAt
         self.languageRestriction = languageRestriction
         self.hasImage = false
-        self.scoringSystem = .pointsThenLastCorrectSubmission
+        self.scoringSystem = ScoringSystem.default
         self.scoresHiddenBeforeEnd = 0
     }
     
@@ -70,16 +70,18 @@ final class Event: Model, NodeRepresentable {
     }
     
     func makeNode(in context: Context?) throws -> Node {
-        return try Node(node: [
-            "id": id!.makeNode(in: context),
-            "name": name.makeNode(in: context),
+        return try [
+            "id": id!,
+            "name": name,
             "shortDescription": shortDescription,
             "status": status,
-            "userID": userID.makeNode(in: context),
-            "startsAt": startsAt?.makeNode(in: context) ?? "",
-            "endsAt": endsAt?.makeNode(in: context) ?? "",
+            "userID": userID,
+            "startsAt": startsAt ?? "",
+            "endsAt": endsAt ?? "",
             "languageRestriction": languageRestriction ?? "",
-            "hasImage": hasImage])
+            "hasImage": hasImage,
+            "scoringSystem": scoringSystem,
+            "scoresHiddenBeforeEnd": scoresHiddenBeforeEnd].makeNode(in: nil)
     }
     
     func isVisible(to user: User) -> Bool {

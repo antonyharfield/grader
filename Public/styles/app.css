@@ -26,6 +26,15 @@ footer .note {
     min-height: 10em;
 }
 
+.ink-form ul.control {
+    margin: 0;
+}
+
+.ink-form .control img {
+    width: 100px;
+    height: 50px;
+}
+
 .problem-box {
     margin-right: 20px;
     margin-bottom: 20px;

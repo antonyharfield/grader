@@ -4,9 +4,9 @@
 
 #export("content") {
     <h2>Edit event</h2>
-    <form action="/events/#(event.id)/edit" method="POST" enctype="multipart/form-data" class="ink-form">
+    <form method="post" enctype="multipart/form-data" class="ink-form">
       <div class="control-group">
-          <div class="column-group gutters">
+          <div class="column-group horizontal-gutters">
               <div class="all-60">
                   <fieldset>
                       <legend>Details</legend>
@@ -15,30 +15,23 @@
                           <div class="all-100">
                               <label for="name">Event name</label>
                               <div class="control">
-                                  <input name="name" type="text" name="name" value="#(event.name)" />
+                                  <input name="name" type="text" value="#(event.name)" />
                               </div>
-
-                              <label for="language_restriction">Programming Language</label>
+                          </div>
+                          <div class="all-100">
+                              <label for="short_description">Short description</label>
                               <div class="control">
-                                  <select name="language_restriction" name="language_restriction">
-                                      <optgroup label="Available Languages">
-                                          <option value="" #equal(event.languageRestriction, "") { selected }>Any</option>
-                                          <option value="java" #equal(event.languageRestriction, "java") { selected }>Java</option>
-                                          <option value="kotlin" #equal(event.languageRestriction, "kotlin") { selected }>Kotlin</option>
-                                          <option value="python" #equal(event.languageRestriction, "python") { selected }>Python</option>
-                                          <option value="swift" #equal(event.languageRestriction, "swift") { selected }>Swift</option>
-                                      </optgroup>
-                                      <optgroup label="Coming Soon" disabled="disable">
-                                          <option value="c">C / C++</option>
-                                          <option value="c-sharp">C#</option>
-                                          <option value="php">PHP</option>
-                                          <option value="sql">SQL</option>
-                                      </optgroup>
-                                  </select>
+                                  <input name="short_description" type="text" value="#(event.shortDescription)" />
+                              </div>
+                          </div>
+                          <div class="all-100">
+                              <label for="image">Event graphic/banner</label>
+                              <div class="control">
+                                  <img src="./image"/>
+                                  <input type="file" class="form-control" name="image">
                               </div>
                           </div>
                       </div>
-
                   </fieldset>
               </div>
               <div class="all-40">
@@ -46,8 +39,16 @@
                       <legend>Schedule</legend>
 
                       <div class="column-group gutters">
+                          <div class="all-100">
+                                <label for="status">Status</label>
+                                <ul class="control unstyled inline">
+                                    <li><input type="radio" id="status1" name="status" value="1" #equal(event.status.id, "1") { checked="checked" } ##equal(event.status.id, "") { checked="checked" }><label for="status1">Draft</label></li>
+                                    <li><input type="radio" id="status2" name="status" value="2" #equal(event.status.id, "2") { checked="checked" }><label for="status2">Published</label></li>
+                                    <li><input type="radio" id="status3" name="status" value="3" #equal(event.status.id, "3") { checked="checked" }><label for="status3">Archived</label></li>
+                                </ul>
+                          </div>
                           <div class="all-50">
-                              <label for="starts_at_date">Start Date</label>
+                              <label for="starts_at_date">Start date</label>
                               <div class="control">
                                   <input name="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " name="starts_at_date" value="#(startsAtDate)"/>
                               </div>
@@ -59,7 +60,7 @@
                               </div>
                           </div>
                           <div class="all-50">
-                              <label for="starts_at_date">End Date</label>
+                              <label for="starts_at_date">End date</label>
                               <div class="control">
                                   <input name="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " name="ends_at_date" value="#(endsAtDate)" />
                               </div>
@@ -71,6 +72,44 @@
                               </div>
                           </div>
                       </div>
+                  </fieldset>
+              </div>
+              <div class="all-100">
+                  <fieldset>
+                      <legend>Rules &amp; Restrictions</legend>
+
+                      <div class="column-group gutters">
+                          <div class="all-33">
+                              <label for="language_restriction">Programming language</label>
+                              <div class="control">
+                                  <select name="language_restriction">
+                                      <optgroup label="Available Languages">
+                                          <option value="" #equal(event.languageRestriction, "") { selected }>Any</option>
+                                          <option value="java" #equal(event.languageRestriction, "java") { selected }>Java</option>
+                                          <option value="kotlin" #equal(event.languageRestriction, "kotlin") { selected }>Kotlin</option>
+                                          <option value="python" #equal(event.languageRestriction, "python") { selected }>Python</option>
+                                          <option value="swift" #equal(event.languageRestriction, "swift") { selected }>Swift</option>
+                                      </optgroup>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="all-33">
+                              <label for="scoring_system">Scoring system</label>
+                              <div class="control">
+                                  <select name="scoring_system">
+                                      <option value="1" #equal(event.scoringSystem.id, "1") { selected }>Points then Last Correct Submission</option>
+                                      <option value="2" #equal(event.scoringSystem.id, "2") { selected }>Points then Total Time (ACM-ICPC, no penalty)</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="all-33">
+                              <label for="scores_hidden_before_end">Scores hidden _ minutes before the end</label>
+                              <div class="control">
+                                  <input name="scores_hidden_before_end" type="text" value="#(event.scoresHiddenBeforeEnd)" placeholder="(default: 0, never hidden)" />
+                              </div>
+                          </div>
+                      </div>
+
                   </fieldset>
               </div>
           </div>
