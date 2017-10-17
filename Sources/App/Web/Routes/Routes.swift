@@ -24,9 +24,11 @@ final class Routes: RouteCollection {
         builder.post("register", handler: loginController.register)
         
         builder.resource("events", EventsController(view))
+        
+        let rankingsController = RankingsController(view)
+        builder.get("rankings", handler: rankingsController.global)
 
-        builder.get("about") { req in
-            return try render("about", for: req, with: self.view)
-        }
+        let staticContentController = StaticContentController(view)
+        builder.get("about", handler: staticContentController.about)
     }
 }

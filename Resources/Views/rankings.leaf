@@ -1,0 +1,31 @@
+#extend("Layouts/base")
+
+#export("title") { Global Rankings }
+
+#export("content") {
+
+    <h2>Global Rankings</h2>
+
+    <table class="ink-table scores">
+      <thead>
+        <tr>
+          <th class="align-left">Position</th>
+          <th class="align-left">Name</th>
+          <th class="align-left">Problems attempted</th>
+          <th class="align-left">Number of submissions</th>
+          <th class="align-left">Total score</th>
+        </tr>
+      </thead>
+      <tbody>
+        #loop(scores, "row") {
+            <tr>
+                <td>#embed("Events/Fragments/position-icon")</td>
+                <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
+                <td>#(row.problems)</td>
+                <td>#(row.attempts)</td>
+                <td>#(row.score)</td>
+            </tr>
+        }
+      </tbody>
+    </table>
+}

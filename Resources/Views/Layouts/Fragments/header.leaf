@@ -8,12 +8,12 @@
     <h1>Grader<small>practice for programmers</small></h1>
     <nav class="ink-navigation">
         <ul class="menu horizontal grey">
-            <li class="active"><a href="/events">Events</a></li>
-            <!--<li><a href="/scores">Scores</a></li>-->
+            <li #contains(path,"events") { class="active" }><a href="/events">Events</a></li>
+            <li #contains(path,"rankings") { class="active" }><a href="/rankings">Rankings</a></li>
 
             #if(canTeach) {
-              <li>
-                  <a class="active">Admin</a>
+              <li #contains(path,"users") { class="active" }>
+                  <a href="#" style="cursor: default;">Admin</a>
                   <ul class="submenu">
                     <li><a href="/users">Users</a></li>
                   </ul>
@@ -21,12 +21,12 @@
             }
             #if(authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
-                <li class="right"><a href="/profile">Profile</a></li>
+                <li class="right #contains(path,"profile") { active }"><a href="/profile">Profile</a></li>
                 <li class="right disabled"><a href="#">Logged in as #(authenticatedUser.name)</a></li>
             }
             ##else() {
-                <li class="right"><a href="/register">Register</a></li>
-                <li class="right"><a href="/login">Login</a></li>
+                <li class="right #contains(path,"register") { active }"><a href="/register">Register</a></li>
+                <li class="right #contains(path,"login") { active }"><a href="/login">Login</a></li>
             }
         </ul>
     </nav>
