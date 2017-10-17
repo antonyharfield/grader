@@ -153,6 +153,8 @@ img.language:first-of-type {
 img.profile {
     width: 150px;
     height: 150px;
+    border-radius: 50%;
+    border: solid 1px #000;
 }
 
 .profile-tiny {

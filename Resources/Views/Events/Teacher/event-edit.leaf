@@ -4,7 +4,7 @@
 
 #export("content") {
     <h2>Edit event</h2>
-    <form method="post" enctype="multipart/form-data" class="ink-form">
+    <form method="post" enctype="multipart/form-data" class="ink-form event">
       <div class="control-group">
           <div class="column-group horizontal-gutters">
               <div class="all-60">
@@ -28,7 +28,7 @@
                               <label for="image">Event graphic/banner</label>
                               <div class="control">
                                   <img src="./image"/>
-                                  <input type="file" class="form-control" name="image">
+                                  <input type="file" class="form-control" name="image" accept="image/png">
                               </div>
                           </div>
                       </div>
@@ -122,4 +122,8 @@
 
     </form>
 
+}
+
+#export("body-after") {
+    <script type="text/javascript" src="/js/file-picker-preview.js"></script>
 }

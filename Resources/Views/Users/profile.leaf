@@ -4,32 +4,32 @@
 
 #export("content") {
 
-<div>
-    <img class="profile" src="/profile/image"/>
-</div>
-
-<h2>#(user.name)</h2>
-
-<div class="column-group">
-    <div class="all-10">
-        Username
+    <div class="vertical-space">
+        <img class="profile" src="/profile/image"/>
     </div>
-    <div class="all-20">
-        #(user.username)
-    </div>
-</div>
 
-<div class="column-group">
-    <div class="all-10">
-        Email
-    </div>
-    <div class="all-20">
-        #(user.email)
-    </div>
-</div>
+    <h2>#(user.name)</h2>
 
-<div class="vertical-space">
-    <a class="ink-button" href="/profile/edit">Edit profile</a>
-    <a class="ink-button" href="/changepassword">Change password</a>
-</div>
+    <div class="column-group">
+        <div class="all-10">
+            Username
+        </div>
+        <div class="all-20">
+            #(user.username)
+        </div>
+    </div>
+
+    <div class="column-group">
+        <div class="all-10">
+            Email
+        </div>
+        <div class="all-20">
+            #(user.email)
+        </div>
+    </div>
+
+    <div class="vertical-space">
+        <a class="ink-button" href="/profile/edit">Edit profile</a>
+        <a class="ink-button" href="/changepassword">Change password</a>
+    </div>
 }

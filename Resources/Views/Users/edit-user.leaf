@@ -4,36 +4,39 @@
 
 #export("content") {
 
-<h2>Edit user</h2>
+    <h2>Edit user</h2>
 
-<form method="post" enctype="multipart/form-data" class="ink-form">
+    <form method="post" enctype="multipart/form-data" class="ink-form">
 
-    <div class="control-group all-20">
-        <label for="name">Name</label>
-        <div class="control">
-            <input type="text" class="form-control" name="name" value="#(user.name)" />
+        <div class="control-group all-20">
+            <label for="name">Name</label>
+            <div class="control">
+                <input type="text" class="form-control" name="name" value="#(user.name)" />
+            </div>
         </div>
-    </div>
 
-    <div class="control-group all-20">
-        <label for="username">Username</label>
-        <div class="control">
-            <input type="text" class="form-control" name="username" value="#(user.username)" />
+        <div class="control-group all-20">
+            <label for="username">Username</label>
+            <div class="control">
+                <input type="text" class="form-control" name="username" value="#(user.username)" />
+            </div>
         </div>
-    </div>
 
-    <div class="control-group all-20">
-        <label for="image">Image</label>
-        <div class="control">
-            <img class="profile" src="./image"/>
-            <input type="file" class="form-control" name="image">
+        <div class="control-group all-20">
+            <label for="image">Image</label>
+            <div class="control">
+                <img src="./image"/>
+                <input type="file" class="form-control" name="image" accept="image/jpeg">
+            </div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <input type="submit" class="ink-button" value="Save"/>
-    </div>
+        <div class="control-group">
+            <input type="submit" class="ink-button" value="Save"/>
+        </div>
 
-</form>
+    </form>
+}
 
+#export("body-after") {
+    <script type="text/javascript" src="/js/file-picker-preview.js"></script>
 }
