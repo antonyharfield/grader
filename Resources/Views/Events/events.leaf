@@ -12,20 +12,20 @@
 
     <h2>Events</h2>
 
-    <h3>Active this week</h3>
+    <h3>Current &amp; Upcoming</h3>
 
-    <ul>
-    #loop(activeEvents, "event") {
-        <li><a href="/events/#(event.id)">#(event.name)</a> #embed("Events/Fragments/event-language-icon")</li>
-    }
-    </ul>
+    <div class="event-grid column-group gutters">
+        #loop(activeEvents, "event") {
+            #embed("Events/Fragments/event-card")
+        }
+    </div>
 
-    <h3>Previous events</h3>
+    <h3>Previous</h3>
 
-    <ul>
-    #loop(pastEvents, "event") {
-        <li><a href="/events/#(event.id)">#(event.name)</a> #embed("Events/Fragments/event-language-icon")</li>
-    }
-    </ul>
+    <div class="event-grid column-group gutters">
+        #loop(pastEvents, "event") {
+            #embed("Events/Fragments/event-card")
+        }
+    </div>
 
 }

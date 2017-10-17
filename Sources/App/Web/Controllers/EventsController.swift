@@ -35,6 +35,15 @@ final class EventsController: ResourceRepresentable {
         let problems = try event.eventProblems.sort("sequence", .ascending).all()
         return try render("Events/event-logged-out", ["event": event, "problems": problems], for: request, with: view)
     }
+    
+    func image(request: Request) throws -> ResponseRepresentable {
+        let event = try request.parameters.next(Event.self)
+        if !event.hasImage {
+            throw Abort.notFound
+        }
+        let fileSystem = FileSystem()
+        return try Response(filePath: fileSystem.eventFilesPath(event: event) + "graphic.png")
+    }
 
     func makeResource() -> Resource<String> {
         return Resource(index: index, show: show)

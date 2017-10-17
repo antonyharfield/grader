@@ -1,0 +1,20 @@
+<div class="all-33 small-50 tiny-100">
+    <a href="/events/#(event.id)">
+    <figure class="ink-image">
+        #if(event.hasImage) {
+            <img src="/events/#(event.id)/image">
+        }
+        ##else() {
+            <div class="noimage #(event.languageRestriction)">
+                #embed("Events/Fragments/event-language-icon")
+            </div>
+        }
+        <figcaption class="over-bottom">
+            #(event.name)
+            #if(event.hasImage) {
+                #embed("Events/Fragments/event-language-icon")
+            }
+        </figcaption>
+    </figure>
+    </a>
+</div>

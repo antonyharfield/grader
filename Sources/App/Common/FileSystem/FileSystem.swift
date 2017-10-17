@@ -4,6 +4,7 @@ import Node
 class FileSystem {
     
     // TODO: use drop.configUrl
+    private let defaultEventFilesPath = "/app/uploads/events/"
     private let defaultSubmissionsPath = "/app/uploads/submissions/"
     private let defaultProblemFilesPath = "/app/uploads/problems/"
     private let defaultUserPath = "/app/uploads/users/"
@@ -34,6 +35,11 @@ class FileSystem {
             return false
         }
         return true
+    }
+    
+    func eventFilesPath(event: Event) -> String {
+        let eventFolderName = event.id?.string ?? ""
+        return defaultEventFilesPath + eventFolderName + "/"
     }
     
     func submissionUploadPath(submission: Submission) -> String {

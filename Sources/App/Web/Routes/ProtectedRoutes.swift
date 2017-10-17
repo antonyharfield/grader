@@ -26,9 +26,6 @@ final class ProtectedRoutes: RouteCollection {
         
         builder.get("events", Event.parameter, "problems", Int.parameter, handler: problemsController.form)
         builder.post("events", Event.parameter, "problems", Int.parameter, handler: problemsController.submit)
-        
-        let userController = UsersController(view)
-        builder.get("users", User.parameter, "image", handler: userController.image)
     }
 }
 

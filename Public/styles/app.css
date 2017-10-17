@@ -35,6 +35,40 @@ footer .note {
     height: 50px;
 }
 
+
+
+.event-grid img, .event-grid .noimage {
+    height: 210px;
+}
+
+.event-grid .noimage {
+    background-color: #ccc;
+    text-align: center;
+    font-size: 4em;
+    padding-top: 32px;
+}
+.event-grid .noimage.swift {
+    background-color: #ffc470;
+}
+.event-grid .noimage.java {
+    background-color: #8fbfdf;
+}
+.event-grid .noimage.python {
+    background-color: #ffed92;
+}
+.event-grid .noimage.kotlin {
+    background-color: #b194ea;
+}
+
+.event-grid a {
+    color: #404040;
+}
+.event-grid a:hover {
+    color: #000;
+}
+
+
+
 .problem-box {
     margin-right: 20px;
     margin-bottom: 20px;
@@ -105,7 +139,7 @@ footer .note {
 }
 
 
-h2 img.language, li img.language {
+img.language {
     width: 0.9em;
     height: 0.9em;
     vertical-align: baseline;

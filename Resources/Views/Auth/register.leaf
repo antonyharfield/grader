@@ -8,28 +8,28 @@
 
 <form method="POST" action="/register?next=#(next)" class="ink-form">
 
-    <div class="control-group all-20">
+    <div class="control-group all-33">
         <label for="name">Name</label>
         <div class="control">
             <input type="text" class="form-control" name="name" required />
         </div>
     </div>
 
-    <div class="control-group all-20">
+    <div class="control-group all-33">
         <label for="email">Email</label>
         <div class="control">
             <input type="email" class="form-control" name="email" required />
         </div>
     </div>
 
-    <div class="control-group all-20">
+    <div class="control-group all-33">
         <label for="username">Username (Your NU student ID, e.g. 5912345)</label>
         <div class="control">
             <input type="text" class="form-control" name="username" required />
         </div>
     </div>
 
-    <div class="control-group all-20">
+    <div class="control-group all-33">
         <label for="password">Password</label>
         <div class="control">
             <input type="password" class="form-control" name="password" required />

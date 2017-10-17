@@ -23,7 +23,12 @@ final class Routes: RouteCollection {
         builder.get("register", handler: loginController.registerForm)
         builder.post("register", handler: loginController.register)
         
-        builder.resource("events", EventsController(view))
+        let userController = UsersController(view)
+        builder.get("users", User.parameter, "image", handler: userController.image)
+        
+        let eventsController = EventsController(view)
+        builder.resource("events", eventsController)
+        builder.get("events", Event.parameter, "image", handler: eventsController.image)
         
         let rankingsController = RankingsController(view)
         builder.get("rankings", handler: rankingsController.global)
