@@ -28,4 +28,14 @@
         }
     </div>
 
+    #if(canTeach) {
+        <h3>Draft</h3>
+
+        <div class="event-grid column-group gutters">
+            #loop(draftEvents, "event") {
+                #embed("Events/Fragments/event-card")
+            }
+        </div>
+    }
+
 }

@@ -12,10 +12,15 @@ final class EventsController: ResourceRepresentable {
 
     /// GET /events
     func index(_ req: Request) throws -> ResponseRepresentable {
-        let activeEvents = try Event.makeQuery().filter(raw: "(starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)").all()
-        let pastEvents = try Event.makeQuery().filter(raw: "ends_at < CURRENT_TIMESTAMP").all()
+        let activeEvents = try Event.makeQuery().filter(raw: "status = 2 AND (starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)").all()
+        let pastEvents = try Event.makeQuery().filter(raw: "status = 2 AND ends_at < CURRENT_TIMESTAMP").all()
+        
+        var draftEvents = [Event]()
+        if let user = req.user {
+            draftEvents = try Event.makeQuery().filter(raw: "status = 1 AND user_id = ?", [user.id!]).all()
+        }
 
-        return try render("Events/events", ["activeEvents": activeEvents, "pastEvents": pastEvents], for: req, with: view)
+        return try render("Events/events", ["activeEvents": activeEvents, "pastEvents": pastEvents, "draftEvents": draftEvents], for: req, with: view)
     }
 
     /// GET /events/:id
