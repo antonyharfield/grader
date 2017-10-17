@@ -10,7 +10,7 @@
     </div>
 }
 
-<p><a href="/events/#(event.id)">#(event.name)</a></p>
+<p>Back to <a href="/events/#(event.id)">#(event.name)</a></p>
 
 <h2>#(problem.name)</h2>
 

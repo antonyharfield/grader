@@ -1,0 +1,22 @@
+#if(canTeach) {
+    <div class="pull-right button-group">
+        <a href="/events/#(event.id)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Event</a>
+        <a href="/events/#(event.id)/problems/new" class="ink-button"><span class="fa fa-plus"></span> Add Problem</a>
+    </div>
+}
+
+<h2>
+    #(event.name)
+    #embed("Events/Fragments/event-language-icon")
+    <small>#(event.shortDescription)</small>
+</h2>
+
+#if(authenticated) {
+    <nav class="ink-navigation">
+        <ul class="pagination pills grey">
+            <li #contains(path,"problems") { class="active" }><a href="/events/#(event.id)/problems">Problems</a></li>
+            <li #contains(path,"submissions") { class="active" }><a href="/events/#(event.id)/submissions">Submissions</a></li>
+            <li #contains(path,"scores") { class="active" }><a href="/events/#(event.id)/scores">Scores</a></li>
+        </ul>
+    </nav>
+}

@@ -4,16 +4,7 @@
 
 #export("content") {
 
-    #if(canTeach) {
-        <div class="pull-right button-group">
-            <a href="/events/#(event.id)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Event</a>
-            <a href="/events/#(event.id)/problems/new" class="ink-button"><span class="fa fa-plus"></span> Add Problem</a>
-        </div>
-    }
-
-    <h2>#(event.name) #embed("Events/Fragments/event-language-icon") <small>#(event.shortDescription)</small></h2>
-
-    #embed("Events/Fragments/event-menu")
+    #embed("Events/Fragments/event-header")
 
     <div class="column-group top-space">
     #loop(problems, "p") {

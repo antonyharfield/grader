@@ -10,9 +10,7 @@
 
 #export("content") {
 
-    <h2>#(event.name) #embed("Events/Fragments/event-language-icon")</h2>
-
-    #embed("Events/Fragments/event-menu")
+    #embed("Events/Fragments/event-header")
 
     <table class="ink-table top-space">
       <thead>
