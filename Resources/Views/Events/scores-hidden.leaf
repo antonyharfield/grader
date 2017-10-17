@@ -14,36 +14,9 @@
         - <time datetime="#(event.endsAt)">#(event.endsAt)</time>
     </p>
 
-    <div class="countdown" data-deadline="#(event.endsAt)">HERE</div>
+    <div class="countdown fullscreen" data-deadline="#(event.endsAt)"></div>
 }
 
 #export("body-after") {
-    <script>
-    $(document).ready(function() {
-        $("time").each(function() {
-            var datetime = $(this).attr("datetime");
-            if (datetime != "") {
-                var localDatetime = moment(datetime).format("llll");
-                $(this).text(localDatetime);
-            }
-            else {
-                $(this).text("Anytime");
-            }
-        });
-        $(".countdown").each(function() {
-            var element = $(this);
-            var x = setInterval(function() {
-              var deadline = moment(element.data('deadline'));
-              console.log(element.data('deadline'));
-              element.text(deadline.toNow(true));
-
-              // If the count down is finished, write some text
-              if (deadline.isAfter()) {
-                clearInterval(x);
-                element.html('Event ended!');
-              }
-            }, 1000);
-        });
-    });
-    </script>
+    <script type="text/javascript" src="/js/time.js"></script>
 }

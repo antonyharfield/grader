@@ -42,18 +42,5 @@
 }
 
 #export("body-after") {
-    <script>
-    $(document).ready(function() {
-        $("time").each(function() {
-            var datetime = $(this).attr("datetime");
-            if (datetime != "") {
-                var localDatetime = moment(datetime).format("llll");
-                $(this).text(localDatetime);
-            }
-            else {
-                $(this).text("Anytime");
-            }
-        });
-    });
-    </script>
+    <script type="text/javascript" src="/js/time.js"></script>
 }

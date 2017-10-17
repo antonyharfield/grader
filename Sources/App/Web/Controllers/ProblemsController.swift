@@ -93,7 +93,7 @@ final class ProblemsController {
         // Scores hidden in competition mode
         if event.scoresHiddenBeforeEnd > 0, let endsAt = event.endsAt {
             let minutesRemaining = Int(endsAt.timeIntervalSinceNow / 60.0)
-            if minutesRemaining > 0, minutesRemaining < event.scoresHiddenBeforeEnd {
+            if minutesRemaining >= 0, minutesRemaining < event.scoresHiddenBeforeEnd {
                 return try render("Events/scores-hidden", ["event": event], for: request, with: view)
             }
         }

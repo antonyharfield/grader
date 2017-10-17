@@ -172,3 +172,11 @@ table.scores tbody tr:first-child .profile-tiny {
 img.cup {
     height: 36px;
 }
+
+.countdown.fullscreen {
+    margin: 40px 0;
+    padding: 80px 40px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 72px;
+}
