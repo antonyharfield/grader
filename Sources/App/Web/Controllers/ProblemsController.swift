@@ -89,8 +89,16 @@ final class ProblemsController {
         guard let user = request.user, event.isVisible(to: user) else {
             throw Abort.unauthorized
         }
+        
+        // Scores hidden in competition mode
+        if event.scoresHiddenBeforeEnd > 0, let endsAt = event.endsAt {
+            let minutesRemaining = Int(endsAt.timeIntervalSinceNow / 60.0)
+            if minutesRemaining > 0, minutesRemaining < event.scoresHiddenBeforeEnd {
+                return try render("Events/scores-hidden", ["event": event], for: request, with: view)
+            }
+        }
 
-        let scores = try User.database!.raw("""
+        var sql = """
             SELECT
                 x.user_id userID,
                 u.name userName,
@@ -98,6 +106,7 @@ final class ProblemsController {
                 SUM(x.score) score,
                 SUM(x.elapsed_time_minutes) totalTimeMinutes,
                 SUM(x.attempts) attempts,
+                MAX(x.last_solved_at) lastSolvedAt,
                 MAX(x.last_attempt_at) lastAttemptAt,
                 COUNT(1) problems
             FROM users u
@@ -108,6 +117,7 @@ final class ProblemsController {
                     MAX(ss.score) score,
                     MIN(CASE WHEN ss.score = 100 THEN TIMESTAMPDIFF(MINUTE,IFNULL(e.starts_at,NOW()), ss.created_at) ELSE NULL END) elapsed_time_minutes,
                     COUNT(1) attempts,
+                    MIN(CASE WHEN ss.score = 100 THEN ss.created_at ELSE NULL END) last_solved_at,
                     MAX(ss.created_at) last_attempt_at
                 FROM submissions ss
                 JOIN event_problems ep ON ss.event_problem_id = ep.id
@@ -118,8 +128,16 @@ final class ProblemsController {
                 GROUP BY user_id, event_problem_id) x ON u.id = x.user_id
             WHERE u.role = 1
             GROUP BY x.user_id, u.name
-            ORDER BY score DESC, totalTimeMinutes ASC
-        """, [event.id!])
+        """
+        
+        switch event.scoringSystem {
+        case .pointsThenLastCorrectSubmission:
+            sql += " ORDER BY score DESC, lastSolvedAt ASC"
+        case .pointsThenTotalTime:
+            sql += " ORDER BY score DESC, totalTimeMinutes ASC"
+        }
+        
+        let scores = try User.database!.raw(sql, [event.id!])
 
         let colorHash = PFColorHash()
         var joinedScores = [Node]()

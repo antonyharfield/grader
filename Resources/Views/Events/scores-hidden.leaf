@@ -2,9 +2,6 @@
 
 #export("title") { #(event.name) }
 
-#export("head-after") {
-    <meta http-equiv="refresh" content="60">
-}
 #export("content") {
 
     <h2>#(event.name) #embed("Events/Fragments/event-language-icon")</h2>
@@ -17,28 +14,7 @@
         - <time datetime="#(event.endsAt)">#(event.endsAt)</time>
     </p>
 
-    <table class="ink-table scores">
-      <thead>
-        <tr>
-          <th class="align-left">Position</th>
-          <th class="align-left">Name</th>
-          <th class="align-left">Problems attempted</th>
-          <th class="align-left">Number of submissions</th>
-          <th class="align-left">Total score</th>
-        </tr>
-      </thead>
-      <tbody>
-        #loop(scores, "row") {
-            <tr>
-                <td>#embed("Events/Fragments/position-icon")</td>
-                <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
-                <td>#(row.problems)</td>
-                <td>#(row.attempts)</td>
-                <td>#(row.score)</td>
-            </tr>
-        }
-      </tbody>
-    </table>
+    <div class="countdown" data-deadline="#(event.endsAt)">HERE</div>
 }
 
 #export("body-after") {
@@ -53,6 +29,20 @@
             else {
                 $(this).text("Anytime");
             }
+        });
+        $(".countdown").each(function() {
+            var element = $(this);
+            var x = setInterval(function() {
+              var deadline = moment(element.data('deadline'));
+              console.log(element.data('deadline'));
+              element.text(deadline.toNow(true));
+
+              // If the count down is finished, write some text
+              if (deadline.isAfter()) {
+                clearInterval(x);
+                element.html('Event ended!');
+              }
+            }, 1000);
         });
     });
     </script>
