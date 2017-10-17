@@ -156,23 +156,25 @@ docker-compose logs -ft
 1. Make a backup first
 ```
 ssh grader
-cd /app
+cd /app/docker
 docker-compose exec database bash
 mysqldump -u root -p grader > dump.sql
+[Ctrl-D]
 ```
 
 2. Copy backup down to localhost
 ```
-docker cp <container_id>:/dump.sql /app/dump.sql
+docker cp `docker-compose ps -q database`:/dump.sql /app/dump.sql
 [Ctrl-D]
 scp grader:/app/dump.sql ./
 ```
 
-3. Make database changes (from aws)
+3. Make database changes (from aws) -- if required
 ```
 ssh grader
-cd /app
+cd /app/docker
 docker-compose exec database mysql -u root -p grader
+[Ctrl-D]
 ```
 (and do you stuff!)
 
@@ -184,6 +186,7 @@ docker-compose exec database mysql -u root -p grader
 5. Rebuild the worker container (if required)
 ```
 ssh grader
-cd /app
+cd /app/docker
 docker-compose up -d --no-deps --build worker
+[Ctrl-D]
 ```
