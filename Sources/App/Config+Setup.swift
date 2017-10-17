@@ -40,6 +40,7 @@ extension Config {
         // Migrations
         preparations.append(P170924_ProblemCaseVisibility.self)
         preparations.append(P171016_UserEmail.self)
+        preparations.append(P171017_EventAdditions.self)
     }
     
     private func addCommands() {
