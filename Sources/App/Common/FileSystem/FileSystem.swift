@@ -52,11 +52,13 @@ class FileSystem {
         return defaultProblemFilesPath + problemFolderName + "/"
     }
 
+    func userFilesPath(user: User) -> String {
+        let userFolderName = user.id?.string ?? ""
+        return defaultUserPath + userFolderName + "/"
+    }
+    
     func userProfileImagePath(user: User) -> String {
-        let userID = user.id?.string ?? ""
-        let directory = defaultUserPath + userID + "/"
-        ensurePathExists(path: directory)
-        return directory + "profile.jpg"
+        return userFilesPath(user: user) + "profile.jpg"
     }
     
     func compilationPath(workerID: Identifier? = nil) -> String {

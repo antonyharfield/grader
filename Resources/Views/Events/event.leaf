@@ -11,7 +11,7 @@
         </div>
     }
 
-    <h2>#(event.name) #embed("Events/Fragments/event-language-icon")</h2>
+    <h2>#(event.name) #embed("Events/Fragments/event-language-icon") <small>#(event.shortDescription)</small></h2>
 
     #embed("Events/Fragments/event-menu")
 

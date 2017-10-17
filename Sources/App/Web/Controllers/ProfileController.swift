@@ -51,6 +51,7 @@ public final class ProfileController {
                 return Response(redirect: "/profile/edit").flash(.error, "Image should be jpeg files only (.jpg)")
             }
             let fileSystem = FileSystem()
+            fileSystem.ensurePathExists(path: fileSystem.userFilesPath(user: user))
             let uploadPath = fileSystem.userProfileImagePath(user: user)
             if !fileSystem.save(bytes: bytes, path: uploadPath) {
                 return Response(redirect: "/profile/edit").flash(.error, "Unable to save the file")

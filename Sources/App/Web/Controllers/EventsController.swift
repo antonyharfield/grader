@@ -242,6 +242,21 @@ final class EventsController: ResourceRepresentable {
         event.scoringSystem = scoringSystem
         event.scoresHiddenBeforeEnd = scoresHiddenBeforeEnd
         
+        // If an event image was uploaded
+        if let imageData = request.formData?["image"], let bytes = imageData.bytes,
+            let mimeType = imageData.part.headers["Content-Type"] {
+            if mimeType != "image/png" {
+                return Response(redirect: "/events/#(event.eventId)/edit").flash(.error, "Image should be png only")
+            }
+            let fileSystem = FileSystem()
+            let uploadPath = fileSystem.eventFilesPath(event: event)
+            fileSystem.ensurePathExists(path: uploadPath)
+            if !fileSystem.save(bytes: bytes, path: uploadPath + "graphic.png") {
+                return Response(redirect: "/events/#(event.eventId)/edit").flash(.error, "Unable to save the file")
+            }
+            event.hasImage = true
+        }
+        
         try event.save()
 
         return Response(redirect: "/events/#(event.eventId)/problems")
