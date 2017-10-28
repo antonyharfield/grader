@@ -104,6 +104,7 @@ final class ProblemsController {
                 u.name userName,
                 u.has_image userHasImage,
                 SUM(x.score) score,
+                SUM(x.passed) totalPassed,
                 SUM(x.elapsed_time_minutes) totalTimeMinutes,
                 SUM(x.attempts) attempts,
                 MAX(x.last_solved_at) lastSolvedAt,
@@ -115,6 +116,7 @@ final class ProblemsController {
                     ss.user_id,
                     ss.event_problem_id,
                     MAX(ss.score) score,
+                    MAX(CASE WHEN ss.score = 100 THEN 1 ELSE 0 END) passed,
                     MIN(CASE WHEN ss.score = 100 THEN TIMESTAMPDIFF(MINUTE,IFNULL(e.starts_at,NOW()), ss.created_at) ELSE NULL END) elapsed_time_minutes,
                     COUNT(1) attempts,
                     MIN(CASE WHEN ss.score = 100 THEN ss.created_at ELSE NULL END) last_solved_at,
@@ -134,7 +136,7 @@ final class ProblemsController {
         case .pointsThenLastCorrectSubmission:
             sql += " ORDER BY score DESC, lastSolvedAt ASC"
         case .pointsThenTotalTime:
-            sql += " ORDER BY score DESC, totalTimeMinutes ASC"
+            sql += " ORDER BY totalPassed DESC, totalTimeMinutes ASC"
         }
         
         let scores = try User.database!.raw(sql, [event.id!])

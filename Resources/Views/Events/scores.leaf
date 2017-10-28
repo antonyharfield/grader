@@ -22,7 +22,12 @@
           <th class="align-left">Name</th>
           <th class="align-left">Problems attempted</th>
           <th class="align-left">Number of submissions</th>
-          <th class="align-left">Total score</th>
+          #equal(event.scoringSystem.id,"2") {
+            <th class="align-left">Problems correct</th>
+            <th class="align-left">Total time</th>
+          } ##else() {
+            <th class="align-left">Total score</th>
+          }
         </tr>
       </thead>
       <tbody>
@@ -32,7 +37,12 @@
                 <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
                 <td>#(row.problems)</td>
                 <td>#(row.attempts)</td>
+                #equal(event.scoringSystem.id,"2") {
+                <td>#(row.totalPassed)</td>
+                <td>#(row.totalTimeMinutes)</td>
+                } ##else() {
                 <td>#(row.score)</td>
+                }
             </tr>
         }
       </tbody>
