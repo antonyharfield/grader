@@ -24,7 +24,7 @@
           <th class="align-left">Number of submissions</th>
           #equal(event.scoringSystem.id,"2") {
             <th class="align-left">Problems correct</th>
-            <th class="align-left">Total time</th>
+            <th class="align-left hide-all">Total time</th>
           } ##else() {
             <th class="align-left">Total score</th>
           }
@@ -39,7 +39,7 @@
                 <td>#(row.attempts)</td>
                 #equal(event.scoringSystem.id,"2") {
                 <td>#(row.totalPassed)</td>
-                <td>#(row.totalTimeMinutes)</td>
+                <td class="hide-all">#(row.totalTimeMinutes)</td>
                 } ##else() {
                 <td>#(row.score)</td>
                 }
