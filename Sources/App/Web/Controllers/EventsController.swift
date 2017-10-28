@@ -248,7 +248,7 @@ final class EventsController: ResourceRepresentable {
         event.scoresHiddenBeforeEnd = scoresHiddenBeforeEnd
         
         // If an event image was uploaded
-        if let imageData = request.formData?["image"], let bytes = imageData.bytes,
+        if let imageData = request.formData?["image"], let bytes = imageData.bytes, bytes.count > 0,
             let mimeType = imageData.part.headers["Content-Type"] {
             if mimeType != "image/png" {
                 return Response(redirect: "/events/#(event.eventId)/edit").flash(.error, "Image should be png only")
