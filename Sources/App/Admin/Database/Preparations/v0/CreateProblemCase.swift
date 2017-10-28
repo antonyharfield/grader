@@ -7,7 +7,7 @@ extension ProblemCase: Preparation {
         try database.create(self) { builder in
             builder.id()
             builder.parent(Problem.self, optional: false)
-            builder.string("input")
+            builder.string("input", length: 2000)
             builder.string("output")
             builder.bool("visible")
         }
