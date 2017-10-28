@@ -13,12 +13,7 @@ func trim(_ input: String) -> String {
 }
 
 func standardiseNewlines(_ input: String) -> String {
-    let possibleNewlines = ["\n\r", "\r\n","\r"]
-    var result = input
-    possibleNewlines.forEach { newline in
-        result = result.replacingOccurrences(of: newline, with: "\n")
-    }
-    return result
+    return input.replacingOccurrences(of: "\r\n", with: "\n")
 }
 
 func prepareOutput(_ string: String, ignoreWhitespace: Bool = false, ignoreNewlines: Bool = false) -> String {
