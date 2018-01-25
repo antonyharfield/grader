@@ -190,3 +190,12 @@ cd /app/docker
 docker-compose up -d --no-deps --build worker
 [Ctrl-D]
 ```
+
+### Resource limits
+
+Use these commands on running containers to modify the resource allocation.
+```
+docker update --cpus=".25" <containerid>   # Guarantee that a container has at least 25% of 1 cpu core
+docker update -c 512 <containerid>         # Give 50% share of the CPU to a container (512 out of 1024)
+docker update -m 750M <containerid>        # Limit memory to 750MB for a container
+```
