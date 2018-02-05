@@ -41,7 +41,7 @@ public final class UsersController {
             let fields = line.components(separatedBy: "\t")
 
             // Skip empty lines
-            if fields.count == 1 {
+            if fields.count <= 1 {
                 continue
             }
 
@@ -111,6 +111,53 @@ public final class UsersController {
             try user.delete()
         }
 
+        return Response(redirect: "/users")
+    }
+
+    func bulkPasswordSetForm(request: Request) throws -> ResponseRepresentable {
+        return try render("Users/bulk-password", for: request, with: view)
+    }
+    
+    func bulkPasswordSet(request: Request) throws -> ResponseRepresentable {
+        guard let data = request.data["users_raw"]?.string else {
+            throw Abort.badRequest
+        }
+        
+        var idsAndPasswords = [(String,String)]()
+        
+        // Parse the data
+        let cleanedData = data.replacingOccurrences(of: "\r", with: "\n", options: .regularExpression)
+        for line in cleanedData.components(separatedBy: "\n") {
+            let fields = line.components(separatedBy: "\t")
+            
+            // Skip empty lines
+            if fields.count <= 1 {
+                continue
+            }
+            
+            // Error if not 2 fields
+            if fields.count != 2 {
+                return Response(redirect: "/users/new").flash(.error, "Each line must contain only 2 fields (tab-separated)")
+            }
+            
+            idsAndPasswords.append((fields[0], fields[1]))
+        }
+        
+        // Perform saves in a transaction
+        do {
+            try User.database!.transaction { conn in
+                for (id, password) in idsAndPasswords {
+                    if let user = try User.makeQuery().filter("username", id).first() {
+                        user.setPassword(password)
+                        try user.save()
+                    }
+                }
+            }
+        }
+        catch let error as TransactionError {
+            return Response(redirect: "/users/new").flash(.error, "Error saving to the database: \(error.reason)")
+        }
+        
         return Response(redirect: "/users")
     }
 

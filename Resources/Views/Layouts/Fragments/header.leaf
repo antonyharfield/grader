@@ -13,9 +13,10 @@
 
             #if(canTeach) {
               <li #contains(path,"users") { class="active" }>
-                  <a href="#" style="cursor: default;">Admin</a>
+                  <a href="#" style="cursor: default;">Administration</a>
                   <ul class="submenu">
                     <li><a href="/users">Users</a></li>
+                    <li><a href="/users/bulkpassword">Password Reset</a></li>
                   </ul>
               </li>
             }

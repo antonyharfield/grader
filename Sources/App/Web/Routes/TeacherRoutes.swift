@@ -46,5 +46,8 @@ final class TeacherRoutes: RouteCollection {
         builder.post("users", Int.parameter, "edit", handler: userController.edit)
         builder.get("users", Int.parameter, "delete", handler: userController.deleteForm)
         builder.post("users", Int.parameter, "delete", handler: userController.delete)
+        builder.get("users", "bulkpassword", handler: userController.bulkPasswordSetForm)
+        builder.post("users", "bulkpassword", handler: userController.bulkPasswordSet)
+        
     }
 }
