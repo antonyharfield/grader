@@ -18,7 +18,7 @@
                                     <input name="name" id="name" type="text" />
                                 </div>
 
-                                <label for="language_restriction">Programming Language</label>
+                                <label for="language_restriction">Programming language</label>
                                 <div class="control">
                                     <select name="language_restriction" id="language_restriction">
                                         <optgroup label="Available Languages">
@@ -27,12 +27,6 @@
                                             <option value="kotlin">Kotlin</option>
                                             <option value="python">Python</option>
                                             <option value="swift">Swift</option>
-                                        </optgroup>
-                                        <optgroup label="Coming Soon" disabled="disable">
-                                            <option value="c">C / C++</option>
-                                            <option value="c-sharp">C#</option>
-                                            <option value="php">PHP</option>
-                                            <option value="sql">SQL</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -47,7 +41,7 @@
 
                         <div class="column-group gutters">
                             <div class="all-50">
-                                <label for="starts_at_date">Start Date</label>
+                                <label for="starts_at_date">Start date</label>
                                 <div class="control">
                                     <input name="starts_at_date" id="starts_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="Start immediately" data-close-text="X" data-of-text=" - " />
                                 </div>
@@ -59,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="all-50">
-                                <label for="starts_at_date">End Date</label>
+                                <label for="starts_at_date">End date</label>
                                 <div class="control">
                                     <input name="ends_at_date" id="ends_at_date" type="text" class="ink-datepicker" data-format="Y-m-d" data-clean-text="No automatic end" data-close-text="X" data-of-text=" - " />
                                 </div>
