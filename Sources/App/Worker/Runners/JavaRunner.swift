@@ -56,6 +56,8 @@ class JavaRunner: Runner {
                 return .unknownFailure
             }
         }
+
+        // TODO: Copy problem files to compilation path (see SwiftRunner for example)
         
         console.print("Compiling")
         
@@ -66,6 +68,7 @@ class JavaRunner: Runner {
         }
         
         // Determine which class has the main method
+        // TODO: Don't just pick the first file -- use the regex below to find the correct file
         let mainPackage = readPackage(filePath: sourcePaths.first!).map { $0 + "." } ?? ""
         let mainClass = stripFileExtension(mainPackage + submission.files.first!)
         
