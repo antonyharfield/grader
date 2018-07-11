@@ -5,14 +5,17 @@
 </style>
 
 <header class="vertical-space">
-    <h1>Grader<small>practice for programmers</small></h1>
-    <nav class="ink-navigation">
+    <div class="ink-grid">
+        <h1>Grader<small>practice for programmers</small></h1>
+<pre>#get(common)</pre>
+    </div>
+    <nav class="ink-navigation ink-grid">
         <ul class="menu horizontal grey">
-            <li #contains(path,"events") { class="active" }><a href="/events">Events</a></li>
-            <li #contains(path,"rankings") { class="active" }><a href="/rankings">Rankings</a></li>
+            <li #if(contains(common.pathComponents,"events") || common.path == "/") { class="active" }><a href="/">Events</a></li>
+            <li #if(contains(common.pathComponents,"rankings")) { class="active" }><a href="/rankings">Rankings</a></li>
 
             #if(canTeach) {
-              <li #contains(path,"users") { class="active" }>
+              <li #if(contains(common.pathComponents,"users")) { class="active" }>
                   <a href="#" style="cursor: default;">Administration</a>
                   <ul class="submenu">
                     <li><a href="/users">Users</a></li>
@@ -20,14 +23,13 @@
                   </ul>
               </li>
             }
-            #if(authenticated) {
+            #if(common.authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
-                <li class="right #contains(path,"profile") { active }"><a href="/profile">Profile</a></li>
-                <li class="right disabled"><a href="#">Logged in as #(authenticatedUser.name)</a></li>
-            }
-            ##else() {
-                <li class="right #contains(path,"register") { active }"><a href="/register">Register</a></li>
-                <li class="right #contains(path,"login") { active }"><a href="/login">Login</a></li>
+                <li class="right #if(contains(common.pathComponents,"profile")) { active }"><a href="/profile">Profile</a></li>
+                <li class="right disabled"><a href="#">Logged in as #(common.authenticatedUser.name)</a></li>
+            } else {
+                <li class="right #if(contains(common.pathComponents,"register")) { active }"><a href="/register">Register</a></li>
+                <li class="right #if(contains(common.pathComponents,"login")) { active }"><a href="/login">Login</a></li>
             }
         </ul>
     </nav>

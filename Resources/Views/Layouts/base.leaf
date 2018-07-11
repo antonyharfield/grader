@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>#import("title")</title>
+    <title>#get(title)</title>
     <meta name="description" content="">
     <meta name="author" content="ink, cookbook, recipes">
     <meta name="HandheldFriendly" content="True">
@@ -38,10 +38,12 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/app.css">
-    #import("head-after")
+    #get(head-after)
 </head>
 
 <body>
+
+#embed("Layouts/Fragments/header")
 
 <div class="ink-grid">
 
@@ -55,15 +57,14 @@
     </div>
     -->
 
-    #embed("Layouts/Fragments/header")
     #embed("Layouts/Fragments/flash")
 
-    #import("content")
+    #get(content)
 
 </div>
 
 #embed("Layouts/Fragments/footer")
 
-#import("body-after")
+#get(body-after)
 </body>
 </html>

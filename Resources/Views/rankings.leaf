@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Global Rankings }
 
-#export("title") { Global Rankings }
-
-#export("content") {
+#set("content") {
 
     <h2>Global Rankings</h2>
 
@@ -17,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        #loop(scores, "row") {
+        #for(row in rankings) {
             <tr>
                 <td>#embed("Events/Fragments/position-icon")</td>
                 <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
@@ -29,3 +27,5 @@
       </tbody>
     </table>
 }
+
+#embed("Layouts/base")

@@ -1,8 +1,7 @@
-#extend("Layouts/base")
 
-#export("title") { Login }
+#set("title") { Login }
 
-#export("content") {
+#set("content") {
 
 <h2>Login</h2>
 
@@ -31,3 +30,5 @@
 
 </form>
 }
+
+#embed("Layouts/base")

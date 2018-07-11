@@ -3,8 +3,7 @@
     <figure class="ink-image">
         #if(event.hasImage) {
             <img src="/events/#(event.id)/image">
-        }
-        ##else() {
+        } else {
             <div class="noimage #(event.languageRestriction)">
                 #embed("Events/Fragments/event-language-icon")
             </div>

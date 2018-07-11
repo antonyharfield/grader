@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Profile }
 
-#export("title") { Profile }
-
-#export("content") {
+#set("content") {
 
     <div class="vertical-space">
         <img class="profile" src="/profile/image"/>
@@ -33,3 +31,5 @@
         <a class="ink-button" href="/changepassword">Change password</a>
     </div>
 }
+
+#embed("Layouts/base")

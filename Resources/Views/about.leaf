@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Grader - About }
 
-#export("title") { Grader - About }
-
-#export("content") {
+#set("content") {
 
     <h2>About</h2>
 
@@ -13,8 +11,10 @@
         do {
             let solution = student.applyProgrammingSkill(to: p)
             let result = grader.upload(solution)
-        } while (!result.correct)
+        \} while (!result.correct)
     </pre>
 
     <p>Enjoy!</p>
 }
+
+#embed("Layouts/base")

@@ -1,6 +1,4 @@
-import HTTP
 import Vapor
-import AuthProvider
 
 final class GuardPermissionsMiddleware: Middleware {
     
@@ -10,12 +8,15 @@ final class GuardPermissionsMiddleware: Middleware {
         self.permissions = permissions
     }
     
-    func respond(to request: Request, chainingTo next: Responder) throws -> Response {
-        // User must have ALL required permissions
-        guard let user: User = request.user, user.can(permissions)
-        else { throw Abort.unauthorized }
+    func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
+        return request.sessionUser().flatMap { user in
+            // User must have ALL required permissions
+            guard let user = user, user.can(self.permissions) else {
+                throw Abort.init(HTTPResponseStatus.unauthorized)
+            }
+            return try next.respond(to: request)
+        }
         
-        return try next.respond(to: request)
     }
     
 }

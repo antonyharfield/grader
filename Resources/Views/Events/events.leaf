@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Events }
 
-#export("title") { Events }
-
-#export("content") {
+#set("content") {
 
     #if(canTeach) {
         <div class="pull-right button-group">
@@ -15,7 +13,7 @@
     <h3>Current &amp; Upcoming</h3>
 
     <div class="event-grid column-group gutters">
-        #loop(activeEvents, "event") {
+        #for(event in activeEvents) {
             #embed("Events/Fragments/event-card")
         }
     </div>
@@ -23,8 +21,8 @@
     <h3>Previous</h3>
 
     <div class="event-grid column-group gutters">
-        #loop(pastEvents, "event") {
-            #embed("Events/Fragments/event-card")
+        #for(event in pastEvents) {
+            embed("Events/Fragments/event-card")
         }
     </div>
 
@@ -32,10 +30,12 @@
         <h3>Draft</h3>
 
         <div class="event-grid column-group gutters">
-            #loop(draftEvents, "event") {
+            #for(event in draftEvents) {
                 #embed("Events/Fragments/event-card")
             }
         </div>
     }
 
 }
+
+#embed("Layouts/base")

@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Register }
 
-#export("title") { Register }
-
-#export("content") {
+#set("content") {
 
 <h2>Register a new user</h2>
 
@@ -49,3 +47,5 @@
 </form>
 
 }
+
+#embed("Layouts/base")

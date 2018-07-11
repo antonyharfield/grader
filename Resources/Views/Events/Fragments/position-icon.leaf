@@ -1,9 +1,12 @@
-#equal(offset, "1") {
+#if(index == 0) {
     <img class="cup" src="/images/position-gold.png"/>
-} ##equal(offset, "2") {
+}
+#if(index == 1) {
     <img class="cup" src="/images/position-silver.png"/>
-} ##equal(offset, "3") {
+}
+#if(index == 2) {
     <img class="cup" src="/images/position-bronze.png"/>
-} ##else() {
-    #(offset)
+}
+#if(index > 2) {
+    #(index + 1)
 }

@@ -1,20 +1,18 @@
-#extend("Layouts/base")
+#set("title") { #(event.name) }
 
-#export("title") { #(event.name) }
-
-#export("content") {
+#set("content") {
 
     #embed("Events/Fragments/event-header")
 
     <div class="column-group top-space">
-    #loop(problems, "p") {
+    #for(p in problems) {
         <div class="all-25 small-50 tiny-50 align-center">
             <div class="problem-box #embed("Events/Fragments/problem-state")">
-                #equal(p.attempts, "0") {
+                #if(p.attempts == 0) {
                     <div class="not-started small">
                         Awaiting submission
                     </div>
-                } ##else() {
+                } else {
                     <div class="progress-indicator" data-pct="#(p.score)">
                         <svg width="120" height="120" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="60" cy="60" r="54" fill="none" stroke="#()e6e6e6" stroke-width="12" />
@@ -35,7 +33,7 @@
     </div>
 }
 
-#export("body-after") {
+#set("body-after") {
     <script>
     var RADIUS = 54;
     var CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -55,3 +53,5 @@
     });
     </script>
 }
+
+#embed("Layouts/base")

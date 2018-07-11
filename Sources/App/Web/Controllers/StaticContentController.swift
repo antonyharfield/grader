@@ -1,17 +1,17 @@
 import Vapor
-import HTTP
+import Leaf
 
-final class StaticContentController {
-    
-    let view: ViewRenderer
-    
-    init(_ view: ViewRenderer) {
-        self.view = view
-    }
-    
-    /// GET /about
-    func about(request: Request) throws -> ResponseRepresentable {
-        return try render("about", for: request, with: view)
+extension StaticContentController: RouteCollection {
+    func boot(router: Router) throws {
+        router.get("about", use: about)
     }
 }
 
+final class StaticContentController {
+    
+    /// Returns the about page
+    func about(_ request: Request) throws -> Future<View> {
+        let leaf = try request.make(LeafRenderer.self)
+        return leaf.render("about", request: request)
+    }
+}
