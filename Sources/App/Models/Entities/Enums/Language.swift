@@ -8,3 +8,9 @@ enum Language: String {
 }
 
 extension Language: Content {}
+
+extension Language: CaseIterable, ReflectionDecodable {
+    static var allCases: [Language] {
+        return [.swift, .java, .python, .kotlin]
+    }
+}

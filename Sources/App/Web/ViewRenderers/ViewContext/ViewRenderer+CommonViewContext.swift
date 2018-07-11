@@ -21,11 +21,10 @@ extension ViewRenderer {
     }
     
     private func makeCommonViewContext(request: Request) -> Future<CommonViewContext> {
-        let path = request.http.url.path
-        let pathComponents = request.http.url.pathComponents
+        let url = request.http.url
         
         return request.sessionUser().map { user in
-            return CommonViewContext(authenticated: user != nil, authenticatedUser: user, path: path, pathComponents: pathComponents)
+            return CommonViewContext(user: user, url: url)
         }
     }
     

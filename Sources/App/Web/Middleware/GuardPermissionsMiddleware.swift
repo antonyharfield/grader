@@ -12,7 +12,7 @@ final class GuardPermissionsMiddleware: Middleware {
         return request.sessionUser().flatMap { user in
             // User must have ALL required permissions
             guard let user = user, user.can(self.permissions) else {
-                throw Abort.init(HTTPResponseStatus.unauthorized)
+                throw Abort(HTTPResponseStatus.unauthorized)
             }
             return try next.respond(to: request)
         }

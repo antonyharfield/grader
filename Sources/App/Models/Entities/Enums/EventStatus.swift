@@ -19,3 +19,9 @@ enum EventStatus: Int {
 }
 
 extension EventStatus: Content {}
+
+extension EventStatus: CaseIterable, ReflectionDecodable {
+    static var allCases: [EventStatus] {
+        return [.draft, .published, .archived]
+    }
+}

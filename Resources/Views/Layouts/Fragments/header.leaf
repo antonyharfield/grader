@@ -7,14 +7,13 @@
 <header class="vertical-space">
     <div class="ink-grid">
         <h1>Grader<small>practice for programmers</small></h1>
-<pre>#get(common)</pre>
     </div>
     <nav class="ink-navigation ink-grid">
         <ul class="menu horizontal grey">
             <li #if(contains(common.pathComponents,"events") || common.path == "/") { class="active" }><a href="/">Events</a></li>
             <li #if(contains(common.pathComponents,"rankings")) { class="active" }><a href="/rankings">Rankings</a></li>
 
-            #if(canTeach) {
+            #if(common.canTeach) {
               <li #if(contains(common.pathComponents,"users")) { class="active" }>
                   <a href="#" style="cursor: default;">Administration</a>
                   <ul class="submenu">
@@ -26,7 +25,7 @@
             #if(common.authenticated) {
                 <li class="right"><a href="/logout">Logout</a></li>
                 <li class="right #if(contains(common.pathComponents,"profile")) { active }"><a href="/profile">Profile</a></li>
-                <li class="right disabled"><a href="#">Logged in as #(common.authenticatedUser.name)</a></li>
+                <li class="right disabled"><a href="#">Logged in as #(common.user.name)</a></li>
             } else {
                 <li class="right #if(contains(common.pathComponents,"register")) { active }"><a href="/register">Register</a></li>
                 <li class="right #if(contains(common.pathComponents,"login")) { active }"><a href="/login">Login</a></li>

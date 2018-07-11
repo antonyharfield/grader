@@ -25,3 +25,9 @@ enum SubmissionState: Int {
 }
 
 extension SubmissionState: Content {}
+
+extension SubmissionState: CaseIterable, ReflectionDecodable {
+    static var allCases: [SubmissionState] {
+        return [.submitted, .gradingInProgress, .runnerError, .compileFailed, .graded]
+    }
+}

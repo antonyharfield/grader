@@ -3,11 +3,12 @@ import Foundation
 class FileSystem {
     
     // TODO: use drop.configUrl
-    private let defaultEventFilesPath = "/app/uploads/events/"
-    private let defaultSubmissionsPath = "/app/uploads/submissions/"
-    private let defaultProblemFilesPath = "/app/uploads/problems/"
-    private let defaultUserPath = "/app/uploads/users/"
-    private let defaultCompilationPath = "/app/srctest/"
+    private static let root = "/Users/ant/Documents/Dev/agrader"
+    private let defaultEventFilesPath = root+"/uploads/events/"
+    private let defaultSubmissionsPath = root+"/uploads/submissions/"
+    private let defaultProblemFilesPath = root+"/uploads/problems/"
+    private let defaultUserPath = root+"/uploads/users/"
+    private let defaultCompilationPath = root+"/srctest/"
     
     // TODO: pass in some configuration that allows custom paths
     init() {

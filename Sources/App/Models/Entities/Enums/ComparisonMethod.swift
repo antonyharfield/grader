@@ -6,3 +6,9 @@ enum ComparisonMethod: String {
 }
 
 extension ComparisonMethod: Content {}
+
+extension ComparisonMethod: CaseIterable, ReflectionDecodable {
+    static var allCases: [ComparisonMethod] {
+        return [.exactMatch, .endsWith]
+    }
+}

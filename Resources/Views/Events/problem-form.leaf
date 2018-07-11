@@ -4,7 +4,7 @@
 
 #export("content") {
 
-#if(canTeach) {
+#if(common.canTeach) {
     <div class="pull-right button-group">
         <a href="/events/#(event.id)/problems/#(eventProblem.sequence)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Problem</a>
     </div>

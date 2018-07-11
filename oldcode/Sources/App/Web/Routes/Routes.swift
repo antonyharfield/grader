@@ -18,7 +18,7 @@ final class Routes: RouteCollection {
         
         let eventsController = EventsController(view)
         builder.resource("events", eventsController)
-        builder.get("events", Event.parameter, "image", handler: eventsController.image)
+        
         
         let rankingsController = RankingsController(view)
         builder.get("rankings", handler: rankingsController.global)

@@ -4,56 +4,6 @@ import HTTP
 
 final class EventsController: ResourceRepresentable {
 
-    let view: ViewRenderer
-
-    init(_ view: ViewRenderer) {
-        self.view = view
-    }
-
-    /// GET /events
-    func index(_ req: Request) throws -> ResponseRepresentable {
-        let activeEvents = try Event.makeQuery().filter(raw: "status = 2 AND (starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)").sort("id", .descending).all()
-        let pastEvents = try Event.makeQuery().filter(raw: "status = 2 AND ends_at < CURRENT_TIMESTAMP").sort("id", .descending).all()
-        
-        var draftEvents = [Event]()
-        if let user = req.user {
-            draftEvents = try Event.makeQuery().filter(raw: "status = 1 AND user_id = ?", [user.id!]).sort("id", .descending).all()
-        }
-
-        return try render("Events/events", ["activeEvents": activeEvents, "pastEvents": pastEvents, "draftEvents": draftEvents], for: req, with: view)
-    }
-
-    /// GET /events/:id
-    func show(_ request: Request, _ id: String) throws -> ResponseRepresentable {
-        if request.auth.isAuthenticated(User.self) {
-            return Response(redirect: "/events/\(id)/problems")
-        }
-
-        guard let event = try Event.find(id) else {
-            throw Abort.notFound
-        }
-
-        guard event.isPubliclyVisible() else {
-            throw Abort.unauthorized
-        }
-
-        let problems = try event.eventProblems.sort("sequence", .ascending).all()
-        return try render("Events/event-logged-out", ["event": event, "problems": problems], for: request, with: view)
-    }
-    
-    func image(request: Request) throws -> ResponseRepresentable {
-        let event = try request.parameters.next(Event.self)
-        if !event.hasImage {
-            throw Abort.notFound
-        }
-        let fileSystem = FileSystem()
-        return try Response(filePath: fileSystem.eventFilesPath(event: event) + "graphic.png")
-    }
-
-    func makeResource() -> Resource<String> {
-        return Resource(index: index, show: show)
-    }
-
     /// GET /events/new
     func eventNew(request: Request) throws -> ResponseRepresentable {
         return try render("Events/Teacher/event-new", for: request, with: view)

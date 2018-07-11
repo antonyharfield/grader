@@ -2,7 +2,7 @@
 
 #set("content") {
 
-    #if(canTeach) {
+    #if(common.canTeach) {
         <div class="pull-right button-group">
             <a href="/events/new" class="ink-button"><span class="fa fa-plus"></span> Add Event</a>
         </div>
@@ -26,7 +26,7 @@
         }
     </div>
 
-    #if(canTeach) {
+    #if(common.canTeach) {
         <h3>Draft</h3>
 
         <div class="event-grid column-group gutters">

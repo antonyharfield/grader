@@ -1,7 +1,6 @@
 import Vapor
 
 enum Role: Int {
-    case unknown = 0
     case student = 1
     case teacher = 2
     case admin   = 3
@@ -33,8 +32,6 @@ extension Role {
     
     var string: String {
         switch self {
-        case .unknown:
-            return "Unknown"
         case .student:
             return "Student"
         case .teacher:
@@ -42,5 +39,11 @@ extension Role {
         case .admin:
             return "Administrator"
         }
+    }
+}
+
+extension Role: CaseIterable, ReflectionDecodable {
+    static var allCases: [Role] {
+        return [.student, .teacher, .admin]
     }
 }

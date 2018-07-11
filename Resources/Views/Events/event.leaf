@@ -15,17 +15,17 @@
                 } else {
                     <div class="progress-indicator" data-pct="#(p.score)">
                         <svg width="120" height="120" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="60" r="54" fill="none" stroke="#()e6e6e6" stroke-width="12" />
-                            <circle class="progress-value" cx="60" cy="60" r="54" fill="none" stroke="#()ff9c00" stroke-width="12"
+<circle cx="60" cy="60" r="54" fill="none" stroke="#get("#")e6e6e6" stroke-width="12" />
+                            <circle class="progress-value" cx="60" cy="60" r="54" fill="none" stroke="#get("#")ff9c00" stroke-width="12"
                               stroke-dasharray="339.292 339.292" stroke-dashoffset="135.717" />
                         </svg>
                     </div>
                 }
                 <div class="large">
-                    <a href="/events/#(event.id)/problems/#(p.sequence)">#(p.name)</a>
+                    <a href="/events/#(event.id)/problems/#(p.sequence)">#(p.problem.name)</a>
                 </div>
                 <div class="description">
-                    #(p.description)
+                    #(p.problem.description)
                 </div>
             </div>
         </div>
@@ -47,10 +47,10 @@
             progressValue.style.strokeDasharray = CIRCUMFERENCE;
             progressValue.style.strokeDashoffset = dashoffset;
             if (value == 100) {
-                progressValue.style.stroke = "#()4a9b17";
-            }
-        });
-    });
+                progressValue.style.stroke = "#get("#")4a9b17";
+            \}
+        \});
+    \});
     </script>
 }
 

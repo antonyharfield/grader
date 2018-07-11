@@ -7,3 +7,9 @@ enum ProblemCaseVisibility: Int {
 }
 
 extension ProblemCaseVisibility: Content {}
+
+extension ProblemCaseVisibility: CaseIterable, ReflectionDecodable {
+    static var allCases: [ProblemCaseVisibility] {
+        return [.show, .hide, .debug]
+    }
+}

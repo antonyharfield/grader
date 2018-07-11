@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { #(event.name) }
 
-#export("title") { #(event.name) }
-
-#export("content") {
+#set("content") {
 
     #embed("Events/Fragments/event-header")
 
@@ -13,7 +11,7 @@
             <h3>Problems</h3>
 
             <ol>
-            #loop(problems, "ep") {
+            #for(ep in problems) {
                 <li><a href="/events/#(event.id)/problems/#(ep.sequence)">#(ep.problem.name)</a></li>
             }
             </ol>
@@ -25,3 +23,5 @@
 
     </div>
 }
+
+#embed("Layouts/base")

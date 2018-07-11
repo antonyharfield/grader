@@ -1,6 +1,0 @@
-{
-    "hostname": "database",
-    "user": "root",
-    "password": "test1234",
-    "database": "grader"
-}

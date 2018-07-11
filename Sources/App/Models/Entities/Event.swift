@@ -52,3 +52,5 @@ final class Event: Content {
 extension Event: MySQLModel {
     static let entity = "events"
 }
+
+extension Event: Parameter {}

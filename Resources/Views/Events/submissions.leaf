@@ -21,7 +21,7 @@
           <th class="align-left">Status</th>
           <th class="align-left">Grade</th>
           <th class="align-left">Message</th>
-        #if(canTeach) {
+        #if(common.canTeach) {
           <th></th>
         }
         </tr>
@@ -44,7 +44,7 @@
                 <td>
                     -
                 </td>
-                #if(canTeach) {
+                #if(common.canTeach) {
                     <td class="align-right">
                         <form method="post" action="/submissions/#(submission.id)/run">
                         <button type="submit" class="ink-button">Re-run</button></form>
