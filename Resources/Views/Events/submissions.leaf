@@ -1,14 +1,12 @@
-#extend("Layouts/base")
+#set("title") { #(event.name) }
 
-#export("title") { #(event.name) }
-
-#export("head-after") {
+#set("head-after") {
     #if(shouldRefresh) {
         <meta http-equiv="refresh" content="5">
     }
 }
 
-#export("content") {
+#set("content") {
 
     #embed("Events/Fragments/event-header")
 
@@ -27,19 +25,19 @@
         </tr>
       </thead>
       <tbody>
-        #loop(submissions, "submission") {
+        #for(submission in submissions) {
             <tr>
                 <td>#(submission.createdAt)</td>
                 <td>
                     #embed("Events/Fragments/submission-profile-image")
-                    #(submission.userName)
+                    #(submission.user.name)
                 </td>
-                <td>#(submission.problemName)</td>
+                <td>#(submission.eventProblem.problem.name)</td>
                 <td>#embed("Events/Fragments/submission-state")</td>
                 <td>
-                    #equal(submission.state, "30") {
+                    #if(submission.state == 30) {
                         #(submission.score)%
-                    } ##else() { - }
+                    } else { - }
                 </td>
                 <td>
                     -
@@ -55,3 +53,5 @@
       </tbody>
     </table>
 }
+
+#embed("Layouts/base")

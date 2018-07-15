@@ -111,7 +111,7 @@ public final class ProfileController {
 //}
 
 fileprivate struct ProfileViewContext: ViewContext {
-    var common: CommonViewContext?
+    var common: Future<CommonViewContext>?
     let user: User
     init(user: User) {
         self.user = user

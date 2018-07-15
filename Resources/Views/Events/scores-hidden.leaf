@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { #(event.name) }
 
-#export("title") { #(event.name) }
-
-#export("content") {
+#set("content") {
 
     #embed("Events/Fragments/event-header")
 
@@ -15,6 +13,8 @@
     <div class="countdown fullscreen" data-deadline="#(event.endsAt)"></div>
 }
 
-#export("body-after") {
+#set("body-after") {
     <script type="text/javascript" src="/js/time.js"></script>
 }
+
+#embed("Layouts/base")

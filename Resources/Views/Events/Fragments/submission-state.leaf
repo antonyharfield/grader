@@ -1,17 +1,17 @@
-#equal(submission.state, "0") {
+#if(submission.state == 0) {
   <span class="ink-label grey">Submitted</span>
-} ##equal(submission.state, "10") {
+} elseif(submission.state == 10) {
   <span class="ink-label grey">Grading in progress</span>
-} ##equal(submission.state, "11") {
+} elseif(submission.state == 11) {
   <span class="ink-label red">Runner error</span>
-} ##equal(submission.state, "20") {
+} elseif(submission.state == 20) {
   <span class="ink-label red ink-tooltip" data-tip-html="<pre>#(submission.compilerOutput)</pre>">Compile failed</span>
-} ##equal(submission.state, "30") {
-    #equal(submission.score, "100") {
+} elseif(submission.state == 30) {
+    #if(submission.score == 100) {
         <span class="ink-label green">Passed</span>
-    } ##else() {
+    } else {
         <span class="ink-label orange">Graded</span>
     }
-} ##else() {
+} else {
   <span class="ink-label red">Unknown</span>
 }

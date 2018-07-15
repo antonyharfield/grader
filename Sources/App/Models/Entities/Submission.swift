@@ -7,7 +7,7 @@ final class Submission: Content {
     var eventProblemID: Int
     var userID: Int
     var language: Language
-    var files: [String]
+    var files: String
     var state: SubmissionState
     var score: Int
     var compilerOutput: String
@@ -22,7 +22,7 @@ final class Submission: Content {
         return parent(\.userID)
     }
     
-    init(id: Int? = nil, eventProblemID: Int, userID: Int, language: Language, files: [String], state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
+    init(id: Int? = nil, eventProblemID: Int, userID: Int, language: Language, files: String, state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
         self.id = id
         self.eventProblemID = eventProblemID
         self.userID = userID

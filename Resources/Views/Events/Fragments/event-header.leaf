@@ -11,12 +11,12 @@
     <small>#(event.shortDescription)</small>
 </h2>
 
-#if(authenticated) {
+#if(common.authenticated) {
     <nav class="ink-navigation">
         <ul class="pagination pills grey">
-            <li #if(contains(path,"problems")) { class="active" }><a href="/events/#(event.id)/problems">Problems</a></li>
-            <li #if(contains(path,"submissions")) { class="active" }><a href="/events/#(event.id)/submissions">Submissions</a></li>
-            <li #if(contains(path,"scores")) { class="active" }><a href="/events/#(event.id)/scores">Scores</a></li>
+            <li #if(contains(common.pathComponents,"problems")) { class="active" }><a href="/events/#(event.id)/problems">Problems</a></li>
+            <li #if(contains(common.pathComponents,"submissions")) { class="active" }><a href="/events/#(event.id)/submissions">Submissions</a></li>
+            <li #if(contains(common.pathComponents,"scores")) { class="active" }><a href="/events/#(event.id)/scores">Scores</a></li>
         </ul>
     </nav>
 }

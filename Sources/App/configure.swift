@@ -43,7 +43,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
         password: "test1234",
         database: "grader"
     )
-    services.register(mysqlConfig)
+    //services.register(mysqlConfig)
+    var databases = DatabasesConfig()
+    databases.add(database: MySQLDatabase(config: mysqlConfig), as: .mysql)
+    databases.enableLogging(on: .mysql)
+    services.register(databases)
 
     /// Call the migrations
     services.register { container -> MigrationConfig in

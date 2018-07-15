@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/sugar.git",
         "state": {
           "branch": null,
-          "revision": "5192233b3893c2c0fb671a2ae0d0cc841a193c02",
-          "version": "3.0.0-beta.8"
+          "revision": "a18f58173c2160dfbce0411fa9a66be2d71e9883",
+          "version": "3.0.0-beta.9"
         }
       },
       {

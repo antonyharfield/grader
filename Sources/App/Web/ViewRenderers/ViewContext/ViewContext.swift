@@ -2,7 +2,7 @@ import Foundation
 import Vapor
 
 protocol ViewContextRepresentable {
-    var common: CommonViewContext? { get set }
+    var common: Future<CommonViewContext>? { get set }
 }
 
 typealias ViewContext = ViewContextRepresentable & Encodable

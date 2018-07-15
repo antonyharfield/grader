@@ -1,11 +1,10 @@
-#extend("Layouts/base")
+#set("title") { #(event.name) }
 
-#export("title") { #(event.name) }
-
-#export("head-after") {
+#set("head-after") {
     <meta http-equiv="refresh" content="60">
 }
-#export("content") {
+
+#set("content") {
 
     #embed("Events/Fragments/event-header")
 
@@ -22,33 +21,36 @@
           <th class="align-left">Name</th>
           <th class="align-left">Problems attempted</th>
           <th class="align-left">Number of submissions</th>
-          #equal(event.scoringSystem.id,"2") {
+          #if(event.scoringSystem.id == 2) {
             <th class="align-left">Problems correct</th>
             <th class="align-left hide-all">Total time</th>
-          } ##else() {
+          } else {
             <th class="align-left">Total score</th>
           }
         </tr>
       </thead>
       <tbody>
-        #loop(scores, "row") {
+        #for(row in rankings) {
             <tr>
                 <td>#embed("Events/Fragments/position-icon")</td>
                 <td>#embed("Events/Fragments/score-profile-image") #(row.userName)</td>
                 <td>#(row.problems)</td>
                 <td>#(row.attempts)</td>
-                #equal(event.scoringSystem.id,"2") {
+            #if(event.scoringSystem.id == 2) {
                 <td>#(row.totalPassed)</td>
                 <td class="hide-all">#(row.totalTimeMinutes)</td>
-                } ##else() {
+            } else {
                 <td>#(row.score)</td>
-                }
+            }
             </tr>
         }
       </tbody>
     </table>
 }
 
-#export("body-after") {
+#set("body-after") {
     <script type="text/javascript" src="/js/time.js"></script>
 }
+
+#embed("Layouts/base")
+

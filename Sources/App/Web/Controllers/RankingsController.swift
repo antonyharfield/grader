@@ -89,7 +89,7 @@ fileprivate struct Ranking: Encodable {
 }
 
 fileprivate struct RankingsViewContext: ViewContext {
-    var common: CommonViewContext?
+    var common: Future<CommonViewContext>?
     let rankings: [Ranking]
     init(rankings: [Ranking]) {
         self.rankings = rankings
