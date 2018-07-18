@@ -1,9 +1,13 @@
 import Leaf
+import Flash
 
 func configureLeaf(_ services: inout Services) {
     
-    var defaultTags = LeafTagConfig.default()
-    defaultTags.use(PrefixTag(), as: "prefix")
+    var tags = LeafTagConfig.default()
     
-    services.register(defaultTags)
+    tags.use(FlashTag(), as: "flash")
+    
+    tags.use(PrefixTag(), as: "prefix")
+    
+    services.register(tags)
 }

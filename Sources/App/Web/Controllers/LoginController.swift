@@ -21,7 +21,7 @@ final class LoginController {
 
     /// Login page
     func loginForm(_ request: Request) throws -> Future<View> {
-        let leaf = try request.make(LeafRenderer.self)
+        let leaf = try request.privateContainer.make(LeafRenderer.self)
         return leaf.render("Auth/login", request: request)
     }
 
@@ -31,7 +31,7 @@ final class LoginController {
         return try request.content.decode(UserLogin.self).flatMap(to: Response.self) { user in
             let verifier = try request.make(BCryptDigest.self)
             return User.authenticate(username: user.username, password: user.password, using: verifier, on: request)
-                .unwrap(or: Abort(HTTPResponseStatus.unauthorized))
+                .unwrap(or: Abort(.unauthorized))
                 .map(to: Response.self, { authedUser  in
                     
                     try request.sessionAuthenticate(user: authedUser)
@@ -40,8 +40,13 @@ final class LoginController {
                     _ = authedUser.save(on: request)
                     
                     return request.redirect(to: LoginController.homepageRoute)
+                })
+            }.catchFlatMap({ error in
+                if let error = error as? HTTPResponseStatus, case HTTPResponseStatus.unauthorized = error {
+                    return request.future(request.redirect(to: LoginController.loginRoute).flash(.error, "Incorrect username or password"))
+                }
+                return request.future(request.redirect(to: LoginController.loginRoute).flash(.error, "Unknown error"))
             })
-        }
         
 //        return try req.content.decode(User.self).flatMap { user in
 //            return User.authenticate(
@@ -61,7 +66,7 @@ final class LoginController {
     
     /// Register page
     func registerForm(_ request: Request) throws -> Future<View> {
-        let leaf = try request.make(LeafRenderer.self)
+        let leaf = try request.privateContainer.make(LeafRenderer.self)
         return leaf.render("Auth/register", request: request)
     }
 

@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Edit User }
 
-#export("title") { Edit User }
-
-#export("content") {
+#set("content") {
 
     <h2>Edit user</h2>
 
@@ -25,7 +23,7 @@
         <div class="control-group all-20">
             <label for="image">Image</label>
             <div class="control">
-                <img src="./image"/>
+                <img class="file-preview" src="./image"/>
                 <input type="file" class="form-control" name="image" accept="image/jpeg">
             </div>
         </div>
@@ -37,6 +35,8 @@
     </form>
 }
 
-#export("body-after") {
+#set("body-after") {
     <script type="text/javascript" src="/js/file-picker-preview.js"></script>
 }
+
+#embed("Layouts/base")

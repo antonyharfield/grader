@@ -1,23 +1,22 @@
 import Foundation
+import Vapor
 
 class FileSystem {
     
     // TODO: use drop.configUrl
-    private static let root = "/Users/ant/Documents/Dev/agrader"
-    private let defaultEventFilesPath = root+"/uploads/events/"
-    private let defaultSubmissionsPath = root+"/uploads/submissions/"
-    private let defaultProblemFilesPath = root+"/uploads/problems/"
-    private let defaultUserPath = root+"/uploads/users/"
-    private let defaultCompilationPath = root+"/srctest/"
+    private static let root = "/Users/ant/Documents/Dev/agrader/"
+    private let defaultEventFilesPath = root + "uploads/events/"
+    private let defaultSubmissionsPath = root + "uploads/submissions/"
+    private let defaultProblemFilesPath = root + "uploads/problems/"
+    private let defaultUserPath = root + "uploads/users/"
+    private let defaultCompilationPath = root + "srctest/"
     
     // TODO: pass in some configuration that allows custom paths
     init() {
         
     }
     
-    func save(bytes: [UInt8], path: String) -> Bool {
-        let pointer = UnsafeBufferPointer(start: bytes, count: bytes.count)
-        let data = Data(buffer: pointer)
+    func save(data: Data, path: String) -> Bool {
         do {
             try data.write(to: URL(fileURLWithPath: path))
         }
@@ -25,6 +24,12 @@ class FileSystem {
             return false
         }
         return true
+    }
+    
+    func save(bytes: [UInt8], path: String) -> Bool {
+        let pointer = UnsafeBufferPointer(start: bytes, count: bytes.count)
+        let data = Data(buffer: pointer)
+        return save(data: data, path: path)
     }
     
     func save(string: String, path: String) -> Bool {
@@ -79,18 +84,6 @@ class FileSystem {
         }
     }
     
-    func ensurePathExists(path: String) {
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: path) {
-            return
-        }
-        do {
-            try fileManager.createDirectory(atPath: path, withIntermediateDirectories: true)
-        } catch {
-            print("Could not create folder: \(error)")
-        }
-    }
-    
     func files(at path: String) -> [String] {
         let fileManager = FileManager.default
         guard fileManager.fileExists(atPath: path) else {
@@ -103,4 +96,20 @@ class FileSystem {
         return shell(launchPath: "/bin/cp", arguments: [from, to]).success
     }
     
+    func fileExists(at path: String) -> Bool {
+        let fileManager = FileManager.default
+        return fileManager.fileExists(atPath: path)
+    }
+    
+    func ensurePathExists(at path: String) {
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: path) {
+            return
+        }
+        do {
+            try fileManager.createDirectory(atPath: path, withIntermediateDirectories: true)
+        } catch {
+            print("Could not create folder: \(error)")
+        }
+    }
 }

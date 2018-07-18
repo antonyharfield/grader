@@ -176,6 +176,11 @@ img.profile-tiny {
     margin-top: -2px;
 }
 
+.ink-form .control img.file-preview {
+    width: 75px;
+    height: 75px;
+}
+
 /* Scores */
 
 table.scores tbody tr:nth-child(-n+3) td {

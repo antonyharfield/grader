@@ -1,24 +1,28 @@
-#if(flash.error) {
-    <div class="ink-alert basic error" role="alert">
-        <button class="ink-dismiss">&times;</button>
-        <p><b>Error:</b> #(flash.error)</p>
-    </div>
-}
-#if(flash.success) {
-	<div class="ink-alert basic success" role="alert">
-        <button class="ink-dismiss">&times;</button>
-        <p><b>Success:</b> #(flash.success)</p>
-    </div>
-}
-#if(flash.warning) {
-	<div class="ink-alert basic warning" role="alert">
-        <button class="ink-dismiss">&times;</button>
-        <p><b>Warning:</b> #(flash.warning)</p>
-    </div>
-}
-#if(flash.info) {
-	<div class="ink-alert basic info" role="alert">
-        <button class="ink-dismiss">&times;</button>
-        <p><b>Warning:</b> #(flash.info)</p>
-    </div>
+#flash() {
+    #for(flash in all) {
+        #if(flash.kind == "error") {
+            <div class="ink-alert basic error" role="alert">
+                <button class="ink-dismiss">&times;</button>
+                <p><b>Error:</b> #(flash.message)</p>
+            </div>
+        }
+        #if(flash.kind == "success") {
+            <div class="ink-alert basic success" role="alert">
+                <button class="ink-dismiss">&times;</button>
+                <p><b>Success:</b> #(flash.message)</p>
+            </div>
+        }
+        #if(flash.kind == "warning") {
+            <div class="ink-alert basic warning" role="alert">
+                <button class="ink-dismiss">&times;</button>
+                <p><b>Warning:</b> #(flash.message)</p>
+            </div>
+        }
+        #if(flash.kind == "info") {
+            <div class="ink-alert basic info" role="alert">
+                <button class="ink-dismiss">&times;</button>
+                <p><b>Warning:</b> #(flash.message)</p>
+            </div>
+        }
+    }
 }

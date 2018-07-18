@@ -40,12 +40,12 @@ final class EventsController {
     
     func image(request: Request) throws -> Future<Response> {
         return try request.parameters.next(Event.self).flatMap { event in
-            if !event.hasImage {
+            let fileSystem = FileSystem()
+            let imagePath = fileSystem.eventFilesPath(event: event) + "graphic.png"
+            guard event.hasImage, fileSystem.fileExists(at: imagePath) else {
                 throw Abort(HTTPResponseStatus.notFound)
             }
-            let fileSystem = FileSystem()
-            let eventPath = fileSystem.eventFilesPath(event: event)
-            return try request.streamFile(at: eventPath + "graphic.png")
+            return try request.streamFile(at: imagePath)
         }
     }
     
