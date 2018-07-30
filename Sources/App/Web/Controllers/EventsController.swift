@@ -259,6 +259,13 @@ fileprivate struct RankingsViewContext: ViewContext {
     let rankings: Future<[PublicRanking]>
 }
         
+fileprivate struct UserEventProblem: Content {
+    let id: Int?
+    let sequence: Int
+    let problem: Problem
+    let score: Int
+    let attempts: Int
+}
 
 extension UserEventProblem {
     init(row: [MySQLColumn: MySQLData]) throws {

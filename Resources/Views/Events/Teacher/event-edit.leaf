@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Edit Event }
 
-#export("title") { Edit Event }
-
-#export("content") {
+#set("content") {
     <h2>Edit event</h2>
     <form method="post" enctype="multipart/form-data" class="ink-form event">
       <div class="control-group">
@@ -124,6 +122,8 @@
 
 }
 
-#export("body-after") {
+#set("body-after") {
     <script type="text/javascript" src="/js/file-picker-preview.js"></script>
 }
+
+#embed("Layouts/base")

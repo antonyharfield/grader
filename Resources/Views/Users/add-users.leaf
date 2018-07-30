@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { New Users }
 
-#export("title") { New Users }
-
-#export("content") {
+#set("content") {
     <h2>Import New Users</h2>
     <form method="post" class="ink-form">
         <div class="control-group">
@@ -16,3 +14,5 @@
         </div>
     </form>
 }
+
+#embed("Layouts/base")
