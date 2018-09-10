@@ -21,7 +21,8 @@ final class EventsController {
         let activeEvents = Event.query(on: request).filter(\.status == .published).sort(\.id, .descending).all()
         //.filter(raw: "status = 2 AND (starts_at is null OR starts_at < CURRENT_TIMESTAMP) AND (ends_at is null OR ends_at > CURRENT_TIMESTAMP)")
         
-        let pastEvents = Event.query(on: request).filter("status = 2 AND ends_at < CURRENT_TIMESTAMP").sort(\.id, .descending).all()
+        let pastEvents = Event.query(on: request).filter(\.status == .published).sort(\.id, .descending).all()
+        //.filter(custom: .raw("endsAt < CURRENT_TIMESTAMP"))
         
         let draftEvents: Future<[Event]>
         if try request.sessionIsAuthenticated() {
@@ -94,8 +95,8 @@ final class EventsController {
                 throw Abort(.unauthorized)
             }
             
-            let problemsFuture = request.withPooledConnection(to: .mysql) { conn in
-                return conn.query(sql, [user.id!, event.id!])
+            let problemsFuture: Future<[[MySQLColumn: MySQLData]]> = request.withPooledConnection(to: .mysql) { (conn: MySQLDatabase.Connection) in
+                return conn.raw(sql).binds([user.id!, event.id!]).all()
             }
             let userProblemsFuture = problemsFuture.map { problems in
                 return try problems.map { try UserEventProblem(row: $0) }
@@ -210,8 +211,8 @@ final class EventsController {
                 sql += " ORDER BY totalPassed DESC, totalTimeMinutes ASC"
             }
         
-            let result = request.withPooledConnection(to: .mysql) { conn in
-                return conn.query(sql, [event.id!])
+            let result = request.withPooledConnection(to: .mysql) { (conn: MySQLDatabase.Connection) in
+                return conn.raw(sql).bind(event.id!).all()
             }
             let rankingsFuture = result.map { rows in
                 return try rows.map { try PublicRanking(row: $0) }

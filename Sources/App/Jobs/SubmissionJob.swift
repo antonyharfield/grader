@@ -1,10 +1,11 @@
 import Foundation
 import Reswifq
-import Node
+import Vapor
 
 public struct SubmissionJob: Job {
     
     let submissionID: Int
+    var eventLoopWorker: Vapor.Worker!
     
     // MARK: Initialization
     public init(submissionID: Int) {
@@ -12,11 +13,12 @@ public struct SubmissionJob: Job {
     }
     
     // MARK: Job
-    public func perform() throws {
-        guard let submission = try Submission.find(submissionID) else {
+    public func perform(on eventLoopWorker: DatabaseConnectable) throws {
+        guard let submission = try Submission.find(submissionID, on: eventLoopWorker) else {
             return
         }
         
+        self.eventLoopWorker = eventLoopWorker
         let runner: Runner = chooseRunner(for: submission)
         try call(runner: runner, submission: submission)
     }

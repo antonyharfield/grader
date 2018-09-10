@@ -16,8 +16,13 @@ final class SeedCommand: Command {
     }
     
     func run(using context: CommandContext) throws -> Future<Void> {
+        
+        guard let container = context.container as? DatabaseConnectable else {
+            return .done(on: context.container)
+        }
         context.console.print("Seeding database")
-        let seeder = DefaultSeeder()
+        
+        let seeder = DefaultSeeder(on: container)
         try seeder.deleteAll()
         try seeder.insertUsers()
         try seeder.insertProblems()

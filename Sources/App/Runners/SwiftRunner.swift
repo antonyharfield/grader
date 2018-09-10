@@ -3,11 +3,11 @@ import Console
 
 class SwiftRunner: Runner {
     
-    let console: ConsoleProtocol
+    let console: Console
     let fileSystem: FileSystem
     let compilationPath: String
     
-    public init(console: ConsoleProtocol = Terminal(arguments: []), fileSystem: FileSystem = FileSystem()) {
+    public init(console: Console = Terminal(), fileSystem: FileSystem = FileSystem()) {
         self.console = console
         self.fileSystem = fileSystem
         self.compilationPath = fileSystem.compilationPath() // TODO: pass in worker id in case we use shared filesystem
@@ -21,9 +21,9 @@ class SwiftRunner: Runner {
         console.print("Copying uploads to compilation path")
         
         let uploadPath = fileSystem.submissionUploadPath(submission: submission)
-        fileSystem.ensurePathExists(path: compilationPath)
+        fileSystem.ensurePathExists(at: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
-        for file in submission.files {
+        for file in submission.filesArray {
             if !fileSystem.copyFile(from: uploadPath + file, to: compilationPath + file) {
                 return .unknownFailure
             }
@@ -32,7 +32,7 @@ class SwiftRunner: Runner {
         
         console.print("Copying problem files to compilation path")
         
-        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID!)
+        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID)
         let problemFiles = fileSystem.files(at: problemFilesPath)
         for file in problemFiles {
             if !fileSystem.copyFile(from: problemFilesPath + file, to: compilationPath + file) {
@@ -43,7 +43,7 @@ class SwiftRunner: Runner {
         
         console.print("Compiling")
         
-        let sourcePaths = (submission.files.map { compilationPath + $0 }) + (problemFiles.map { problemFilesPath + $0 })
+        let sourcePaths = (submission.filesArray.map { compilationPath + $0 }) + (problemFiles.map { problemFilesPath + $0 })
         let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)

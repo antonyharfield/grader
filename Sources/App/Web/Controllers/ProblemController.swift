@@ -64,11 +64,13 @@ final class ProblemController {
                 
                 // Queue job
                 // TODO: don't fail if we cannot connect to the queue!
-                let job = SubmissionJob(submissionID: submission.id!.int!)
-                try Reswifq.defaultQueue.enqueue(job)
+                //let job = SubmissionJob(submissionID: submission.id!.int!)
+                //try Reswifq.defaultQueue.enqueue(job)
+                
+                return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
             }
             
-            return request.redirect(to: "/events/\(event.id!)/submissions")
+            
         }
     }
     

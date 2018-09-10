@@ -32,6 +32,10 @@ final class Submission: Content {
         self.score = score
         self.compilerOutput = compilerOutput
     }
+    
+    var filesArray: [String] {
+        return files.components(separatedBy: ",")
+    }
 }
 
 extension Submission: MySQLModel {

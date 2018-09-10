@@ -3,11 +3,11 @@ import Console
 
 class JavaRunner: Runner {
     
-    let console: ConsoleProtocol
+    let console: Console
     let fileSystem: FileSystem
     let compilationPath: String
     
-    public init(console: ConsoleProtocol = Terminal(arguments: []), fileSystem: FileSystem = FileSystem()) {
+    public init(console: Console = Terminal(), fileSystem: FileSystem = FileSystem()) {
         self.console = console
         self.fileSystem = fileSystem
         self.compilationPath = fileSystem.compilationPath() // TODO: pass in worker id in case we use shared filesystem
@@ -37,7 +37,7 @@ class JavaRunner: Runner {
     func getCompilationPath(fileName: String, uploadPath: String, compilationPath: String) -> String {
         let packagePath = readPackagePath(filePath: uploadPath + fileName) ?? ""
         let compilationLocation = compilationPath + packagePath + fileName
-        fileSystem.ensurePathExists(path: compilationPath + packagePath)
+        fileSystem.ensurePathExists(at: compilationPath + packagePath)
         return compilationLocation
     }
     
@@ -46,10 +46,10 @@ class JavaRunner: Runner {
         console.print("Copying uploads to compilation path")
         
         let uploadPath = fileSystem.submissionUploadPath(submission: submission)
-        fileSystem.ensurePathExists(path: compilationPath)
+        fileSystem.ensurePathExists(at: compilationPath)
         fileSystem.clearContentsAtPath(path: compilationPath)
         
-        let compilationPaths = submission.files.map { (uploadPath + $0, getCompilationPath(fileName: $0, uploadPath: uploadPath, compilationPath: compilationPath)) }
+        let compilationPaths = submission.filesArray.map { (uploadPath + $0, getCompilationPath(fileName: $0, uploadPath: uploadPath, compilationPath: compilationPath)) }
         for (source, destination) in compilationPaths {
             console.print("\(source) => \(destination)")
             if !fileSystem.copyFile(from: source, to: destination) {
@@ -70,7 +70,7 @@ class JavaRunner: Runner {
         // Determine which class has the main method
         // TODO: Don't just pick the first file -- use the regex below to find the correct file
         let mainPackage = readPackage(filePath: sourcePaths.first!).map { $0 + "." } ?? ""
-        let mainClass = stripFileExtension(mainPackage + submission.files.first!)
+        let mainClass = stripFileExtension(mainPackage + submission.filesArray.first!)
         
         console.print("Running test cases")
         

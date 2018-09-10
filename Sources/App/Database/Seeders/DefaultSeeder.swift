@@ -2,15 +2,21 @@ import Vapor
 
 class DefaultSeeder {
     
+    let container: DatabaseConnectable
+    
+    init(on container: DatabaseConnectable) {
+        self.container = container
+    }
+    
     func deleteAll() throws {
         print("- Clearing existing data")
-//        try ResultCase.all().forEach { try $0.delete() }
-//        try Submission.all().forEach { try $0.delete() }
-//        try EventProblem.all().forEach { try $0.delete() }
-//        try Event.all().forEach { try $0.delete() }
-//        try ProblemCase.all().forEach { try $0.delete() }
-//        try Problem.all().forEach { try $0.delete() }
-//        try User.all().forEach { try $0.delete() }
+        try ResultCase.query(on: container).delete().wait()
+        try Submission.query(on: container).delete().wait()
+        try EventProblem.query(on: container).delete().wait()
+        try Event.query(on: container).delete().wait()
+        try ProblemCase.query(on: container).delete().wait()
+        try Problem.query(on: container).delete().wait()
+        try User.query(on: container).delete().wait()
     }
     
     func insertProblems() throws {
