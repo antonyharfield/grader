@@ -71,16 +71,18 @@ final class LoginController {
     }
 
     /// Register page submission
-    func register(_ request: Request) throws -> Response {
-        return request.redirect(to: "/login").flash(.warning, "Something unexpected happened.")
+    func register(_ request: Request) throws -> Future<Response> {
+       // return request.redirect(to: "/login").flash(.warning, "Something unexpected happened.")
         
-//        return try request.content.decode(UserRegistration.self).map(to: User.self) { userRegistration in
-//
-//                return userRegistration.toUser().save(on: request)
-//            }.map( to: Response.self) { user in
-//                try req.session()["userId"] = "\(try user.requireID())"
-//                return request.redirect(to: homepage)
-//            }
+        return try request.content.decode(UserRegistration.self).flatMap { userRegistration -> EventLoopFuture<User> in
+                let verifier = try request.make(BCryptDigest.self)
+                let user = userRegistration.toUser()
+                user.password = try verifier.hash(user.password)
+                return user.save(on: request)
+            }.flatMap { user in
+                try request.session()["userId"] = "\(try user.requireID())"
+                return request.future(request.redirect(to: "/"))
+            }
     }
 
 }
