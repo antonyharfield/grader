@@ -8,7 +8,7 @@ extension User: Migration {
             builder.field(for: \.name)
             builder.field(for: \.username)
             builder.field(for: \.password)
-            builder.field(for: \.role)
+            builder.field(for: \.role, type: .tinyint)
             builder.field(for: \.email)
             builder.field(for: \.lastLogin)
             builder.field(for: \.hasImage)
