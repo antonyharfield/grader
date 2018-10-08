@@ -30,7 +30,8 @@ final class ProblemController {
                 let problemCases = ProblemCase.query(on: request).filter(\.problemID == eventProblem.problemID).filter(\.visibility == ProblemCaseVisibility.show).all()
                 
                 let context = ProblemViewContext(common: nil, event: event, eventProblem: eventProblem, problem: problem, problemCases: problemCases)
-                let leaf = try request.make(LeafRenderer.self)
+                //let leaf = try request.make(LeafRenderer.self)
+                let leaf = try request.privateContainer.make(LeafRenderer.self)
                 return leaf.render("Events/problem-form", context, request: request)
             }
         }
@@ -46,11 +47,16 @@ final class ProblemController {
             let eventProblem = ueep.eventProblem
             
             guard let language = event.languageRestriction
-                ?? Language(rawValue: submissionData.language) else {
+                ?? Language(rawValue: submissionData.language ?? "") else {
                 throw Abort(.badRequest)
             }
             let filename = submissionData.file.filename
             let fileData = submissionData.file.data
+            
+            // Check the file
+            if fileData.count == 0 {
+                return request.future(request.redirect(to: request.http.urlString).flash(.error, "No file submitted"))
+            }
             
             // Create submission first so it has an ID
             let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: filename)
@@ -60,14 +66,17 @@ final class ProblemController {
                 let fileSystem = FileSystem()
                 let uploadPath = fileSystem.submissionUploadPath(submission: submission)
                 fileSystem.ensurePathExists(at: uploadPath)
-                fileSystem.save(data: fileData, path: uploadPath + filename)
+                let success = fileSystem.save(data: fileData, path: uploadPath + filename)
                 
-                // Queue job
-                // TODO: don't fail if we cannot connect to the queue!
-                //let job = SubmissionJob(submissionID: submission.id!.int!)
-                //try Reswifq.defaultQueue.enqueue(job)
+                if success {
+                    // Queue job
+                    // TODO: don't fail if we cannot connect to the queue!
+                    //let job = SubmissionJob(submissionID: submission.id!.int!)
+                    //try Reswifq.defaultQueue.enqueue(job)
                 
-                return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
+                    return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
+                }
+                return request.future(request.redirect(to: request.http.urlString).flash(.error, "Unable to save submitted file(s)"))
             }
             
             

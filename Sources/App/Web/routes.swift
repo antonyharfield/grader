@@ -5,6 +5,7 @@ import Leaf
 public func routes(_ router: Router) throws {
     
     try router.register(collection: EventsController())
+    try router.register(collection: ProblemController())
     try router.register(collection: StaticContentController())
     try router.register(collection: RankingsController())
     try router.register(collection: LoginController())

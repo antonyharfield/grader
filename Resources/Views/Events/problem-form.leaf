@@ -1,8 +1,6 @@
-#extend("Layouts/base")
+#set("title") { Problem #(problem.name) }
 
-#export("title") { Problem #(problem.name) }
-
-#export("content") {
+#set("content") {
 
 #if(common.canTeach) {
     <div class="pull-right button-group">
@@ -17,9 +15,9 @@
 <div class="column-group gutters">
     <div class="all-60 small-100 tiny-100">
         <h3>Problem</h3>
-        <p class="quarter-top-space">#raw(problem.description)</p>
+        <p class="quarter-top-space">#get(problem.description)</p>
         <h3>Examples</h3>
-        #loop(problemCases, "case") {
+        #for(case in problemCases) {
             <div class="column-group gutters">
                 <div class="all-50">
                     <p class="note">Input</p>
@@ -47,7 +45,7 @@
                     <div class="control all-70">
                         #if(event.languageRestriction) {
                             <p>#(event.languageRestriction)</p>
-                        } ##else() {
+                        } else {
                             <select name="language">
                                 <option value="java" selected>Java 8</option>
                                 <option value="kotlin">Kotlin</option>
@@ -65,3 +63,5 @@
     </div>
 </div>
 }
+
+#embed("Layouts/base")
