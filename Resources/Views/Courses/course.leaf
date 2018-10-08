@@ -1,0 +1,19 @@
+
+#set("title") { Course }
+
+#set("content") {
+
+<font-color>
+    #(course.name)
+</font-color>
+
+ <div class="modal-item">
+    #for(topic in topics) {
+        <ul>
+            <li><p> <a href="/courses/#(course.id)/topics/#(topic.id)/1">#(topic.topic.name)</a></p></li>
+        </ul>
+    }
+ </div>
+}
+
+#embed("Layouts/base")

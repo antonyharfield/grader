@@ -1,0 +1,57 @@
+<div class="column-group gutters">
+    <div class="all-60 small-100 tiny-100">
+        <div class="modal-content">
+            <h4>Problem</h4>
+            <p class="quarter-top-space">#get(problem.description)</p>
+        </div>
+
+        <div class="modal-content">
+            <h4>Examples</h4>
+            #for(case in problemCases) {
+                <div class="column-group gutters">
+                    <div class="all-50">
+                        <p class="note">Input</p>
+                        <pre>#(case.input)</pre>
+                        </div>
+
+                        <div class="all-50">
+                        <p class="note">Output</p>
+                        <pre>#(case.output)</pre>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+        <div class="all-40 small-100 tiny-100">
+        <h3>Submit your solution</h3>
+        <form method="post" enctype="multipart/form-data" class="ink-form">
+            <div class="control-group">
+                <div class="column-group gutters">
+                    <label for="inline-name" class="all-30">Source file</label>
+                    <div class="control all-70">
+                        <input type="file" name="file">
+                    </div>
+                </div>
+                    <div class="column-group gutters">
+                        <label for="inline-name" class="all-30">Language</label>
+                        <div class="control all-70">
+                            #if(event.languageRestriction) {
+                                <p>#(event.languageRestriction)</p>
+                            } else {
+                            <select name="language">
+                                <option value="java" selected>Java 8</option>
+                                <option value="kotlin">Kotlin</option>
+                                <option value="python">Python 3</option>
+                                <option value="swift">Swift 4</option>
+                            </select>
+                            }
+                        </div>
+                    </div>
+                <div class="control">
+                    <input type="submit" class="ink-button">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+
+#if(event.languageRestriction) {
+<img class="language" src="/images/languages/#(course.languageRestriction).png">
+}

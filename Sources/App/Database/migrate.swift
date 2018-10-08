@@ -8,4 +8,10 @@ public func migrate(_ migrations: inout MigrationConfig) throws {
     migrations.add(model: ProblemCase.self, database: .mysql)
     migrations.add(model: Submission.self, database: .mysql)
     migrations.add(model: ResultCase.self, database: .mysql)
+    migrations.add(model: Achievement.self, database: .mysql)
+    migrations.add(model: AchievementUser.self, database: .mysql)
+    migrations.add(model: Topic.self, database: .mysql)
+    migrations.add(model: Course.self, database: .mysql)
+    migrations.add(model: CourseTopic.self, database: .mysql)
+    migrations.add(model: TopicItem.self, database: .mysql)
 }

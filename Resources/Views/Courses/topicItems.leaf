@@ -1,0 +1,14 @@
+#set("title") { Course }
+
+#set("content") {
+
+#(course.name)
+#(topic.name)
+
+#for(topicItem in topicItems) {
+
+<p> <a href="/topicItem/#(topicItem.id)"></a></p>
+}
+}
+
+#embed("Layouts/base")

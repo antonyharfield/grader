@@ -1,0 +1,19 @@
+<div class="all-33 small-50 tiny-100">
+    <a href="/courses/#(course.id)">
+    <figure class="ink-image">
+    #if(course.hasImage) {
+        <img src="/courses/#(course.id)/image">
+    } else {
+        <div class="noimage #(course.languageRestriction)">
+            #embed("Courses/Fragment/courseIcon")
+        </div>
+    }
+    <figcaption class="over-bottom">
+        ☘️#(course.name)
+        #if(course.hasImage) {
+            #embed("Courses/Fragment/courseIcon")
+        }
+    </figcaption>
+    </figure>
+    </a>
+</div>

@@ -1,35 +1,54 @@
+
 #set("title") { Profile }
 
 #set("content") {
+<div class="ink-grid">
+    <div class="column-group large-half-horizontal-gutters">
+        <div class="all-40">
+            <div class="vertical-space">
+                <img class="profile" src="/profile/image"/>
+            </div>
 
-    <div class="vertical-space">
-        <img class="profile" src="/profile/image"/>
+            <h2>#(user.name)</h2>
+
+            <div class="column-group">
+                <div class="all-30">
+                    Username :
+                </div>
+                <div class="all-30">
+                    #(user.username)
+                </div>
+            </div>
+
+            <div class="column-group">
+                <div class="all-30">
+                    Email :
+                </div>
+                <div class="all-30">
+                    #(user.email)
+                </div>
+            </div>
+
+            <div class="vertical-space">
+                <a class="ink-button" href="/profile/edit">Edit profile</a>
+                <a class="ink-button" href="/changepassword">Change password</a>
+            </div>
+        </div>
+
+            <div class="all-60">
+                <div class="column-group">
+                    <div class="achievement-color">
+                        <div class="all-20">
+                            #for(achievement in achievements) {
+                            #embed("Users/Fragments/achievement-user")
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h2>#(user.name)</h2>
-
-    <div class="column-group">
-        <div class="all-10">
-            Username
-        </div>
-        <div class="all-20">
-            #(user.username)
-        </div>
-    </div>
-
-    <div class="column-group">
-        <div class="all-10">
-            Email
-        </div>
-        <div class="all-20">
-            #(user.email)
-        </div>
-    </div>
-
-    <div class="vertical-space">
-        <a class="ink-button" href="/profile/edit">Edit profile</a>
-        <a class="ink-button" href="/changepassword">Change password</a>
-    </div>
 }
 
 #embed("Layouts/base")

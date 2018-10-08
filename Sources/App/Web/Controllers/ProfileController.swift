@@ -24,8 +24,9 @@ public final class ProfileController {
 
     func profile(_ request: Request) throws -> Future<View> {
         return try request.requireSessionUser().flatMap { user in
+            let achievements = Achievement.query(on: request).sort(\.sequence, .ascending).all()
             let leaf = try request.make(LeafRenderer.self)
-            return leaf.render("Users/profile", ProfileViewContext(user: user), request: request)
+            return leaf.render("Users/profile", ProfileViewContext(user: user, achievements: achievements), request: request)
         }
     }
     
@@ -43,7 +44,7 @@ public final class ProfileController {
     func editForm(request: Request) throws -> Future<View> {
         return try request.requireSessionUser().flatMap { user in
             let leaf = try request.privateContainer.make(LeafRenderer.self)
-            return leaf.render("Users/edit-user", ProfileViewContext(user: user), request: request)
+            return leaf.render("Users/edit-user", ProfileViewContext(user: user, achievements: request.future([])), request: request)
         }
     }
 
@@ -120,7 +121,9 @@ public final class ProfileController {
 fileprivate struct ProfileViewContext: ViewContext {
     var common: Future<CommonViewContext>?
     let user: User
-    init(user: User) {
+    let achievements: Future<[Achievement]>
+    init(user: User, achievements: Future<[Achievement]>) {
         self.user = user
+        self.achievements = achievements
     }
 }
