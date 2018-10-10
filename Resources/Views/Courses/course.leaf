@@ -10,7 +10,7 @@
  <div class="modal-item">
     #for(topic in topics) {
         <ul>
-            <li><p> <a href="/courses/#(course.id)/topics/#(topic.id)/1">#(topic.topic.name)</a></p></li>
+            <li><a href="/courses/#(course.id)/topics/#(topic.sequence)/1">#(topic.name)</a></li>
         </ul>
     }
  </div>

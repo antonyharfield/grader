@@ -5,9 +5,9 @@ extension Course: Migration {
     static func prepare(on connection: MySQLConnection) -> Future<Void> {
         return MySQLDatabase.create(self, on: connection) { builder in
             builder.field(for: \.id, isIdentifier: true)
+            builder.field(for: \.code)
             builder.field(for: \.name)
             builder.field(for: \.shortDescription)
-            builder.field(for: \.sequence)
             builder.field(for: \.userID)
         }
     }

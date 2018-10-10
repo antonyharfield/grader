@@ -2,13 +2,11 @@
 #set("title") { Course }
 
 #set("content") {
-
     <div class="event-grid column-group gutters">
         #for(course in courses) {
             #embed("Courses/Fragment/courseCard")
         }
     </div>
-    }
+}
 
 #embed("Layouts/base")
-

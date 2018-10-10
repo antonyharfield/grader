@@ -9,6 +9,7 @@ extension EventsController: RouteCollection {
         router.get("events", Event.parameter, "image", use: image)
         let authedRouter = router.grouped(SessionAuthenticationMiddleware())
         authedRouter.get("events", Event.parameter, "problems", use: showProblems)
+        authedRouter.get("events", Event.parameter, "problems", Int.parameter, use: showProblemForm)
         authedRouter.get("events", Event.parameter, "submissions", use: showSubmissions)
         authedRouter.get("events", Event.parameter, "scores", use: showRankings)
     }
@@ -107,6 +108,30 @@ final class EventsController {
             return try leaf.render("Events/event", context, request: request).encode(for: request)
         }
 
+    }
+    
+    func showProblemForm(request: Request) throws -> Future<View> {
+        let eventFuture = try request.parameters.next(Event.self)
+        let sequence = try request.parameters.next(Int.self)
+        
+        let eventAndUserFuture = eventFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
+        
+        return eventAndUserFuture.flatMap { (event, user) in
+            guard event.isVisible(to: user) else {
+                throw Abort(.unauthorized)
+            }
+            
+            let eventProblemFuture = try event.eventProblems.query(on: request).filter(\.sequence == sequence).first().unwrap(or: Abort(.notFound))
+            return eventProblemFuture.flatMap { eventProblem in
+                let problem = eventProblem.problem.get(on: request)
+                let problemCases = ProblemCase.query(on: request).filter(\.problemID == eventProblem.problemID).filter(\.visibility == ProblemCaseVisibility.show).all()
+                
+                let context = ProblemViewContext(common: nil, event: event, eventProblem: eventProblem, problem: problem, problemCases: problemCases)
+                //let leaf = try request.make(LeafRenderer.self)
+                let leaf = try request.privateContainer.make(LeafRenderer.self)
+                return leaf.render("Events/problem-form", context, request: request)
+            }
+        }
     }
     
     func showSubmissions(request: Request) throws -> Future<View> {
@@ -246,6 +271,14 @@ fileprivate struct ProblemsViewContext: ViewContext {
     var common: Future<CommonViewContext>?
     let event: Future<Event>
     let problems: Future<[UserEventProblem]>
+}
+
+fileprivate struct ProblemViewContext: ViewContext {
+    var common: Future<CommonViewContext>?
+    let event: Event
+    let eventProblem: EventProblem
+    let problem: Future<Problem>
+    let problemCases: Future<[ProblemCase]>
 }
 
 fileprivate struct SubmissionsViewContext: ViewContext {

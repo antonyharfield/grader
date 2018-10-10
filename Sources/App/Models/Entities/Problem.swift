@@ -27,3 +27,5 @@ final class Problem: Content {
 extension Problem: MySQLModel {
     static let entity = "problems"
 }
+
+extension Problem: Parameter {}

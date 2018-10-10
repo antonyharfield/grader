@@ -1,42 +1,30 @@
-#set("title") { Course }
+#set("title") { #(course.name) #(topic.name) }
 
 #set("content") {
-<p><div class="course-name"><a href="/courses/#(course.id)">#(course.name) &hearts; #(topic.name)</a></div></p>
-<h2> #(topicItem.name)</h2>
+    <p><div class="course-name">
+        <a href="/courses/#(course.id)">#(course.name)</a>
+        → #(topic.name)
+    </div></p>
+    <h2>#(topicItem.name)</h2>
 
-#if(topicItem.problemID == nill){
-<div class="modal-content">#(topicItem.text)</div>
-}
-
-#if(topicItem.problemID > 0){
-#embed("Problems/form")
-}
-
-    #if(topicItem.id == 1) {
-    <nav class="ink-navigation">
-        <ul class="pagination grey">
-            <li class="next"><a href="#(nextPage)"><span>Next →</span></a></li>
-        </ul>
-    </nav>
-
-    }elseif(topicItem.id == pageAll) {
-    <nav class="ink-navigation">
-        <ul class="pagination grey">
-            <li class="previous"><a href="#(previousPage)"><span>Previous</span></a></li>
-        </ul>
-    </nav>
-
-    }elseif(topicItem.id>1 ) {
-    <nav class="ink-navigation">
-        <ul class="pagination grey">
-            <li class="previous"><a href="#(previousPage)"><span>Previous</span></a></li>
-            <li class="next"><a href="#(nextPage)"><span>Next</span></a></li>
-        </ul>
-    </nav>
+    #if(problem == nil) {
+        <div class="modal-content">#get(topicItem.text)</div>
     }
 
+    #if(problem) {
+        #embed("Problems/Fragments/form")
+    }
+
+    <nav class="ink-navigation">
+        <ul class="pagination grey">
+            #if(topicItem.sequence != 1) {
+                <li class="previous"><a href="#(previousPage)"><span>← Previous</span></a></li>
+            }
+            #if(topicItem.sequence < numberOfPages) {
+                <li class="next"><a href="#(nextPage)"><span>Next →</span></a></li>
+            }
+        </ul>
+    </nav>
 }
 
 #embed("Layouts/base")
-
-

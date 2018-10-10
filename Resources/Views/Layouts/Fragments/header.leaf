@@ -11,6 +11,7 @@
     <nav class="ink-navigation ink-grid">
         <ul class="menu horizontal grey">
             <li #if(contains(common.pathComponents,"events") || common.path == "/") { class="active" }><a href="/">Events</a></li>
+            <li #if(contains(common.pathComponents,"courses")) { class="active" }><a href="/courses">Courses</a></li>
             <li #if(contains(common.pathComponents,"rankings")) { class="active" }><a href="/rankings">Rankings</a></li>
 
             #if(common.canTeach) {

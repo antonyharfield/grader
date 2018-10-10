@@ -8,7 +8,6 @@ extension TopicItem: Migration {
             builder.field(for: \.topicID)
             builder.reference(from: \.topicID, to: \Topic.id)
             builder.field(for: \.problemID)
-            builder.reference(from: \.problemID, to: \Problem.id)
             builder.field(for: \.name)
             builder.field(for: \.text, type: .varchar(4000))
             builder.field(for: \.sequence)

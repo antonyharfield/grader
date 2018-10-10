@@ -4,24 +4,23 @@ import FluentMySQL
 final class Course: Content {
     
     var id: Int?
+    var code: String
     var name: String
     var shortDescription: String
-    var sequence: Int
     var userID: User.ID
+    var languageRestriction: Language?
     
-    var courseTopics: Children<Course, CourseTopic> {
+    var topics: Children<Course, Topic> {
         return children(\.courseID)
     }
-    var topics: Siblings<Course, Topic, CourseTopic> {
-        return siblings()
-    }
     
-    init(id: Int? = nil, name: String, shortDescription: String = "", sequence: Int, userID: Int) {
+    init(id: Int? = nil, code: String, name: String, shortDescription: String = "", userID: Int, languageRestriction: Language? = nil) {
         self.id = id
+        self.code = code
         self.name = name
         self.shortDescription = shortDescription
-        self.sequence = sequence
         self.userID = userID
+        self.languageRestriction = languageRestriction
     }
     
     func isVisible(to user: User) -> Bool {

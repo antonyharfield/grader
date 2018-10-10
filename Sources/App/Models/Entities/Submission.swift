@@ -4,7 +4,9 @@ import FluentMySQL
 final class Submission: Content {
     
     var id: Int?
-    var eventProblemID: Int
+    var problemID: Int
+    var eventProblemID: Int?
+    var topicItemID: Int?
     var userID: Int
     var language: Language
     var files: String
@@ -14,17 +16,19 @@ final class Submission: Content {
     var createdAt: Date?
     var updatedAt: Date?
     
-    var eventProblem: Parent<Submission, EventProblem> {
-        return parent(\.eventProblemID)
+    var problem: Parent<Submission, Problem> {
+        return parent(\.problemID)
     }
     
     var user: Parent<Submission, User> {
         return parent(\.userID)
     }
     
-    init(id: Int? = nil, eventProblemID: Int, userID: Int, language: Language, files: String, state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
+    init(id: Int? = nil, problemID: Int, eventProblemID: Int? = nil, topicItemID: Int? = nil, userID: Int, language: Language, files: String, state: SubmissionState = .submitted, score: Int = 0, compilerOutput: String = "") {
         self.id = id
+        self.problemID = problemID
         self.eventProblemID = eventProblemID
+        self.topicItemID = topicItemID
         self.userID = userID
         self.language = language
         self.files = files

@@ -25,7 +25,13 @@
 
         <div class="all-40 small-100 tiny-100">
         <h3>Submit your solution</h3>
-        <form method="post" enctype="multipart/form-data" class="ink-form">
+        <form method="post" action="/problems/#(problem.id)" enctype="multipart/form-data" class="ink-form">
+            #if(eventProblem.id) {
+                <input type="hidden" name="eventProblemID" value="#(eventProblem.id)">
+            }
+            #if(topicItem.id) {
+                <input type="hidden" name="topicItemID" value="#(topicItem.id)">
+            }
             <div class="control-group">
                 <div class="column-group gutters">
                     <label for="inline-name" class="all-30">Source file</label>
@@ -37,7 +43,9 @@
                         <label for="inline-name" class="all-30">Language</label>
                         <div class="control all-70">
                             #if(event.languageRestriction) {
-                                <p>#(event.languageRestriction)</p>
+                                <p>#capitalize(event.languageRestriction)</p>
+                            } else if (course.languageRestriction) {
+                                <p>#capitalize(course.languageRestriction)</p>
                             } else {
                             <select name="language">
                                 <option value="java" selected>Java 8</option>

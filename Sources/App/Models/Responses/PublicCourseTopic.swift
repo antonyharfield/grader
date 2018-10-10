@@ -7,7 +7,7 @@ struct PublicCourseTopic: Content {
 }
 
 extension PublicCourseTopic {
-    init(courseTopic ep: CourseTopic, topic p: Topic) {
-        self.init(id: ep.id, sequence: ep.sequence, topic: p)
+    init(topic t: Topic) {
+        self.init(id: t.id, sequence: t.sequence, topic: t)
     }
 }

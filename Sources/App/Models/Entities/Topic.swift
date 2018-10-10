@@ -4,25 +4,27 @@ import FluentMySQL
 final class Topic: Content {
     
     var id: Int?
+    var courseID: Int
+    var sequence: Int
     var name: String
     var description: String
 
-    
     var topicItems: Children<Topic, TopicItem> {
         return children(\.topicID)
     }
-
+    
+    var course: Parent<Topic, Course> {
+        return parent(\.courseID)
+    }
 
     
-    init(id: Int? = nil, name: String, description: String) {
+    init(id: Int? = nil, courseID: Int, sequence: Int, name: String, description: String) {
         self.id = id
+        self.courseID = courseID
+        self.sequence = sequence
         self.name = name
         self.description = description
     }
-    
-//    func isVisible(to user: User) -> Bool {
-//        return user.id == userID || user.can(.administrate)
-//    }
 }
 
 extension Topic: MySQLModel {

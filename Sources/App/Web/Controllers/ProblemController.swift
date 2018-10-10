@@ -6,113 +6,110 @@ import FluentMySQL
 extension ProblemController: RouteCollection {
     func boot(router: Router) throws {
         let authedRouter = router.grouped(SessionAuthenticationMiddleware())
-        authedRouter.get("events", Event.parameter, "problems", Int.parameter, use: form)
-        authedRouter.post("events", Event.parameter, "problems", Int.parameter, use: submit)
+        authedRouter.post("problems", Problem.parameter, use: submit)
     }
 }
 
 final class ProblemController {
 
-    func form(request: Request) throws -> Future<View> {
-        let eventFuture = try request.parameters.next(Event.self)
-        let sequence = try request.parameters.next(Int.self)
-
-        let eventAndUserFuture = eventFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
-        
-        return eventAndUserFuture.flatMap { (event, user) in
-            guard event.isVisible(to: user) else {
-                throw Abort(.unauthorized)
-            }
-            
-            let eventProblemFuture = try event.eventProblems.query(on: request).filter(\.sequence == sequence).first().unwrap(or: Abort(.notFound))
-            return eventProblemFuture.flatMap { eventProblem in
-                let problem = eventProblem.problem.get(on: request)
-                let problemCases = ProblemCase.query(on: request).filter(\.problemID == eventProblem.problemID).filter(\.visibility == ProblemCaseVisibility.show).all()
-                
-                let context = ProblemViewContext(common: nil, event: event, eventProblem: eventProblem, problem: problem, problemCases: problemCases)
-                //let leaf = try request.make(LeafRenderer.self)
-                let leaf = try request.privateContainer.make(LeafRenderer.self)
-                return leaf.render("Events/problem-form", context, request: request)
-            }
-        }
-    }
-
     func submit(request: Request) throws -> Future<Response> {
-        let submissionData = try request.content.decode(SubmissionData.self)
-        let eventProblemFuture = try process(request: request)
-        
-        return submissionData.and(eventProblemFuture).flatMap { submissionData, ueep in
-            let user = ueep.user
-            let event = ueep.event
-            let eventProblem = ueep.eventProblem
+        let problemFuture = try request.parameters.next(Problem.self)
+        let submissionDataFuture = try request.content.decode(SubmissionData.self)
+        return problemFuture.and(submissionDataFuture).flatMap { (problem, submissionData) in
             
-            guard let language = event.languageRestriction
-                ?? Language(rawValue: submissionData.language ?? "") else {
+            if let eventProblemID = submissionData.eventProblemID {
+                return try self.processEventProblem(id: eventProblemID, request: request).flatMap { ueep in
+                    let user = ueep.user
+                    let event = ueep.event
+                    let eventProblem = ueep.eventProblem
+                    
+                    guard let language = event.languageRestriction
+                        ?? Language(rawValue: submissionData.language ?? "") else {
+                            throw Abort(.badRequest)
+                    }
+                    let filename = submissionData.file.filename
+                    let fileData = submissionData.file.data
+                    
+                    // Check the file
+                    if fileData.count == 0 {
+                        return request.future(request.redirect(to: request.http.urlString).flash(.error, "No file submitted"))
+                    }
+                    
+                    // Create submission first so it has an ID
+                    let submission = Submission(problemID: eventProblem.problemID, eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: filename)
+                    return submission.save(on: request).flatMap { submission in
+                        
+                        // Save the files
+                        let fileSystem = FileSystem()
+                        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
+                        fileSystem.ensurePathExists(at: uploadPath)
+                        let success = fileSystem.save(data: fileData, path: uploadPath + filename)
+                        
+                        if success {
+                            // Queue job
+                            // TODO: don't fail if we cannot connect to the queue!
+                            //let job = SubmissionJob(submissionID: submission.id!.int!)
+                            //try Reswifq.defaultQueue.enqueue(job)
+                            
+                            return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
+                        }
+                        return request.future(request.redirect(to: "/events/\(event.id!)/problems/\(eventProblem.sequence)").flash(.error, "Unable to save submitted file(s)"))
+                    }
+                }
+            }
+            else if let topicItemID = submissionData.topicItemID {
+                return try self.processTopicItem(id: topicItemID, request: request).flatMap{ userCourseTopicItem in
+                    let courseID = userCourseTopicItem.course.id!
+                    let courseTopicSeq = userCourseTopicItem.topic.sequence
+                    let topicItemSeq = userCourseTopicItem.topicItem.sequence
+                    return request.future(request.redirect(to: "/courses/\(courseID)/topics/\(courseTopicSeq)/\(topicItemSeq)/submissions"))
+                }
+            }
+            else {
                 throw Abort(.badRequest)
             }
-            let filename = submissionData.file.filename
-            let fileData = submissionData.file.data
-            
-            // Check the file
-            if fileData.count == 0 {
-                return request.future(request.redirect(to: request.http.urlString).flash(.error, "No file submitted"))
-            }
-            
-            // Create submission first so it has an ID
-            let submission = Submission(eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: filename)
-            return submission.save(on: request).flatMap { submission in
-                
-                // Save the files
-                let fileSystem = FileSystem()
-                let uploadPath = fileSystem.submissionUploadPath(submission: submission)
-                fileSystem.ensurePathExists(at: uploadPath)
-                let success = fileSystem.save(data: fileData, path: uploadPath + filename)
-                
-                if success {
-                    // Queue job
-                    // TODO: don't fail if we cannot connect to the queue!
-                    //let job = SubmissionJob(submissionID: submission.id!.int!)
-                    //try Reswifq.defaultQueue.enqueue(job)
-                
-                    return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
-                }
-                return request.future(request.redirect(to: request.http.urlString).flash(.error, "Unable to save submitted file(s)"))
-            }
-            
-            
         }
     }
     
-    private func process(request: Request) throws -> Future<UserEventProblem> {
-        let eventFuture = try request.parameters.next(Event.self)
-        let sequence = try request.parameters.next(Int.self)
+    private func processEventProblem(id: Int, request: Request) throws -> Future<UserEventProblem> {
+        let eventProblemFuture = EventProblem.query(on: request)
+                .join(\Event.id, to: \EventProblem.eventID).alsoDecode(Event.self).first().unwrap(or: Abort(.internalServerError))
         
-        let eventAndUserFuture = eventFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
+        let eventProblemAndUserFuture = eventProblemFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
         
-        return eventAndUserFuture.flatMap { (event, user) in
-            guard event.isVisible(to: user) else {
+        return eventProblemAndUserFuture.flatMap { (eventProblemAndEvent, user) in
+            guard eventProblemAndEvent.1.isVisible(to: user) else {
                 throw Abort(.unauthorized)
             }
-            
-            let eventProblemFuture = try event.eventProblems.query(on: request).filter(\.sequence == sequence).first().unwrap(or: Abort(.notFound))
-            return eventProblemFuture.flatMap { eventProblem in
-                return request.future(UserEventProblem(user: user, event: event, eventProblem: eventProblem))
-            }
+            return request.future(UserEventProblem(user: user, event: eventProblemAndEvent.1, eventProblem: eventProblemAndEvent.0))
+        }
+    }
+    
+    private func processTopicItem(id: Int, request: Request) throws -> Future<UserTopicItem> {
+        let topicItemFuture = TopicItem.query(on: request).filter(\.id == id)
+            .join(\Topic.id, to: \TopicItem.topicID).alsoDecode(Topic.self)
+            .join(\Course.id, to: \Topic.courseID).alsoDecode(Course.self)
+            .first().unwrap(or: Abort(.internalServerError))
+        
+        let topicItemAndUserFuture = topicItemFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
+        
+        return topicItemAndUserFuture.flatMap { (topicItemAndTopicAndCourse, user) in
+            // TODO check user has permission
+            return request.future(UserTopicItem(user: user, course: topicItemAndTopicAndCourse.1, topic: topicItemAndTopicAndCourse.0.1, topicItem: topicItemAndTopicAndCourse.0.0))
         }
     }
 
-}
-
-fileprivate struct ProblemViewContext: ViewContext {
-    var common: Future<CommonViewContext>?
-    let event: Event
-    let eventProblem: EventProblem
-    let problem: Future<Problem>
-    let problemCases: Future<[ProblemCase]>
 }
 
 fileprivate struct UserEventProblem {
     let user: User
     let event: Event
     let eventProblem: EventProblem
+}
+
+fileprivate struct UserTopicItem {
+    let user: User
+    let course: Course
+    let topic: Topic
+    let topicItem: TopicItem
 }

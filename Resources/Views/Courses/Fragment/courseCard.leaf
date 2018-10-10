@@ -9,7 +9,7 @@
         </div>
     }
     <figcaption class="over-bottom">
-        ☘️#(course.name)
+        #(course.name)
         #if(course.hasImage) {
             #embed("Courses/Fragment/courseIcon")
         }
