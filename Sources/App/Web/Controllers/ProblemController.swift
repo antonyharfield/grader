@@ -22,47 +22,23 @@ final class ProblemController {
                     let user = ueep.user
                     let event = ueep.event
                     let eventProblem = ueep.eventProblem
+                    let redirect = "/events/\(event.id!)/problems/\(eventProblem.sequence)"
                     
-                    guard let language = event.languageRestriction
-                        ?? Language(rawValue: submissionData.language ?? "") else {
-                            throw Abort(.badRequest)
-                    }
-                    let filename = submissionData.file.filename
-                    let fileData = submissionData.file.data
-                    
-                    // Check the file
-                    if fileData.count == 0 {
-                        return request.future(request.redirect(to: request.http.urlString).flash(.error, "No file submitted"))
-                    }
-                    
-                    // Create submission first so it has an ID
-                    let submission = Submission(problemID: eventProblem.problemID, eventProblemID: eventProblem.id!, userID: user.id!, language: language, files: filename)
-                    return submission.save(on: request).flatMap { submission in
-                        
-                        // Save the files
-                        let fileSystem = FileSystem()
-                        let uploadPath = fileSystem.submissionUploadPath(submission: submission)
-                        fileSystem.ensurePathExists(at: uploadPath)
-                        let success = fileSystem.save(data: fileData, path: uploadPath + filename)
-                        
-                        if success {
-                            // Queue job
-                            // TODO: don't fail if we cannot connect to the queue!
-                            //let job = SubmissionJob(submissionID: submission.id!.int!)
-                            //try Reswifq.defaultQueue.enqueue(job)
-                            
-                            return request.future(request.redirect(to: "/events/\(event.id!)/submissions"))
-                        }
-                        return request.future(request.redirect(to: "/events/\(event.id!)/problems/\(eventProblem.sequence)").flash(.error, "Unable to save submitted file(s)"))
-                    }
+                    return try self.saveSubmission(data: submissionData, problemID: eventProblem.problemID, languageRestriction: event.languageRestriction, user: user, redirect: redirect, on: request)
                 }
             }
             else if let topicItemID = submissionData.topicItemID {
                 return try self.processTopicItem(id: topicItemID, request: request).flatMap{ userCourseTopicItem in
-                    let courseID = userCourseTopicItem.course.id!
+                    let user = userCourseTopicItem.user
+                    let course = userCourseTopicItem.course
                     let courseTopicSeq = userCourseTopicItem.topic.sequence
                     let topicItemSeq = userCourseTopicItem.topicItem.sequence
-                    return request.future(request.redirect(to: "/courses/\(courseID)/topics/\(courseTopicSeq)/\(topicItemSeq)/submissions"))
+                    let redirect = "/courses/\(course.id!)/topics/\(courseTopicSeq)/\(topicItemSeq)"
+                    
+                    guard let problemID = userCourseTopicItem.topicItem.problemID else {
+                        throw Abort(.badRequest)
+                    }
+                    return try self.saveSubmission(data: submissionData, problemID: problemID, languageRestriction: course.languageRestriction, user: user, redirect: redirect, on: request)
                 }
             }
             else {
@@ -72,7 +48,7 @@ final class ProblemController {
     }
     
     private func processEventProblem(id: Int, request: Request) throws -> Future<UserEventProblem> {
-        let eventProblemFuture = EventProblem.query(on: request)
+        let eventProblemFuture = EventProblem.query(on: request).filter(\.id == id)
                 .join(\Event.id, to: \EventProblem.eventID).alsoDecode(Event.self).first().unwrap(or: Abort(.internalServerError))
         
         let eventProblemAndUserFuture = eventProblemFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
@@ -96,6 +72,49 @@ final class ProblemController {
         return topicItemAndUserFuture.flatMap { (topicItemAndTopicAndCourse, user) in
             // TODO check user has permission
             return request.future(UserTopicItem(user: user, course: topicItemAndTopicAndCourse.1, topic: topicItemAndTopicAndCourse.0.1, topicItem: topicItemAndTopicAndCourse.0.0))
+        }
+    }
+    
+    private func saveSubmission(data: SubmissionData, problemID: Int, languageRestriction: Language?, user: User, redirect: String, on request: Request) throws -> Future<Response> {
+        guard let language = languageRestriction ?? Language(rawValue: data.language ?? "") else {
+            throw Abort(.badRequest)
+        }
+        let filename = data.file.filename
+        let fileData = data.file.data
+        
+        // Check the file
+        if fileData.count == 0 {
+            return request.future(request.redirect(to: request.http.urlString).flash(.error, "No file submitted"))
+        }
+        
+        // Create submission first so it has an ID
+        let submission: Submission
+        if let eventProblemID = data.eventProblemID {
+            submission = Submission(problemID: problemID, eventProblemID: eventProblemID, userID: user.id!, language: language, files: filename)
+        }
+        else if let topicItemID = data.topicItemID {
+            submission = Submission(problemID: problemID, topicItemID: topicItemID, userID: user.id!, language: language, files: filename)
+        }
+        else {
+            throw Abort(.badRequest)
+        }
+        return submission.save(on: request).flatMap { submission in
+            
+            // Save the files
+            let fileSystem = FileSystem()
+            let uploadPath = fileSystem.submissionUploadPath(submission: submission)
+            fileSystem.ensurePathExists(at: uploadPath)
+            let success = fileSystem.save(data: fileData, path: uploadPath + filename)
+            
+            if success {
+                // Queue job
+                // TODO: don't fail if we cannot connect to the queue!
+                //let job = SubmissionJob(submissionID: submission.id!.int!)
+                //try Reswifq.defaultQueue.enqueue(job)
+                
+                return request.future(request.redirect(to: redirect))
+            }
+            return request.future(request.redirect(to: redirect).flash(.error, "Unable to save submitted file(s)"))
         }
     }
 

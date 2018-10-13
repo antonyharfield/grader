@@ -1,5 +1,5 @@
 <div class="column-group gutters">
-    <div class="all-60 small-100 tiny-100">
+    <div class="all-60 medium-100 small-100 tiny-100">
         <div class="modal-content">
             <h4>Problem</h4>
             <p class="quarter-top-space">#get(problem.description)</p>
@@ -23,8 +23,8 @@
         </div>
     </div>
 
-        <div class="all-40 small-100 tiny-100">
-        <h3>Submit your solution</h3>
+    <div class="all-40 medium-100 small-100 tiny-100">
+        <h4>Submit solution</h4>
         <form method="post" action="/problems/#(problem.id)" enctype="multipart/form-data" class="ink-form">
             #if(eventProblem.id) {
                 <input type="hidden" name="eventProblemID" value="#(eventProblem.id)">
@@ -33,33 +33,102 @@
                 <input type="hidden" name="topicItemID" value="#(topicItem.id)">
             }
             <div class="control-group">
-                <div class="column-group gutters">
-                    <label for="inline-name" class="all-30">Source file</label>
+                <div class="column-group">
+                    <label for="file" class="all-30">Source file</label>
                     <div class="control all-70">
                         <input type="file" name="file">
                     </div>
                 </div>
-                    <div class="column-group gutters">
-                        <label for="inline-name" class="all-30">Language</label>
-                        <div class="control all-70">
-                            #if(event.languageRestriction) {
-                                <p>#capitalize(event.languageRestriction)</p>
-                            } else if (course.languageRestriction) {
-                                <p>#capitalize(course.languageRestriction)</p>
-                            } else {
-                            <select name="language">
-                                <option value="java" selected>Java 8</option>
-                                <option value="kotlin">Kotlin</option>
-                                <option value="python">Python 3</option>
-                                <option value="swift">Swift 4</option>
-                            </select>
-                            }
-                        </div>
+                <div class="column-group">
+                    <label for="language" class="all-30">Language</label>
+                    <div class="control all-70 medium-40">
+                        #if(event.languageRestriction) {
+                            <p>#capitalize(event.languageRestriction)</p>
+                        } else if (course.languageRestriction) {
+                            <p>#capitalize(course.languageRestriction)</p>
+                        } else {
+                        <select name="language">
+                            <option value="java" selected>Java 8</option>
+                            <option value="kotlin">Kotlin</option>
+                            <option value="python">Python 3</option>
+                            <option value="swift">Swift 4</option>
+                        </select>
+                        }
                     </div>
-                <div class="control">
-                    <input type="submit" class="ink-button">
+                </div>
+                <div class="column-group">
+                    <label for="submit" class="all-30"></label>
+                    <div class="control all-70 medium-40">
+                        <input type="submit" class="ink-button problem-submit-button">
+                    </div>
                 </div>
             </div>
         </form>
+
+        <h4 class="top-space">My submissions</h4>
+        <table class="ink-table top-space">
+            <thead>
+                <tr>
+                <th class="align-left">Submitted</th>
+                <th class="align-left">Status</th>
+                <th class="align-left">Grade</th>
+                </tr>
+            </thead>
+            <tbody id="submissions"></tbody>
+        </table>
+
+        <script>
+        const topicItemID = $('input[name=topicItemID]').val();
+        const eventProblemID = $('input[name=eventProblemID]').val();
+
+        function reloadSubmissions() {
+            var queryString = '';
+            if ($.isNumeric(topicItemID)) {
+                queryString = '?topicItemID=' + topicItemID;
+            }
+            else if ($.isNumeric(eventProblemID)) {
+                queryString = '?eventProblemID=' + eventProblemID;
+            } 
+
+            $.getJSON('/api/submissions' + queryString , function(data) {
+                var shouldReload = false;
+                var items = [];
+                $.each(data.submissions, function(index, submission) {
+                    const createdAt = "<td>" + moment(submission.createdAt).fromNow() + "</td>";
+                    const status = "<td>" + getSubmissionStateText(submission) + "</td>";
+                    const score = "<td>" + submission.score + "%</td>";
+                    items.push("<tr>" + createdAt + status + score + "</tr>");
+
+                    if (submission.state <= 10) {
+                        shouldReload = true;
+                    }
+                });
+                $("#submissions").empty().append(items);
+                if (shouldReload) {
+                    setTimeout(reloadSubmissions, 3000);
+                }
+            });
+        }
+        reloadSubmissions();
+
+        function getSubmissionStateText(submission) {
+            if (submission.state == 0) {
+                return '<span class="ink-label grey">Submitted</span>';
+            } else if (submission.state == 10) {
+                return '<span class="ink-label grey">Grading in progress</span>';
+            } else if (submission.state == 11) {
+                return '<span class="ink-label red">Runner error</span>';
+            } else if (submission.state == 20) {
+                return '<span class="ink-label red ink-tooltip" data-tip-html="<pre>'+submission.compilerOutput+'</pre>">Compile failed</span>';
+            } else if (submission.state == 30) {
+                if (submission.score == 100) {
+                    return '<span class="ink-label green">Passed</span>';
+                } else {
+                    return '<span class="ink-label orange">Graded</span>';
+                }
+            }
+            return '<span class="ink-label red">Unknown</span>';
+        }
+        </script>
     </div>
 </div>

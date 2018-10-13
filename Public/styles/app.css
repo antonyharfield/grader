@@ -67,7 +67,9 @@ footer .note {
     color: #000;
 }
 
-
+input.ink-button.problem-submit-button {
+    margin: 0.5em 0 0 0;
+}
 
 .problem-box {
     margin-right: 20px;

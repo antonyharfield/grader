@@ -3,7 +3,7 @@ import Leaf
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
-    
+    try router.register(collection: APIController())
     try router.register(collection: EventsController())
     try router.register(collection: CoursesController())
     try router.register(collection: ProblemController())

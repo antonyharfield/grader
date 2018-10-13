@@ -9,6 +9,7 @@ extension Course: Migration {
             builder.field(for: \.name)
             builder.field(for: \.shortDescription)
             builder.field(for: \.userID)
+            builder.field(for: \.languageRestriction)
         }
     }
     
