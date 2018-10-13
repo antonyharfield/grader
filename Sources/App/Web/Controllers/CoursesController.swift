@@ -1,11 +1,14 @@
 import Vapor
 import Leaf
 import Authentication
+import FluentMySQL
 
 extension CoursesController: RouteCollection {
     func boot(router: Router) throws {
         let authedRouter = router.grouped(SessionAuthenticationMiddleware())
         authedRouter.get("courses", use: courses)
+        authedRouter.get("courses", "join", use: showJoinForm)
+        authedRouter.post("courses", "join", use: join)
         authedRouter.get("courses", Course.parameter, use: showTopics)
         authedRouter.get("courses", Course.parameter, "topics", Int.parameter, Int.parameter, use: showTopicItem)
     }
@@ -15,9 +18,33 @@ final class CoursesController {
     
     func courses(_ request: Request) throws -> Future<View> {
         return try request.requireSessionUser().flatMap { user in
-            let courses = Course.query(on: request).all()
+            let courses = try user.courses.query(on: request).all()
             let leaf = try request.make(LeafRenderer.self)
             return leaf.render("Courses/courses", CourseViewContext(user: user, courses: courses), request: request)
+        }
+    }
+    
+    func showJoinForm(_ request: Request) throws -> Future<View> {
+        let leaf = try request.privateContainer.make(LeafRenderer.self)
+        return leaf.render("Courses/join", request: request)
+    }
+    
+    func join(_ request: Request) throws -> Future<Response> {
+        return try request.content.decode(JoinRequest.self).map { joinRequest in
+            return joinRequest.joinCode
+        }.flatMap { joinCode in
+            return Course.query(on: request).filter(\.joinCode == joinCode).first().flatMap { course in
+                guard let course = course else {
+                    return request.future(request.redirect(to: "/courses/join").flash(.error, "Invalid code"))
+                }
+                return try request.requireSessionUser().flatMap { user in
+                    let cm = CourseMember(courseID: course.id!, userID: user.id!, role: .student)
+                    return cm.save(on: request).flatMap { _ in
+                        return request.future(request.redirect(to: "/courses"))
+                    }
+                }
+            }
+            
         }
     }
     
@@ -118,5 +145,9 @@ fileprivate struct TopicItemViewContext: ViewContext {
         self.problem = problem
         self.problemCases = problemCases
     }
+}
+
+fileprivate struct JoinRequest: Content {
+    var joinCode: String
 }
 

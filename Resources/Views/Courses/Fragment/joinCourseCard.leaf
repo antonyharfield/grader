@@ -1,0 +1,10 @@
+<div class="all-33 small-50 tiny-100">
+    <a href="/courses/join" class="join">
+    <figure class="ink-image">
+        <div class="noimage">
+            <img class="language" src="/images/course-join.png">
+            <p class="lead">Join a course</p>
+        </div>
+    </figure>
+    </a>
+</div>

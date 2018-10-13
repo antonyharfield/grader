@@ -1,16 +1,15 @@
 import FluentMySQL
 
-extension Course: Migration {
+extension CourseMember: Migration {
     
     static func prepare(on connection: MySQLConnection) -> Future<Void> {
         return MySQLDatabase.create(self, on: connection) { builder in
             builder.field(for: \.id, isIdentifier: true)
-            builder.field(for: \.code)
-            builder.field(for: \.name)
-            builder.field(for: \.shortDescription)
-            builder.field(for: \.userID)
-            builder.field(for: \.languageRestriction)
-            builder.field(for: \.joinCode)
+            builder.field(for: \.courseID)
+            builder.reference(from: \.courseID, to: \Course.id)
+            builder.field(for: \.userID, type: .int(10, unsigned: true))
+            builder.reference(from: \.userID, to: \User.id)
+            builder.field(for: \.role)
         }
     }
     

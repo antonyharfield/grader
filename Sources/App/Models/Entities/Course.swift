@@ -9,18 +9,20 @@ final class Course: Content {
     var shortDescription: String
     var userID: User.ID
     var languageRestriction: Language?
+    var joinCode: String?
     
     var topics: Children<Course, Topic> {
         return children(\.courseID)
     }
     
-    init(id: Int? = nil, code: String, name: String, shortDescription: String = "", userID: Int, languageRestriction: Language? = nil) {
+    init(id: Int? = nil, code: String, name: String, shortDescription: String = "", userID: Int, languageRestriction: Language? = nil, joinCode: String) {
         self.id = id
         self.code = code
         self.name = name
         self.shortDescription = shortDescription
         self.userID = userID
         self.languageRestriction = languageRestriction
+        self.joinCode = joinCode
     }
     
     func isVisible(to user: User) -> Bool {

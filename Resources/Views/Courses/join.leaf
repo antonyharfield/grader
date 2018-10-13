@@ -1,0 +1,22 @@
+
+#set("title") { Join a course }
+
+#set("content") {
+
+<h2>Join a course</h2>
+
+<form method="POST" class="ink-form">
+    <div class="control-group all-20">
+        <label for="joinCode">Join Code</label>
+        <div class="control">
+            <input type="text" class="form-control" name="joinCode" placeholder="XXXXX" required autofocus="autofocus" />
+        </div>
+    </div>
+    <div class="control-group">
+        <input type="submit" class="ink-button" value="Submit"/>
+    </div>
+</form>
+<p>Obtain a "join code" from the organiser of your course.</p>
+}
+
+#embed("Layouts/base")

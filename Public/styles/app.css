@@ -67,6 +67,27 @@ footer .note {
     color: #000;
 }
 
+.event-grid .join .noimage {
+    background-color: rgb(93, 209, 141);
+    color: rgba(255, 255, 255, 0.685);
+    font-size: 1.5em;
+}
+.event-grid .join .noimage img {
+    opacity: 0.6;
+    width: 90px;
+    height: 90px;
+}
+.event-grid a.join:hover {
+    text-decoration: none !important; 
+}
+.event-grid a.join:hover .noimage img {
+    opacity: 1.0;
+}
+.event-grid a.join:hover .noimage {
+    color: #fff;
+}
+
+
 input.ink-button.problem-submit-button {
     margin: 0.5em 0 0 0;
 }

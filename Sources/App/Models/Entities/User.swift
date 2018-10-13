@@ -13,6 +13,10 @@ final class User: Content {
     var lastLogin: Date?
     var hasImage: Bool
     
+    var courses: Siblings<User, Course, CourseMember> {
+        return siblings()
+    }
+    
     init(id: Int? = nil, name: String, email: String, username: String, password: String, role: Role = .student, lastLogin: Date? = nil, hasImage: Bool = false) {
         self.id = id
         self.name = name

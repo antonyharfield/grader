@@ -6,6 +6,7 @@
         #for(course in courses) {
             #embed("Courses/Fragment/courseCard")
         }
+        #embed("Courses/Fragment/joinCourseCard")
     </div>
 }
 
