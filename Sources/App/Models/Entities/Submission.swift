@@ -34,7 +34,7 @@ final class Submission: Content {
         self.files = files
         self.state = state
         self.score = score
-        self.compilerOutput = compilerOutput
+        self.compilerOutput = String(compilerOutput.prefix(255))
     }
     
     var filesArray: [String] {

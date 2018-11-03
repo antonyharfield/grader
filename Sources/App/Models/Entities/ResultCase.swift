@@ -21,7 +21,7 @@ final class ResultCase: Content {
         self.id = id
         self.submissionID = submissionID
         self.problemCaseID = problemCaseID
-        self.output = output
+        self.output = String(output.prefix(2000))
         self.pass = pass
     }
 }

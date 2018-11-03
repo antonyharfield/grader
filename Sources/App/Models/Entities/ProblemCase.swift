@@ -17,7 +17,7 @@ final class ProblemCase: Content {
         self.id = id
         self.problemID = problemID
         self.input = input
-        self.output = output
+        self.output = String(output.prefix(2000))
         self.visibility = visibility
     }
 }
