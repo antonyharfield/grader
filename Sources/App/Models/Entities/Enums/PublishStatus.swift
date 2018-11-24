@@ -1,6 +1,6 @@
 import Vapor
 
-enum EventStatus: Int {
+enum PublishStatus: Int {
     
     case draft = 1
     case published = 2
@@ -18,10 +18,10 @@ enum EventStatus: Int {
     }
 }
 
-extension EventStatus: Content {}
+extension PublishStatus: Content {}
 
-extension EventStatus: CaseIterable, ReflectionDecodable {
-    static var allCases: [EventStatus] {
+extension PublishStatus: CaseIterable, ReflectionDecodable {
+    static var allCases: [PublishStatus] {
         return [.draft, .published, .archived]
     }
 }

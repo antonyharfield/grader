@@ -48,20 +48,30 @@ final class CoursesController {
         }
     }
     
+    private func isVisible(user: User, course: Course, on connectable: DatabaseConnectable) -> Future<Bool> {
+        if course.isEditable(to: user) {
+            return connectable.future(true)
+        }
+        return CourseMember.query(on: connectable).filter(\.userID == user.id!).filter(\.courseID == course.id!)
+            .count().map { $0 > 0 }
+    }
+    
     func showTopics(request: Request) throws -> Future<Response> {
         let courseFuture = try request.parameters.next(Course.self)
         let courseAndUserFuture = courseFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
         
         return courseAndUserFuture.flatMap { (course, user) in
-            guard course.isVisible(to: user) else {
-                throw Abort(.unauthorized)
+            return self.isVisible(user: user, course: course, on: request).flatMap { isVisible in
+                guard isVisible else {
+                    throw Abort(.unauthorized)
+                }
+                
+                let topicsFuture = try course.topics.query(on: request).sort(\Topic.sequence).all()
+                
+                let context = TopicsViewContext(course: course, topics: topicsFuture)
+                let leaf = try request.make(LeafRenderer.self)
+                return try leaf.render("Courses/course", context, request: request).encode(for: request)
             }
-            
-            let topicsFuture = try course.topics.query(on: request).sort(\Topic.sequence).all()
-            
-            let context = TopicsViewContext(course: course, topics: topicsFuture)
-            let leaf = try request.make(LeafRenderer.self)
-            return try leaf.render("Courses/course", context, request: request).encode(for: request)
         }
     }
     
@@ -73,27 +83,32 @@ final class CoursesController {
         let courseAndUserFuture = courseFuture.and(request.sessionUser().unwrap(or: Abort(.internalServerError)))
         
         return courseAndUserFuture.flatMap { (course, user) in
-            
-            let courseTopicFuture = try course.topics.query(on: request).filter(\Topic.sequence == topicSequence).first().unwrap(or: Abort(.notFound))
-            
-            return courseTopicFuture.flatMap { (topic) in
-                let topicItemFuture = TopicItem.query(on: request).filter(\.topicID == topic.id!).filter(\.sequence == topicItemSequence).first().unwrap(or: Abort(.notFound))
-                let nextPage = "/courses/\(course.id!)/topics/\(topicSequence)/\(topicItemSequence+1)"
-                let previousPage = "/courses/\(course.id!)/topics/\(topicSequence)/\(topicItemSequence-1)"
-                let numberOfPages = TopicItem.query(on: request).filter(\.topicID == topic.id!).count()
+            return self.isVisible(user: user, course: course, on: request).flatMap { isVisible in
+                guard isVisible else {
+                    throw Abort(.unauthorized)
+                }
                 
-                return topicItemFuture.flatMap { topicItem in
-                    let context: TopicItemViewContext
-                    if let problemID = topicItem.problemID {
-                        let problemFuture = Problem.find(problemID, on: request).unwrap(or: Abort(.notFound))
-                        let problemCasesFuture = ProblemCase.query(on: request).filter(\.problemID == problemID).filter(\.visibility == ProblemCaseVisibility.show).all()
-                        context = TopicItemViewContext(course: course, topic: topic, topicItem: topicItemFuture, nextPage: nextPage, previousPage: previousPage, numberOfPages: numberOfPages, problem: problemFuture, problemCases: problemCasesFuture)
+                let courseTopicFuture = try course.topics.query(on: request).filter(\Topic.sequence == topicSequence).first().unwrap(or: Abort(.notFound))
+                
+                return courseTopicFuture.flatMap { (topic) in
+                    let topicItemFuture = TopicItem.query(on: request).filter(\.topicID == topic.id!).filter(\.sequence == topicItemSequence).first().unwrap(or: Abort(.notFound))
+                    let nextPage = "/courses/\(course.id!)/topics/\(topicSequence)/\(topicItemSequence+1)"
+                    let previousPage = "/courses/\(course.id!)/topics/\(topicSequence)/\(topicItemSequence-1)"
+                    let numberOfPages = TopicItem.query(on: request).filter(\.topicID == topic.id!).count()
+                    
+                    return topicItemFuture.flatMap { topicItem in
+                        let context: TopicItemViewContext
+                        if let problemID = topicItem.problemID {
+                            let problemFuture = Problem.find(problemID, on: request).unwrap(or: Abort(.notFound))
+                            let problemCasesFuture = ProblemCase.query(on: request).filter(\.problemID == problemID).filter(\.visibility == ProblemCaseVisibility.show).all()
+                            context = TopicItemViewContext(course: course, topic: topic, topicItem: topicItemFuture, nextPage: nextPage, previousPage: previousPage, numberOfPages: numberOfPages, problem: problemFuture, problemCases: problemCasesFuture)
+                        }
+                        else {
+                            context = TopicItemViewContext(course: course, topic: topic, topicItem: topicItemFuture, nextPage: nextPage, previousPage: previousPage, numberOfPages: numberOfPages)
+                        }
+                        let leaf = try request.make(LeafRenderer.self)
+                        return try leaf.render("Courses/topicItem", context, request: request).encode(for: request)
                     }
-                    else {
-                        context = TopicItemViewContext(course: course, topic: topic, topicItem: topicItemFuture, nextPage: nextPage, previousPage: previousPage, numberOfPages: numberOfPages)
-                    }
-                    let leaf = try request.make(LeafRenderer.self)
-                    return try leaf.render("Courses/topicItem", context, request: request).encode(for: request)
                 }
             }
         }

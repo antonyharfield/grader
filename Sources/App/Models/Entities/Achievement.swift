@@ -7,14 +7,12 @@ final class Achievement: Content {
     var name: String
     var shortDescription: String
     var sequence: Int
-
     
     init(id: Int? = nil, name: String, shortDescription: String = "", sequence: Int) {
         self.id = id
         self.name = name
         self.shortDescription = shortDescription
         self.sequence = sequence
-        
     }
 }
 

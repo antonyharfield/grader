@@ -8,6 +8,7 @@ final class Topic: Content {
     var sequence: Int
     var name: String
     var description: String
+    var hidden: Bool
 
     var topicItems: Children<Topic, TopicItem> {
         return children(\.topicID)
@@ -18,12 +19,13 @@ final class Topic: Content {
     }
 
     
-    init(id: Int? = nil, courseID: Int, sequence: Int, name: String, description: String) {
+    init(id: Int? = nil, courseID: Int, sequence: Int, name: String, description: String, hidden: Bool = false) {
         self.id = id
         self.courseID = courseID
         self.sequence = sequence
         self.name = name
         self.description = description
+        self.hidden = hidden
     }
 }
 

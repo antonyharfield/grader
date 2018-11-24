@@ -17,6 +17,14 @@ final class User: Content {
         return siblings()
     }
     
+    var achievements: Siblings<User, Achievement, AchievementUser> {
+        return siblings()
+    }
+    
+    var achievementsRaw: Children<User, AchievementUser> {
+        return children(\.userID)
+    }
+    
     init(id: Int? = nil, name: String, email: String, username: String, password: String, role: Role = .student, lastLogin: Date? = nil, hasImage: Bool = false) {
         self.id = id
         self.name = name

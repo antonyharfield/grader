@@ -6,7 +6,7 @@ final class Event: Content {
     var id: Int?
     var name: String
     var shortDescription: String
-    var status: EventStatus
+    var status: PublishStatus
     var userID: User.ID
     var startsAt: Date?
     var endsAt: Date?
@@ -25,7 +25,7 @@ final class Event: Content {
         return siblings()
     }
     
-    init(id: Int? = nil, name: String, shortDescription: String = "", status: EventStatus = .draft, userID: Int, startsAt: Date? = nil, endsAt: Date? = nil, languageRestriction: Language? = nil, hasImage: Bool = false, scoringSystem: ScoringSystem = .default, scoresHiddenBeforeEnd: Int = 0) {
+    init(id: Int? = nil, name: String, shortDescription: String = "", status: PublishStatus = .draft, userID: Int, startsAt: Date? = nil, endsAt: Date? = nil, languageRestriction: Language? = nil, hasImage: Bool = false, scoringSystem: ScoringSystem = .default, scoresHiddenBeforeEnd: Int = 0) {
         self.id = id
         self.name = name
         self.shortDescription = shortDescription

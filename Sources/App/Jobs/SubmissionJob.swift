@@ -14,6 +14,8 @@ public struct SubmissionJob: Job {
 
     // MARK: Job
     public func perform(on eventLoopWorker: DatabaseConnectable) throws {
+        print("start submission \(submissionID)")
+        
         guard let submission = try Submission.find(submissionID, on: eventLoopWorker) else {
             return
         }
