@@ -23,10 +23,7 @@
                                     <select name="language_restriction" id="language_restriction">
                                         <optgroup label="Available Languages">
                                             <option value="" selected>Any</option>
-                                            <option value="java">Java</option>
-                                            <option value="kotlin">Kotlin</option>
-                                            <option value="python">Python</option>
-                                            <option value="swift">Swift</option>
+                                            #embed("Common/languageOptions")
                                         </optgroup>
                                     </select>
                                 </div>

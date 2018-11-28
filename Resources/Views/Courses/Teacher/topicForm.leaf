@@ -49,62 +49,13 @@
                 <fieldset>
                     <legend>Topic contents</legend>
                     <div class="column-group gutters">
-                        <div class="all-100 item">
-                            <input type="hidden" name="itemIDs[]" value="0" />
-                            <label>Name</label>
-                            <div class="control">
-                                <input type="text" class="form-control" name="itemNames[]" />
-                            </div>
-                            <label>Text</label>
-                            <div class="control">
-                                <textarea class="form-control" name="itemTexts[]"></textarea>
-                            </div>
-                            <label>Problem</label>
-                            <div class="control">
-                                <select class="form-control" name="itemProblemIDs[]">
-                                    <option value="0">None</option>
-                                </select>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="all-100 item">
-                            <input type="hidden" name="itemIDs[]" value="0" />
-                            <label>Name</label>
-                            <div class="control">
-                                <input type="text" class="form-control" name="itemNames[]" />
-                            </div>
-                            <label>Text</label>
-                            <div class="control">
-                                <textarea class="form-control" name="itemTexts[]"></textarea>
-                            </div>
-                            <label>Problem</label>
-                            <div class="control">
-                                <select class="form-control" name="itemProblemIDs[]">
-                                    <option value="0">None</option>
-                                </select>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="all-100 item">
-                            <input type="hidden" name="itemIDs[]" value="0" />
-                            <label>Name</label>
-                            <div class="control">
-                                <input type="text" class="form-control" name="itemNames[]" />
-                            </div>
-                            <label>Text</label>
-                            <div class="control">
-                                <textarea class="form-control" name="itemTexts[]"></textarea>
-                            </div>
-                            <label>Problem</label>
-                            <div class="control">
-                                <select class="form-control" name="itemProblemIDs[]">
-                                    <option value="0">None</option>
-                                </select>
-                            </div>
-                            <hr>
-                        </div>
+                        #if(topicItems) {
+                            #for(item in topicItems) {
+                                #embed("Courses/Teacher/Fragments/topicFormItem")
+                            }
+                        }
                         <div class="all-100 end">
-                            <button class="ink-button">Add Item</button>
+                            <button id="addItem" class="ink-button">Add Item</button>
                         </div>
                     </div>
                 </fieldset>
@@ -120,19 +71,56 @@
 
 #set("body-after") {
     <script>
-        tinymce.init({
-            selector: 'textarea',
-            branding: false,
-            height: 200,
-            menubar: false,
-            plugins: "codesample",
-            codesample_languages: [
-                {text: 'Java', value: 'java'\},
-                {text: 'Kotlin', value: 'kotlin'\},
-                {text: 'Python', value: 'python'\},
-                {text: 'Swift', value: 'swift'\}
-            ],
-            toolbar: "undo redo | styleselect | bold italic | codesample | outdent indent"
+        function setupTinymce(selector) {
+            var options = {
+                branding: false,
+                height: 100,
+                menubar: false,
+                plugins: "codesample",
+                codesample_languages: [
+                    {text: 'Java', value: 'java'\},
+                    {text: 'Kotlin', value: 'kotlin'\},
+                    {text: 'Python', value: 'python'\},
+                    {text: 'Swift', value: 'swift'\}
+                ],
+                toolbar: "undo redo | styleselect | bold italic | codesample | outdent indent"
+            \};
+            if (typeof selector == 'string') {
+                options.selector = selector;
+            \}
+            else {
+                options.target = selector;
+            \}
+            tinymce.init(options);
+        \}
+        setupTinymce('textarea');
+
+        function setupSelect2(selector) {
+            var select2options = {
+                ajax: {
+                    url: '/api/problems',
+                    data: function (params) {
+                        return { keyword: params.term \}
+                    \},
+                    processResults: function (data) {
+                        return { results: $.map(data.problems, function (obj) { obj.text = obj.name; return obj; \}) \}
+                    \},
+                    cache: true
+                \}
+            \};
+            $(selector).select2(select2options);
+        \}
+        setupSelect2('select.problems');
+
+        var addItemButton = $('#addItem');
+        addItemButton.click(function(event) {
+            event.preventDefault();
+            var newItem = $(`
+                #embed("Courses/Teacher/Fragments/topicFormItem")
+            `);
+            addItemButton.parent().before(newItem);
+            setupTinymce(newItem.find('textarea').get(0));
+            setupSelect2(newItem.find('select.problems'));
         \})
     </script>
 }

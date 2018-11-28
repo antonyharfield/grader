@@ -1,0 +1,19 @@
+<div class="all-100 item">
+    <input type="hidden" name="itemIDs[]" value="#if(item) {#(item.id)} else {0}" />
+    <label>Name</label>
+    <div class="control">
+        <input type="text" class="form-control" name="itemNames[]" value="#if(item) {#(item.name)}" />
+    </div>
+    <label>Text</label>
+    <div class="control">
+        <textarea class="form-control" name="itemTexts[]">#if(item) {#(item.text)}</textarea>
+    </div>
+    <label>Problem</label>
+    <div class="control">
+        <select class="form-control problems" name="itemProblemIDs[]">
+            <option value="0" #if(item.problemID) { } else { selected="selected" }>None</option>
+            #if(item.problemID) { <option value="#(item.problemID)" selected="selected"></option> }
+        </select>
+    </div>
+    <hr>
+</div>
