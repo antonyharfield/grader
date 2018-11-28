@@ -18,9 +18,12 @@ final class CoursesController {
     
     func courses(_ request: Request) throws -> Future<View> {
         return try request.requireSessionUser().flatMap { user in
-            let courses = try user.courses.query(on: request).all()
+            let publishedCourses = try user.courses.query(on: request).filter(\.status == PublishStatus.published).all()
+            let archivedCourses = try user.courses.query(on: request).filter(\.status == PublishStatus.archived).all()
+            let draftCourses = try user.courses.query(on: request).filter(\.status == PublishStatus.draft).all()
             let leaf = try request.make(LeafRenderer.self)
-            return leaf.render("Courses/courses", CourseViewContext(user: user, courses: courses), request: request)
+            let context = CoursesViewContext(user: user, publishedCourses: publishedCourses, archivedCourses: archivedCourses, draftCourses: draftCourses)
+            return leaf.render("Courses/courses", context, request: request)
         }
     }
     
@@ -115,15 +118,18 @@ final class CoursesController {
     }
 }
 
-fileprivate struct CourseViewContext: ViewContext {
+fileprivate struct CoursesViewContext: ViewContext {
     var common: Future<CommonViewContext>?
     let user: User
-    let courses: Future<[Course]>
+    let publishedCourses: Future<[Course]>
+    let archivedCourses: Future<[Course]>
+    let draftCourses: Future<[Course]>
     
-    init(user: User, courses: Future<[Course]>) {
+    init(user: User, publishedCourses: Future<[Course]>, archivedCourses: Future<[Course]>, draftCourses: Future<[Course]>) {
         self.user = user
-        self.courses = courses
-        
+        self.publishedCourses = publishedCourses
+        self.archivedCourses = archivedCourses
+        self.draftCourses = draftCourses
     }
 }
 

@@ -1,0 +1,15 @@
+#if(common.canTeach) {
+    <div class="pull-right button-group">
+        <a href="/courses/#(course.id)/edit" class="ink-button"><span class="fa fa-edit"></span> Edit Course</a>
+        <a href="/courses/#(course.id)/topics/new" class="ink-button"><span class="fa fa-plus"></span> Add Topic</a>
+    </div>
+}
+
+<h2>
+    #(course.code) #(course.name)
+    #if(course.languageRestriction) {
+        <img class="language" src="/images/languages/#(course.languageRestriction).png">
+    }
+    <small>#(course.shortDescription)</small>
+</h2>
+

@@ -2,12 +2,41 @@
 #set("title") { Course }
 
 #set("content") {
+
+    #if(common.canTeach) {
+        <div class="pull-right button-group">
+            <a href="/courses/new" class="ink-button"><span class="fa fa-plus"></span> Add Course</a>
+        </div>
+    }
+    <h3>Active</h3>
+
     <div class="event-grid column-group gutters">
-        #for(course in courses) {
+        #for(course in publishedCourses) {
             #embed("Courses/Fragment/courseCard")
         }
         #embed("Courses/Fragment/joinCourseCard")
     </div>
+
+    #if(count(archivedCourses) > 0) {
+        <h3>Archived</h3>
+        <div class="event-grid column-group gutters">
+            #for(course in archivedCourses) {
+                #embed("Courses/Fragment/courseCard")
+            }
+        </div>
+    }
+
+    #if(common.canTeach) {
+        <h3>Draft</h3>
+        <div class="event-grid column-group gutters">
+        #for(course in draftCourses) {
+            #embed("Courses/Fragment/courseCard")
+        }
+        </div>
+        #if(count(draftCourses) == 0) {
+            <p>You don't have any draft courses.</p>
+        }
+    }
 }
 
 #embed("Layouts/base")

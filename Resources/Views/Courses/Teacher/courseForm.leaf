@@ -1,0 +1,88 @@
+
+#set("title") {
+    #if(course) {
+        Edit course
+    } else {
+        Create a new course
+    }
+}
+
+#set("content") {
+
+<h2>
+    #if(course) {
+        Edit course
+    } else {
+        Create a new course
+    }
+</h2>
+
+<form method="POST" class="ink-form">
+    <div class="control-group">
+        <div class="column-group gutters">
+            <div class="all-60">
+                <fieldset>
+                    <legend>Course information</legend>
+
+                    <div class="column-group gutters">
+                        <div class="all-100">
+                            <label for="code">Course code*</label>
+                            <div class="control">
+                                <input type="text" class="form-control" name="code" value="#(course.code)" required />
+                            </div>
+                        </div>
+                        <div class="all-100">
+                            <label for="name">Course name*</label>
+                            <div class="control">
+                                <input type="text" class="form-control" name="name" value="#(course.name)" required />
+                            </div>
+                        </div>
+                        <div class="all-100">
+                        <label for="shortDescription">Short description</label>
+                            <div class="control">
+                                <input type="text" class="form-control" name="shortDescription" value="#(course.shortDescription)" />
+                            </div>
+                        </div>
+                        <div class="all-100">
+                            <label for="languageRestriction">Language</label>
+                            <div class="control">
+                                <select class="form-control" id="languageRestriction" name="languageRestriction">
+                                    <option value="">Any</option>
+                                    #embed("Common/languageOptions")
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="all-40">
+                <fieldset>
+                    <legend>Student access</legend>
+                    <div class="column-group gutters">
+                        <div class="all-100">
+                            <label for="joinCode">Join code</label>
+                            <div class="control">
+                                <input type="text" id="joinCode" name="joinCode" value="#(course.joinCode)" />
+                            </div>
+                        </div>
+                        <div class="all-100">
+                            <label>Published status</label>
+                            <ul class="control unstyled inline">
+                                <li><input type="radio" id="status1" name="status" value="1" #if(course.status == 1) {checked="checked"} #if(course) {} else {checked="checked"}><label for="status1">Draft</label></li>
+                                <li><input type="radio" id="status2" name="status" value="2" #if(course.status == 2) {checked="checked"}><label for="status2">Published</label></li>
+                                <li><input type="radio" id="status3" name="status" value="3" #if(course.status == 3) {checked="checked"}><label for="status3">Archived</label></li>
+                            </ul>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="control">
+            <input type="submit" class="ink-button">
+        </div>
+    </div>
+</form>
+
+}
+
+#embed("Layouts/base")

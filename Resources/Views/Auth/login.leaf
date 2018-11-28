@@ -5,7 +5,7 @@
 
 <h2>Login</h2>
 
-<form method="POST" action="/login?next=#(next)" class="ink-form">
+<form method="POST" class="ink-form">
     <div class="control-group all-20">
         <label for="username">Username</label>
         <div class="control">

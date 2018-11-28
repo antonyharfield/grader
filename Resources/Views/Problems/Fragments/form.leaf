@@ -48,10 +48,7 @@
                             <p>#capitalize(course.languageRestriction)</p>
                         } else {
                         <select name="language">
-                            <option value="java" selected>Java 8</option>
-                            <option value="kotlin">Kotlin</option>
-                            <option value="python">Python 3</option>
-                            <option value="swift">Swift 4</option>
+                            #embed("Common/languageOptions")
                         </select>
                         }
                     </div>

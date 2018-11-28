@@ -2,13 +2,11 @@
 
 #set("content") {
 
-    #if(common.canTeach) {
+    #if(common.canAdminister) {
         <div class="pull-right button-group">
             <a href="/events/new" class="ink-button"><span class="fa fa-plus"></span> Add Event</a>
         </div>
     }
-
-    <h2>Events</h2>
 
     <h3>Current &amp; Upcoming</h3>
 
@@ -22,11 +20,11 @@
 
     <div class="event-grid column-group gutters">
         #for(event in pastEvents) {
-            embed("Events/Fragments/event-card")
+            #embed("Events/Fragments/event-card")
         }
     </div>
 
-    #if(common.canTeach) {
+    #if(common.canAdminister) {
         <h3>Draft</h3>
 
         <div class="event-grid column-group gutters">

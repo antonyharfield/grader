@@ -9,6 +9,7 @@ extension Topic: Migration {
             builder.field(for: \.sequence)
             builder.field(for: \.name)
             builder.field(for: \.description)
+            builder.field(for: \.hidden)
         }
     }
     

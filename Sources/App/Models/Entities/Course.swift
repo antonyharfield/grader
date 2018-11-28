@@ -16,7 +16,7 @@ final class Course: Content {
         return children(\.courseID)
     }
     
-    init(id: Int? = nil, code: String, name: String, shortDescription: String = "", status: PublishStatus = .draft, userID: Int, languageRestriction: Language? = nil, joinCode: String) {
+    init(id: Int? = nil, code: String, name: String, shortDescription: String = "", status: PublishStatus = .draft, userID: Int, languageRestriction: Language? = nil, joinCode: String?) {
         self.id = id
         self.code = code
         self.name = name

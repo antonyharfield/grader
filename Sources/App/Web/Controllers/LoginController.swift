@@ -27,7 +27,7 @@ final class LoginController {
 
     /// Login page submission
     func login(_ request: Request) throws -> Future<Response> {
-
+        let redirectPath = request.query[String.self, at: "next"] ?? LoginController.homepageRoute
         return try request.content.decode(UserLogin.self).flatMap(to: Response.self) { user in
             let verifier = try request.make(BCryptDigest.self)
             return User.authenticate(username: user.username, password: user.password, using: verifier, on: request)
@@ -39,7 +39,7 @@ final class LoginController {
                     authedUser.lastLogin = Date()
                     _ = authedUser.save(on: request)
                     
-                    return request.redirect(to: LoginController.homepageRoute)
+                    return request.redirect(to: redirectPath)
                 })
             }.catchFlatMap({ error in
                 if let error = error as? HTTPResponseStatus, case HTTPResponseStatus.unauthorized = error {
@@ -47,21 +47,6 @@ final class LoginController {
                 }
                 return request.future(request.redirect(to: LoginController.loginRoute).flash(.error, "Unknown error"))
             })
-        
-//        return try req.content.decode(User.self).flatMap { user in
-//            return User.authenticate(
-//                username: user.email,
-//                password: user.password,
-//                using: BCryptDigest(),
-//                on: req
-//                ).map { user in
-//                    guard let user = user else {
-//                        return req.redirect(to: "/login").flash(.error, "Wrong username or password.")
-//                    }
-//                    try req.authenticateSession(user)
-//                    return req.redirect(to: "/profile")
-//            }
-//        }
     }
     
     /// Register page
@@ -72,8 +57,6 @@ final class LoginController {
 
     /// Register page submission
     func register(_ request: Request) throws -> Future<Response> {
-       // return request.redirect(to: "/login").flash(.warning, "Something unexpected happened.")
-        
         return try request.content.decode(UserRegistration.self).flatMap { userRegistration -> EventLoopFuture<User> in
                 let verifier = try request.make(BCryptDigest.self)
                 let user = userRegistration.toUser()

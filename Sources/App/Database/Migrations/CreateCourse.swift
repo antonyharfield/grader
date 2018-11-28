@@ -8,6 +8,7 @@ extension Course: Migration {
             builder.field(for: \.code)
             builder.field(for: \.name)
             builder.field(for: \.shortDescription)
+            builder.field(for: \.status, type: .tinyint)
             builder.field(for: \.userID)
             builder.field(for: \.languageRestriction)
             builder.field(for: \.joinCode)

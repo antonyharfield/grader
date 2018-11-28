@@ -6,9 +6,8 @@ final class SessionAuthenticationMiddleware: Middleware {
         if let _ = session[SessionKeys.userID] {
             return try next.respond(to: request)
         }
-        //throw Abort(HTTPResponseStatus.unauthorized)
-        let redirect = request.redirect(to: LoginController.loginRoute)
-        return request.eventLoop.newSucceededFuture(result: redirect)
+        let redirect = request.redirect(to: "\(LoginController.loginRoute)?next=\(request.http.url.path)")
+        return request.future(redirect)
     }
 }
 

@@ -3,9 +3,7 @@
 
 #set("content") {
 
-<font-color>
-    #(course.name)
-</font-color>
+#embed("Courses/Fragment/courseHeader")
 
  <div class="modal-item">
     #for(topic in topics) {

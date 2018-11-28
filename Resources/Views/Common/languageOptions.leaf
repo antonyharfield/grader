@@ -1,0 +1,4 @@
+<option value="java" #if(course.languageRestriction == "java") {selected}>Java 8</option>
+<option value="kotlin" #if(course.languageRestriction == "kotlin") {selected}>Kotlin</option>
+<option value="python" #if(course.languageRestriction == "python") {selected}>Python 3</option>
+<option value="swift" #if(course.languageRestriction == "swift") {selected}>Swift 4</option>
