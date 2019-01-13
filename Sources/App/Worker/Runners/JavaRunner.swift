@@ -34,6 +34,13 @@ class JavaRunner: Runner {
         }
     }
     
+    func fileHasMainMethod(filePath: String) -> Bool {
+        let keyword = "public static void main"
+        let url = URL(fileURLWithPath: filePath)
+        let lines = try? String(contentsOf: url, encoding: String.Encoding.utf8)
+        return lines?.contains(keyword) ?? false
+    }
+    
     func getCompilationPath(fileName: String, uploadPath: String, compilationPath: String) -> String {
         let packagePath = readPackagePath(filePath: uploadPath + fileName) ?? ""
         let compilationLocation = compilationPath + packagePath + fileName
@@ -57,20 +64,33 @@ class JavaRunner: Runner {
             }
         }
 
-        // TODO: Copy problem files to compilation path (see SwiftRunner for example)
+        console.print("Copying problem files to compilation path")
+        
+        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID!)
+        let problemFiles = fileSystem.files(at: problemFilesPath)
+        for file in problemFiles {
+            if !fileSystem.copyFile(from: problemFilesPath + file, to: compilationPath + file) {
+                return .unknownFailure
+            }
+            print("Found \(file)")
+        }
         
         console.print("Compiling")
         
-        let sourcePaths = compilationPaths.map { $0.1 }
+        let sourcePaths = compilationPaths.map { $0.1 } + (problemFiles.map { compilationPath + $0 })
+        console.print("sourcePaths = \(sourcePaths.joined(separator: ", "))")
         let compileResult = compile(paths: sourcePaths)
         if !compileResult.success {
             return .compileFailure(compileResult.output)
         }
         
         // Determine which class has the main method
-        // TODO: Don't just pick the first file -- use the regex below to find the correct file
-        let mainPackage = readPackage(filePath: sourcePaths.first!).map { $0 + "." } ?? ""
-        let mainClass = stripFileExtension(mainPackage + submission.files.first!)
+        let mainPath = sourcePaths.filter { fileHasMainMethod(filePath: $0) }.first ?? sourcePaths.first!
+        console.print("mainPath = \(mainPath)")
+        let mainFilename = mainPath.components(separatedBy: "/").last ?? mainPath
+        console.print("mainFilename = \(mainFilename)")
+        let mainPackage = readPackage(filePath: mainPath).map { $0 + "." } ?? ""
+        let mainClass = stripFileExtension(mainPackage + mainFilename)
         
         console.print("Running test cases")
         
