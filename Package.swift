@@ -6,16 +6,15 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
         .package(url: "https://github.com/vapor/console.git", from: "3.0.0"),
-        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0-rc.4"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc.2"),
-        .package(url: "https://github.com/vapor/auth.git", from: "2.0.0-rc.5"),
+        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/auth.git", from: "2.0.0"),
         .package(url: "https://github.com/vapor/multipart.git", from: "3.0.0"),
-        .package(url: "https://github.com/nodes-vapor/flash.git", from: "3.0.0"),
-        .package(url: "https://github.com/vapor/redis.git", from: "3.0.0-rc.3"),
-        .package(url: "https://github.com/reswifq/reswifq.git", from: "1.3.0")
+        .package(url: "https://github.com/nodes-vapor/flash.git", from: "4.0.0"),
+        .package(url: "https://github.com/vapor-community/jobs-redis-driver.git", from: "0.2.0")
     ],
     targets: [
-        .target(name: "App", dependencies: ["Vapor", "Command", "FluentMySQL", "Leaf", "Authentication", "Multipart", "Flash", "Redis", "Reswifq"]),
+        .target(name: "App", dependencies: ["Vapor", "Command", "FluentMySQL", "Leaf", "Authentication", "Multipart", "Flash", "JobsRedisDriver"]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
     ]

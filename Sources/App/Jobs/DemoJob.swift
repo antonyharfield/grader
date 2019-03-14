@@ -1,47 +1,20 @@
 import Foundation
-import Reswifq
+import Jobs
+import Vapor
 
-public struct DemoJob: Job {
+struct DemoJobData: Codable, JobData {
+    let name: String
+}
+
+struct DemoJob: Job {
     
-    // MARK: Initialization
-    public init() {
-        self.identifier = UUID().uuidString
+    func dequeue(_ context: JobContext, _ data: DemoJobData) -> EventLoopFuture<Void> {
+        print("DemoJob: hello \(data.name)")
+        return context.eventLoop.future()
     }
     
-    // MARK: Attributes
-    public let identifier: String
-    
-    // MARK: Job
-    public func perform() throws {
-        print("DemoJob: perform")
-        
-        let problem = Problem(name: identifier, description: "Swift")
-        try problem.save()
-    }
-    
-    // MARK: DataDecodable
-    public init(data: Data) throws {
-        
-        let object = try JSONSerialization.jsonObject(with: data)
-        
-        guard let dictionary = object as? Dictionary<String, Any> else {
-            throw DataDecodableError.invalidData(data)
-        }
-        
-        guard let identifier = dictionary["identifier"] as? String else {
-            throw DataDecodableError.invalidData(data)
-        }
-        
-        self.identifier = identifier
-    }
-    
-    // MARK: DataEncodable
-    public func data() throws -> Data {
-        
-        let object: [String: Any] = [
-            "identifier": self.identifier
-        ]
-        
-        return try JSONSerialization.data(withJSONObject: object)
+    func error(_ context: JobContext, _ error: Error, _ data: Data) -> EventLoopFuture<Void> {
+        print("DemoJob: error: \(error.localizedDescription)")
+        return context.eventLoop.future()
     }
 }

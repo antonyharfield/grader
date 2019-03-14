@@ -1,8 +1,10 @@
 import Vapor
 import FluentMySQL
+import Jobs
 
 extension APIController: RouteCollection {
     func boot(router: Router) throws {
+        router.get("api", "ping", use: ping)
         let authedRouter = router.grouped(SessionAuthenticationMiddleware())
         authedRouter.get("api", "submissions", use: getSubmissions)
         authedRouter.get("api", "problems", use: getProblems)
@@ -10,6 +12,12 @@ extension APIController: RouteCollection {
 }
 
 final class APIController {
+    
+    func ping(request: Request) throws -> Future<HTTPStatus> {
+        let queue = try request.make(QueueService.self)
+        let jobData = DemoJobData(name: "Ant")
+        return try queue.dispatch(jobData: jobData, maxRetryCount: 10).transform(to: .ok)
+    }
     
     func getSubmissions(request: Request) throws -> Future<SubmissionsResponse> {
         let filters = try request.query.decode(SubmissionsRequest.self)

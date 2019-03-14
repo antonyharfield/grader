@@ -1,9 +1,11 @@
 import Authentication
 import Flash
 import FluentMySQL
+import Jobs
+import JobsRedisDriver
 import Leaf
+import Redis
 import Vapor
-
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -34,8 +36,10 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
         commands(&commandConfig)
         return commandConfig
     }
-    
-    /// Configure the database
+
+    var databases = DatabasesConfig()
+
+    /// Configure the mysql database
     let mysqlConfig = MySQLDatabaseConfig(
         hostname: "192.168.99.100", // "database",
         port: 3306,
@@ -43,18 +47,30 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
         password: "test1234",
         database: "grader"
     )
-    //services.register(mysqlConfig)
-    var databases = DatabasesConfig()
     databases.add(database: MySQLDatabase(config: mysqlConfig), as: .mysql)
     databases.enableLogging(on: .mysql)
-    services.register(databases)
+    
+    /// Redis
+    try services.register(RedisProvider())
+    let redisUrlString = "redis://192.168.99.100:6379"
+    guard let redisUrl = URL(string: redisUrlString) else { throw Abort(.internalServerError) }
+    let redisConfig = try RedisDatabase(config: RedisClientConfig(url: redisUrl))
+    databases.add(database: redisConfig, as: .redis)
 
+    services.register(databases)
+    
+    /// Jobs
+    services.register(JobsPersistenceLayer.self) { container -> JobsRedisDriver in
+        return JobsRedisDriver(database: redisConfig, eventLoop: container.next())
+    }
+    try jobs(&services)
+    
     /// Call the migrations
     services.register { container -> MigrationConfig in
         var migrationConfig = MigrationConfig()
         try migrate(&migrationConfig)
         return migrationConfig
     }
-    
+
     configureLeaf(&services)
 }
