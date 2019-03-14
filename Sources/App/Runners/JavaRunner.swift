@@ -66,7 +66,7 @@ class JavaRunner: Runner {
 
         console.print("Copying problem files to compilation path")
         
-        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID!)
+        let problemFilesPath = fileSystem.problemFilesPath(problemID: problemCases[0].problemID)
         let problemFiles = fileSystem.files(at: problemFilesPath)
         for file in problemFiles {
             if !fileSystem.copyFile(from: problemFilesPath + file, to: compilationPath + file) {
