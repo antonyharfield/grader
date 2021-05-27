@@ -1,4 +1,6 @@
-# A-Grader
+# Grader
+
+> *This project has been retired!* [Find out more](http://grader.mobcomlab.com).
 
 ## Simple setup (using Xcode and no docker/worker agents -- frontend only)
 
